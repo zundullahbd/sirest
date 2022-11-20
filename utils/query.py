@@ -7,7 +7,7 @@ try:
     # Connect to an existing database
 
     connection = psycopg2.connect(user="postgres",
-                        password="forsaken4",
+                        password="[REDACTED]",
                         host="localhost",
                         port="5432",
                         database="sirest")
