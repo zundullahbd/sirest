@@ -6,10 +6,10 @@ from psycopg2.extras import RealDictCursor
 try:
     # Connect to an existing database
 
-    connection = psycopg2.connect(user="postgres",
-                        password="[REDACTED]",
-                        host="localhost",
-                        port="5432",
+    connection = psycopg2.connect(user="db22b006",
+                        password="46318",
+                        host="kawung.cs.ui.ac.id",
+                        port="12122",
                         database="sirest")
 
     # Create a cursor to perform database operations
