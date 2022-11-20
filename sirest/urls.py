@@ -22,5 +22,6 @@ urlpatterns = [
     path('', include('adminRole.urls')),
     path('', include('restoran.urls')),
     path('', include('pelanggan.urls')),
+    path('restopay/', include('restopay.urls')),
 
 ]

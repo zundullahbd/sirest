@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="w-screen min-h-screen flex mt-20 justify-center bg-gray-100 text-black">
+       <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white">
+        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Jadwal Restoran<h2>
+            <div class="w-full flex flex-col gap-y-2">
+                {%if total == 0 %}
+                <h3 class="text-2xl font-semibold text-gray-700">Restoran tidak memiliki jadwal</h3>
+                {%else%}
+
+                <div class="flex justify-between items-center p-4 px-28 rounded-t-lg bg-blue-300 shadow-sm text-lg font-semibold">
+                    <p>Hari</p>
+                    <p>Jam Buka</p>
+                    <p>Jam Tutup</p>
+                    <p>Aksi</p>
+                </div>
+
+                {%for schedule in schedules%}
+                    <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
+                        <p>{{schedule.day}}</p>
+                        <p>{{schedule.starthours}}</p>
+                        <p>{{schedule.endhours}}</p>
+                        <div class="flex flex-col">
+                            <a href='/restopay/jadwal/ubah/{{schedule.day}}' class="underline hover:text-blue-400">
+                                ubah
+                            </a>
+                            <a href='/restopay/jadwal/hapus/{{schedule.day}}' class="text-red-400">
+                                hapus
+                            </a>
+                        </div>
+                    
+                    </div>
+                {%endfor%}
+                {%endif%}
+            <div>
+       </main>
+
+    </body>
+
+</html>

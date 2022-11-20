@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body class="w-screen min-h-screen flex items-center justify-center bg-gray-100 text-black">
+        <main class="w-96 h-96 flex flex-col justify-between gap-y-10 bg-white p-8 rounded-xl shadow-md">
+            
+            <div >
+                <h1 class="text-3xl font-bold text-center">RestoPay</h1>
+                
+                <p class="mt-10 text-xl">Saldo: Rp<span>{{balance}}</span></p>
+            </div>
+
+            
+
+            <div class="w-full flex gap-x-4 items-center justify-center self-align-end">
+                <a href="/restopay/tambah_saldo" class=" p-2 rounded-md bg-green-600 text-white">
+                    Isi Saldo
+                </a>
+                <a href="/restopay/tarik_saldo" class=" p-2 rounded-md border border-red-300">
+                    Tarik Saldo
+                </a>
+
+            </div>
+
+        </main>
+
+    </body>
+
+</html>
