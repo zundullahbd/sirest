@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.db import connection
 
-# Create your views here.
+def cm(request):
+    return render(request, "formMakanan.html")
+
+def dm(request):
+    return render(request, "daftarMakanan.html")
+    
+def um(request):
+    return render(request, "updateMakanan.html")

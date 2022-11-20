@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" 
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style>
+        p {
+            text-align: center;
+        }
+
+        html {
+        scroll-behavior: smooth;
+        height: auto;
+        box-sizing: border-box;
+        background-color: white;
+        padding: 100px;
+        }
+
+        body{
+        padding: 0px;
+        margin: 0px ;
+        background-color: #FFFFFF;
+        position: relative;
+        overflow: auto;
+        }
+
+        h2 {
+            font-size: 3em;
+            font-weight: bold;
+            color: black;
+        }
+        
+        label{
+            font-size: 12px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .card{
+            border-radius: 10px;
+        }
+
+        .btn{
+            border-radius: 15px;
+            font-size: 14px;
+            background: black;
+            color: white;
+        }
+        
+    </style>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center;">Detail Menu</h2>
+        <div class="card card-outline-secondary" style="margin: 50px">
+            <div class="card-body">
+              <form autocomplete="off" class="form" role="form">
+                {% csrf_token %}
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Nama Restoran</label>
+                  <div class="col-lg-9">
+                    <h8> MCD</h8>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Cabang</label>
+                  <div class="col-lg-9">
+                    <h8>Margonda</h8>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Nomor Telepon</label>
+                  <div class="col-lg-9">
+                    <h8>0813333333333</h8>
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Jalan</label>
+                    <div class="col-lg-9">
+                      <h8>Margonda</h8>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Kecamatan</label>
+                    <div class="col-lg-9">
+                        <h8>Kukusan</h8>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Kota</label>
+                    <div class="col-lg-9">
+                        <h8>Depok</h8>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Kategori Pesanan</label>
+                    <div class="col-lg-9">
+                        <h8>Makanan</h8>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Provinsi</label>
+                    <div class="col-lg-9">
+                        <h8>Jawa Barat</h8>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Jam Operasional</label>
+                    <div class="col-lg-9">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">An item</li>
+                            <li class="list-group-item">A second item</li>
+                            <li class="list-group-item">A third item</li>
+                          </ul>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Promo Berlangsung</label>
+                    <div class="col-lg-9">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">An item</li>
+                            <li class="list-group-item">A second item</li>
+                            <li class="list-group-item">A third item</li>
+                          </ul>
+                    </div>
+                </div>
+
+                
+                <input class="btn float-right btn-lg" type="reset" value="Kembali">
+              </form>
+            </div>
+        </div>
+    </div>
+   
+
+</body>
+</html>

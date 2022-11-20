@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.db import connection
 
-# Create your views here.
+def ctp(request):
+    return render(request, "formTP.html")
+
+def dtp(request):
+    return render(request, "daftarTP.html")
+
+def utp(request):
+    return render(request, "updateTP.html")
