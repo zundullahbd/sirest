@@ -1,0 +1,23 @@
+{% extends 'main_admin.html' %} {% load static %} {% block meta %}
+<title>Admin Homepage</title>
+<link href="{% static 'home/style.css' %}" rel="stylesheet">
+{% endblock meta %} {% block content %}
+    <div class = 'menyapa-pemain', style="padding: 16px; display: flex; flex-direction: column;">
+  <div class = "judul-web">
+    <h1>
+        Selamat Datang di E13 The Cims
+    </h1>
+  </div>
+    <h2>
+        Halo Admin ☀️
+    </h2>
+</div>
+<div class = content-pemain>
+    <div class="card text-center" style="width: 40rem;">
+        <div class="card-body">
+          <h5 class="card-title">Bio</h5>
+          <p class="card-text"> Username : {{username}}</p>
+        </div>
+      </div>
+</div>
+{% endblock content %}

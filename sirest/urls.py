@@ -20,8 +20,9 @@ from django.conf.urls import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('adminRole.urls')),
-    path('', include('restoran.urls')),
+    path('restoran/', include('restoran.urls')),
     path('', include('pelanggan.urls')),
+    path('auth/', include('authentication.urls')),
     path('restopay/', include('restopay.urls')),
 
 ]

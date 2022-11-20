@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'adminRole',
     'restoran',
     'pelanggan',
-    'restopay'
+    'restopay',
+    'authentication'
 ]
 
 MIDDLEWARE = [
