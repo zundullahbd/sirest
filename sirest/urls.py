@@ -19,10 +19,12 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('adminRole.urls')),
+    path('admin-resto/', include('adminRole.urls')),
     path('restoran/', include('restoran.urls')),
-    path('', include('pelanggan.urls')),
-    path('auth/', include('authentication.urls')),
+    path('pelanggan/', include('pelanggan.urls')),
+    path('', include('authentication.urls')),
     path('restopay/', include('restopay.urls')),
+    path('kurir/', include('kurir.urls')),
+
 
 ]

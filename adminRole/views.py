@@ -9,3 +9,6 @@ def dtp(request):
 
 def utp(request):
     return render(request, "updateTP.html")
+
+def dashAdmin(request):
+    return render(request, "home.html")
