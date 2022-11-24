@@ -4,9 +4,26 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 import datetime;
 
+def homepage(request):
+    return render(request, "welcome_page.html")
 
 def login_form(request):
     return render(request, 'login.html')
+
+def register_form(request):
+    return render(request, 'register.html')
+
+def register_admin(request):
+    return render(request, 'form_register_admin.html')
+
+def register_kurir(request):
+    return render(request, 'form_register_kurir.html')
+
+def register_pelanggan(request):
+    return render(request, 'form_register_pelanggan.html')
+
+def register_restoran(request):
+    return render(request, 'form_register_restoran.html')
 
 def verify(uname, passw):
     res = query(f"SELECT * FROM USER_ACC WHERE email='{uname}'")
