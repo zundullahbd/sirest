@@ -24,6 +24,9 @@ def fmt(request):
 def fhs(request):
     return render(request, "form_hari_spesial.html")
 
+def detailAktor(request):
+    return render(request, "profil.html")
+
 @csrf_exempt
 def get_promo(request):
     

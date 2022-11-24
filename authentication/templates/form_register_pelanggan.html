@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends 'base_templates.html' %}
+{% load static %}
+{% block content %}
     <!-- modified from https://codepen.io/colorlib/pen/rxddKy-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
@@ -73,13 +73,16 @@
         }
     </style>
 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $( function() {
+          $( "#datepicker" ).datepicker();
+        } );
+    </script>
 </head>
 <body>
-    <div class="login-page">
+    <div  class="container" style="width: 100%; padding: 30px;">
         <form method="POST">
             <div class="form" id="PelangganSection">
                 <h4 class="mt-1 mb-5 pb-1 font-weight-bold">Register Pelanggan</h4>
@@ -116,9 +119,9 @@
                 </div>
                 <div class="form-outline mb-4">
                     <select class="custom-select" id="inputGroupSelect01">
-                        <option selected>Choose...</option>
-                        <option value="1">Motor</option>
-                        <option value="2">Mobil</option>
+                        <option selected>Jenis Kelamin</option>
+                        <option value="1">Perempuan</option>
+                        <option value="2">Laki Laki</option>
                     </select>
                 </div>
                 
@@ -133,12 +136,5 @@
         
         </form>
       </div>
-</body>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <script>
-        $( function() {
-          $( "#datepicker" ).datepicker();
-        } );
-    </script>
-</html>
+
+{% endblock%}
