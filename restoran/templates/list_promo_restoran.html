@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="w-screen min-h-screen flex mt-20 justify-center bg-gray-100 text-black">
+        <button class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]" onclick='goBack()'> kembali</button>
+       <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
+        <a href='/restopay/pesanan/ongoing' class="text-red-500 underline text-[18px]">lihat promo yang sedang berlangsung</a>
+        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Daftar Promo Tersedia<h2>
+            <div class="w-full flex flex-col gap-y-2">
+                {%if total == 0 %}
+                <h3 class="text-2xl font-semibold text-gray-700">Tidak memiliki promo</h3>
+                {%else%}
+
+                <div class="flex justify-between items-center p-4 px-28 rounded-t-lg bg-blue-300 shadow-sm text-lg font-semibold">
+                    <p>Nama Promosi</p>
+                    <p>Jenis Promosi</p>
+                    <p>Aksi</p>
+                </div>
+
+                {%for promo in list_promo%}
+                    <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
+                        <p class="w-1/4">{{promo.promoname}}</p>
+                        <p class="w-1/4">{{promo.mtp.Id}}</p>
+                        <form class="flex flex-col" METHOD="POST" action="/adminRole/list_promo">
+                            <input class="hidden" id="email" value='{{promo.promoname}}' type="text" name="name"></input>
+                            <input class="hidden" id="time"  value='{{promo.Id}}' type="text" name="id"></input>
+                            <input type="submit" value="detail" class=" hover:underline"></input>
+                        </form>
+                    
+                    </div>
+                {%endfor%}
+                {%endif%}
+            <div>
+       </main>
+       <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+    </body>
+
+</html>
