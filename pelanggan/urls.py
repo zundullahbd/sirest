@@ -23,7 +23,6 @@ urlpatterns = [
     path('', home, name="home"),
     path('detail-restoran/', views.detailRestauran, name='detail-restoran'),
     path('histori-pesanan/pelanggan', get_transaction_history_pelanggan, name="get_transaction_history_pelanggan"),
-    
 
 ]
 
