@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+    
+    {% extends 'navbar.html' %}
+    {% block content %}
+    <main class="w-screen min-h-screen flex pt-20 justify-center bg-gray-100 text-black">
+        <a href="/pesanan/buat" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a>
+       <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
+        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Pilih Makanan<h2>
+            <div class="w-full flex flex-col gap-y-2">
+                <!-- {%if total == 0 %}
+                <h3 class="text-2xl font-semibold text-gray-700">Restoran tidak memiliki riwayat transaksi</h3>
+                {%else%} -->
+
+                <div class="flex justify-between items-center p-4 px-28 rounded-t-lg bg-blue-300 shadow-sm text-lg font-semibold">
+                    <p>No</p>
+                    <p>Nama Makanan</p>
+                    <p>Harga</p>
+                    <p>Jumlah</p>
+                    <p>Catatan (Opsional)</p>
+                </div>
+
+                {%for pesanan in list_pesanan%}
+                    <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
+                        <p class="w-1/4">{{pesanan.fname}} {{pesanan.lname}}</p>
+                        <p class="w-1/4">{{pesanan.datetime}}</p>
+                        <p class="w-1/4">{{pesanan.name}}</p>
+                        <div class="flex flex-col">
+
+                            <!-- <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/detail">
+                                <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
+                                <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
+                                <input type="submit" value="detail" class=" hover:underline"></input>
+                            </form> -->
+
+                            <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/update">
+                                <!-- <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
+                                <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input> -->
+                                
+                                <input class="hidden" id="time"  value='pilih' type="text" name="status"></input>
+                                <button type="submit"  class="">Pilih</button>
+                            </form>
+                        </div>
+                    </div>
+                
+                {%endfor%}
+                <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
+                    <p class="w-1/4">1</p>
+                    <p class="w-1/4">Ayam Goreng</p>
+                    <p class="w-1/4">5000</p>
+                    <button class="btn btn-outline-secondary bg-slate-100">+</button>
+                    <button class="btn btn-outline-secondary bg-slate-100">-</button>
+                        <p class="w-1/4">1</p>
+                    <div class="flex flex-col">
+
+                        <!-- <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/detail">
+                            <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
+                            <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
+                            <input type="submit" value="detail" class=" hover:underline"></input>
+                        </form> -->
+
+                        <form class="flex flex-col" METHOD="POST" action="">
+                            <!-- <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
+                            <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input> -->
+                            
+                            <input class="hidden" id="time"  value='catatan' type="text" name="status"></input>
+                            <button type="submit"  class="hover:underline">Catatan</button>
+                        </form>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-semibold text-center text-violet-800 mt-10 mb-10">Pilih Metode Pembayaran atau Pengantaran<h2>
+                <div class="flex justify-center">
+                    <div class = "w-96 h-auto flex flex-col justify-between gap-y-10 bg-slate-300 p-8 rounded-xl shadow-md">
+                    <div class="flex flex-col">
+                        <label class="form-label" for="kendaraan">Jenis Kendaraan</label>
+                        <select name="kendaraan" class="border roundded-md bg-white">
+                            <option value="Mobil">
+                                Mobil
+                            </option>
+                            <option value="Motor">
+                                Motor
+                            </option>
+                        </select>
+                      </div>
+                      <div class="flex flex-col">
+                        <label class="form-label" for="pembayaran">Metode Pembayaran</label>
+                        <select name="pembayaran" class="border roundded-md bg-white">
+                            <option value="BCA">
+                                BCA
+                            </option>
+                            <option value="BRI">
+                                BRI
+                            </option>
+                        </select>
+                      </div>
+                      </div>
+                </div>
+                <div class="w-full flex gap-x-4 items-center justify-center self-align-end">
+                    <a href="{% url 'pelanggan:get_daftar_pesanan' %}"><button class=" px-3 py-2 rounded-md bg-green-600 text-white btn btn-primary"
+                        href=>Pesan</button></a>
+                    
+    
+                </div>
+            </div>
+            {%endif%}
+       </main>
+       <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+    </main>
+    {% endblock content %}
+</body>
+
+</html>

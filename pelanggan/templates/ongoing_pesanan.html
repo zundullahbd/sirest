@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+    {% extends 'navbar.html' %}
+    {% block content %}
+    <main class="w-screen min-h-screen flex pt-20 justify-center bg-gray-100 text-black">
+        <a href="/pelanggan/" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> kembali</a>
+       <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
+        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Riwayat Transaksi Restoran<h2>
+            <div class="w-full flex flex-col gap-y-2">
+                {%if total == 0 %}
+                <h3 class="text-2xl font-semibold text-gray-700">Restoran tidak memiliki riwayat transaksi</h3>
+                {%else%}
+
+                <div class="flex justify-between items-center p-4 px-28 rounded-t-lg bg-blue-300 shadow-sm text-lg font-semibold">
+                    <p>Nama Pelanggan</p>
+                    <p>Waktu Pesanan dibuat</p>
+                    <p>Status Pesanan</p>
+                    <p>Aksi</p>
+                </div>
+
+                {%for pesanan in list_pesanan%}
+                    <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
+                        <p class="w-1/4">{{pesanan.fname}} {{pesanan.lname}}</p>
+                        <p class="w-1/4">{{pesanan.datetime}}</p>
+                        <p class="w-1/4">{{pesanan.name}}</p>
+                        <div class="flex flex-col">
+
+                            <form class="flex flex-col" METHOD="POST" action="/pesanan/detail">
+                                <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
+                                <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
+                                <input type="submit" value="detail" class=" hover:underline"></input>
+                            </form>
+
+                            <!-- <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/update">
+                                <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
+                                <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
+                                
+                                {%if pesanan.name == 'Pending'%}
+                                <input class="hidden" id="time"  value='buat' type="text" name="status"></input>
+                                <button type="submit"  class=""> Buat</button>
+                                {%elif pesanan.name == 'on process'%}
+                                <input class="hidden" id="time"  value='kirim' type="text" name="status"></input>
+                                <button type="submit"  class=""> Kirim</button>
+                                {%endif%}
+                            </form> -->
+                        </div>
+                    
+                    
+                    </div>
+                {%endfor%}
+                {%endif%}
+            <div>
+       </main>
+       {% endblock content %}
+       <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+    </main>
+</body>
+
+</html>
