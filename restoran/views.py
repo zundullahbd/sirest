@@ -177,9 +177,6 @@ def update_transaction(request):
             query(f"UPDATE TRANSACTION_HISTORY SET TSid='{id_status}', Datetimestatus='{date}' WHERE (email, datetime) = ('{email}', '{time}')")
 
     return redirect('/restoran/pesanan/ongoing')
-<<<<<<< HEAD
-        
-=======
 
 @csrf_exempt
 def get_promo_restoran(request):
@@ -233,4 +230,3 @@ def restoran_detail_minTransaction(request):
         print(context)
         return render(request, "restoranDetailMinTransaction.html", context)
         
->>>>>>> cf3b1d61f979b8cb1c1a949e9bfdd30669b6b6ee
