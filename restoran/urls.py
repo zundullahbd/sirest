@@ -18,15 +18,10 @@ urlpatterns = [
     path('pesanan/ongoing/', get_ongoing_pesanan, name="get_ongoing_pesanan"),
     path('pesanan/detail/', get_transaction_detail, name="get_transaction_detail"),
     path('pesanan/update/', update_transaction, name="update_transaction"),
-<<<<<<< HEAD
+
 
     
 
-=======
-    path('restoran/promo', get_promo_restoran, name="get_promo_restoran"),
-    path('restoran/promo-hari-spesial', restoran_detail_hariSpesial, name="restoran_detail_hariSpesial"),
-    path('restoran/promo-min-transaction', restoran_detail_minTransaction, name="restoran_detail_minTransaction"),
->>>>>>> cf3b1d61f979b8cb1c1a949e9bfdd30669b6b6ee
     
 ]
 
