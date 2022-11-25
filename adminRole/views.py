@@ -75,3 +75,78 @@ def get_detail_minTransaction(request):
 
         print(context)
         return render(request, "detail_promoMinTransaction.html", context)
+
+def get_all_kategori_restoran(request):
+    if request.method == "POST":
+        id = request.POST["id"]
+        name = request.POST["name"]
+
+        result = query(f"SELECT * FROM RESTAURANT_CATEGORY")
+        context = {"total" : len(result), "kategori_restoran": result}
+        return render(request, "kategori_restoran.html", context)
+    return render(request, "kategori_restoran.html")
+
+def add_kategori_restoran(request):
+    if request.method == "POST":
+        id = request.POST["id"]
+        name = request.POST["name"]
+        query(f"INSERT INTO RESTAURANT_CATEGORY VALUES ('{id}', '{name}')")
+        return redirect('admin-resto/kategori_restoran/')
+    return render(request, "add_kategori_res.html")
+
+def update_kategori_restoran(request):
+    if request.method == "POST":
+        id = request.POST["id"]
+        name = request.POST["name"]
+        query(f"UPDATE RESTAURANT_CATEGORY SET name='{name}' WHERE id='{id}'")
+        return redirect('/kategori_restoran')
+    return render(request, "update_kategori_res.html")
+
+
+def delete_kategori_restoran(request):
+    if request.method == "POST":
+        id = request.POST["id"]
+        query(f"DELETE FROM RESTAURANT_CATEGORY WHERE id='{id}'")
+        return redirect('/kategori_restoran')
+    return render(request, "delete_kategori_restoran.html")
+
+def get_all_bahan_makanan(request):
+    res_name = request.session['rname']
+    r_branch = request.session['rbranch']
+    result = query(f"SELECT * FROM FOOD WHERE (Rname, Rbranch) = ('{res_name}', '{r_branch}')")
+    context = {"total" : len(result), "list_bahan_makanan": result}
+    return render(request, "bahan_makanan.html", context)
+
+
+def add_bahan_makanan(request):
+    if request.method == "POST":
+        rname = request.POST["rname"]
+        rbranch = request.POST["rbranch"]
+        foodname = request.POST["foodname"]
+        ingredient = request.POST["ingredient"]
+        
+        query(f"INSERT INTO FOOD VALUES ('{rname}', '{rbranch}', '{foodname}', '{ingredient}')")
+        return redirect('/bahan_makanan/')
+    return render(request, "add_bahan_makanan.html")
+
+
+def update_bahan_makanan(request):
+    if request.method == "POST":
+        rname = request.POST["rname"]
+        rbranch = request.POST["rbranch"]
+        foodname = request.POST["foodname"]
+        ingredient = request.POST["ingredient"]
+        
+        query(f"UPDATE FOOD SET ingredient='{ingredient}' WHERE (Rname, Rbranch, foodname) = ('{rname}', '{rbranch}', '{foodname}')")
+        return redirect('/bahan_makanan/')
+    return render(request, "update_bahan_makanan.html")
+
+def delete_bahan_makanan(request):
+    if request.method == "POST":
+        rname = request.POST["rname"]
+        rbranch = request.POST["rbranch"]
+        foodname = request.POST["foodname"]
+        
+        query(f"DELETE FROM FOOD WHERE (Rname, Rbranch, foodname) = ('{rname}', '{rbranch}', '{foodname}')")
+        return redirect('/admin-role/bahan_makanan')
+    return render(request, "delete_bahan_makanan.html")

@@ -117,10 +117,33 @@
                 <h6 class="mt-1 mb-5 pb-1 font-weight-bold">SIREST</h6>
             </div>
           <form class="login-form">
-            <input type="text" placeholder="username"/>
-            <input type="password" placeholder="password"/>
-            <button class = btn-dark>login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
+            <form method="POST">
+            <p>Please login to your account</p>
+            <div class="form-outline mb-4">
+                
+                <input id="username" type="text" name="username" class="form-control" 
+                placeholder="input your username here..." /> 
+                
+            </div>
+
+            <div class="form-outline mb-4">
+                
+                <input id="password" type="password" name="password" class="form-control" 
+                placeholder="input your password here..." /> 
+            </div>
+            {% if lulusbasdat %}
+                <p class="text-danger"> Harap isi semua form! </p> 
+            {% endif %}
+
+            {% if passwordSalah %}
+            <p class="text-danger"> Username dan password tidak sesuai! </p> 
+            {% endif %}
+
+            <div class="text-center pt-1 mb-5 pb-1">
+                <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" 
+                type="submit" value="Login">Login</button>
+                <p class="message">Not registered? <a href="/register">Create an account</a></p>
+            </div>
           </form>
         </div>
       </div>

@@ -1,0 +1,122 @@
+{% extends 'restoTemplates.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+        a {
+            color: white;
+        }
+
+        h3 {
+            font-size: 3em;
+            font-weight: bold;
+            color: black;
+        }
+        
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #d2d2dc;
+            border-radius: 10px;
+        }
+        
+        btn{
+            font-size: 14px; 
+            background-color: black; 
+            color: white;
+        }
+        
+        .form-control {
+            border-radius: 20px;
+        }
+
+        
+        h2 {
+            font-size: 3em;
+            font-weight: bold;
+            color: black;
+        }
+
+        table { 
+        width: 800px; 
+        margin:10px auto;
+        justify-content: center;
+        }
+
+        /* Zebra striping */
+        tr:nth-of-type(odd) { 
+            background: #eee; 
+            }
+
+        th { 
+            background: white; 
+            color: black; 
+            font-weight: bold; 
+            }
+
+        td, th { 
+            padding: 10px; 
+            text-align: left; 
+            font-size: 18px;
+            }
+
+
+
+
+        </style>
+        
+</head>
+<body>
+    <div class="container" style="width: 100%; padding: 100px;">
+        <h2 style="text-align: center;">Daftar Makanan</h2>
+        <div class="card mb-5" style="margin:5vw; ">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="dataTable" width="100%" cellspacing="0" style="background-color: white;">
+                        <thead>
+                            <tr >
+                              <th>No</th>
+                              <th>Nama Makanan</th>
+                              <th>Deskripsi</th>
+                              <th>Stok</th>
+                              <th>Harga</th>
+                              <th>Kategori Makanan</th>
+                              <th>Bahanan Makanan</th>
+                              <th>Aksi</th>
+                            </tr>
+                          </thead>
+                          <tr>
+                              <td> 1 </td>
+                          <td> burger </td>
+                          <td> roti lapis patty daging</td>
+                          <td>50 </td>
+                          <td>55000</td>
+                          <td> karnivora </td>
+                          <td>sapi</td>
+                          <td> 
+                              <div>
+                                  <a class="btn btn-sm"  href="kategori_restoran/ubah/<str:oldNama>" style="background-color: black;color: white;"> Update</a>
+                              </div>
+      
+                              <div style="padding-top: 10px;">
+                                  <a class="btn btn-sm" href="" style="background-color: black;color: white;"> Delete </a>
+                              </div>
+                          </td>
+              
+                          </tr>
+                    
+                </table>
+                
+              </div>
+            </div>
+        </div>
+        </div>
+    
+    {% endblock %}

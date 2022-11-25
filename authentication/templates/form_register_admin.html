@@ -92,16 +92,17 @@
                     placeholder="Password" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="adminNamaInput" name="adminNamaInput" type="password" 
+                    <input id="adminNamaInput" name="adminNamaInput" type="text" 
                     placeholder="Nama" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="adminNoHPInput" name="adminNoHPInput" type="password" 
+                    <input id="adminNoHPInput" name="adminNoHPInput" type="int" 
                     placeholder="Nomor HP" class="form-control" /> 
                 </div>
                 {% if lolos %}
                 <p class="text-danger"> Harap isi semua form! </p> 
                 {% endif %}
+                
                 <div class="text-center pt-1 mb-5 pb-1">
                     <button class="btn btn-dark btn-block fa-lg gradient-custom-2 mb-3" id="adminButton" type="submit" value="Register" >register</button>
                 </div>

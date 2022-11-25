@@ -18,6 +18,9 @@ urlpatterns = [
     path('pesanan/ongoing/', get_ongoing_pesanan, name="get_ongoing_pesanan"),
     path('pesanan/detail/', get_transaction_detail, name="get_transaction_detail"),
     path('pesanan/update/', update_transaction, name="update_transaction"),
+
+    
+
     
 ]
 

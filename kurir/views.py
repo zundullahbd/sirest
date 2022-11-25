@@ -8,3 +8,9 @@ import datetime;
 def kurirHome(request):
     return render(request, "kurir.html")
 
+def lihat_transaksi(request):
+    return render(request, "lihat_transaksi.html")
+
+def update_transaksi(request):
+    return render(request, "update_transaksi.html")
+
