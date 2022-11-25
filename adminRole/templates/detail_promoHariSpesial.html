@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="w-screen min-h-screen flex mt-20 justify-center bg-gray-100 text-black">
+       <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white">
+        <button class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]" onclick='goBack()'> kembali</button>
+        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Detail Promosi<h2>
+           
+            <div class="w-full flex flex-col gap-y-5">
+                
+                <div class="w-full flex flex-col">
+                    
+                    <h4 class="text=base font-semibold">Jenis Promosi : Promo Hari Spesial</h4>
+                    <h4 class="text=base font-semibold">Nama Promosi: <span class="font-normal">{{promo.promoname}}</span></h4>
+                    <h4 class="text=base font-semibold">Diskon : <span class="font-normal">{{promo.discount}}</span></h4>
+                    <h4 class="text=base font-semibold">Tanggal Berlangsung : <span class="font-normal">{{special_day_promo.date}}</span></h4>
+                
+                </div>
+                <div class="w-full flex flex-col">
+                </div>
+                <div class="w-full flex flex-col">
+                </div>
+            </div>
+       </main>
+
+    </body>
+    <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+</html>

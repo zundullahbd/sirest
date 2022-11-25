@@ -1,0 +1,277 @@
+
+{% include 'adminTemplates.html' %}
+{% load static %}
+
+
+{% block content %}
+<style>
+  p {
+      text-align: center;
+  }
+
+  h2 {
+      font-size: 3em;
+      font-weight: bold;
+      color: black;
+  }
+  
+  label{
+      font-size: 12px;
+      font-weight: bold;
+      color: black;
+  }
+
+  .card{
+      border-radius: 10px;
+  }
+
+  a {
+            color: white;
+        }
+
+        h3 {
+            font-size: 3em;
+            font-weight: bold;
+            color: black;
+        }
+        
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #d2d2dc;
+            border-radius: 10px;
+        }
+        
+        btn{
+            font-size: 14px; 
+            background-color: black; 
+            color: white;
+        }
+        
+        .form-control {
+            border-radius: 20px;
+        }
+
+        
+        h2 {
+            font-size: 3em;
+            font-weight: bold;
+            color: black;
+        }
+
+        table { 
+        width: 800px; 
+        margin:10px auto;
+        justify-content: center;
+        }
+
+        /* Zebra striping */
+        tr:nth-of-type(odd) { 
+            background: #eee; 
+            }
+
+        th { 
+            background: white; 
+            color: black; 
+            font-weight: bold; 
+            }
+
+        td, th { 
+            padding: 10px; 
+            text-align: left; 
+            font-size: 18px;
+            }
+
+
+  
+</style>
+
+</head>
+<body>
+    <div class="container" style="padding: 40px;">
+        <h2 style="text-align: center;">Profil Pengguna</h2>
+        <div class="card card-outline-secondary"  style="margin-top: 30px;">
+            <div class="card-body">
+              <form autocomplete="off" class="form" role="form">
+                <div class="row" style="padding-top: 20px;">
+                    <div class="col-md-6" style="padding-left: 100px;">
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">email</label>
+                    <div class="col-lg-7">
+                      <h8> momo@ponyo.com</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Password</label>
+                    <div class="col-lg-7">
+                      <h8>009808080990</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nama</label>
+                      <div class="col-lg-7">
+                        <h8>momo suromo</h8>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nomor HP</label>
+                      <div class="col-lg-7">
+                        <h8>9899890800</h8>
+                      </div>
+                      </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">NIK</label>
+                        <div class="col-lg-7">
+                          <h8>009808080990</h8>
+                        </div>
+                    </div>
+                      <div class="form-group row">
+                          <label class="col-lg-4 col-form-label form-control-label">Nama Bank</label>
+                          <div class="col-lg-7">
+                            <h8>momo suromo</h8>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-lg-4 col-form-label form-control-label">Nomor Rekening</label>
+                          <div class="col-lg-7">
+                            <h8>9899890800</h8>
+                          </div>
+                          </div>
+                    </div>
+                    {% if role == 'Kurir' %}
+                    <div class="col-md-6" style="padding-left: 100px;">
+                        <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Plat Nomor Kendaraan: </label>
+                        <div class="col-lg-7">
+                            <h8> PT898878</h8>
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Nomor SIM</label>
+                        <div class="col-lg-7">
+                            <h8>009808080990</h8>
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label form-control-label">Jenis Kendaraaan</label>
+                            <div class="col-lg-7">
+                            <h8>Kucing</h8>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label form-control-label">Merk Kendaraan</label>
+                            <div class="col-lg-7">
+                            <h8>Persia</h8>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label form-control-label">Verirfikasi</label>
+                            <div class="col-lg-7">
+                            <h8>momo suromo</h8>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label form-control-label">Saldo RestoPay</label>
+                            <div class="col-lg-7">
+                            <h8>0</h8>
+                            </div>
+                        </div>
+                            </div>
+                    {% elif role == 'pelanggan' %}
+                    <div class="col-md-6" style="padding-left: 100px;">
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Tanggal Lahir</label>
+                        <div class="col-lg-7">
+                          <h8> 24-01-2032</h8>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Jenis Kelamin</label>
+                        <div class="col-lg-7">
+                          <h8>Perempuan</h8>
+                        </div>
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="col-md-6" style="padding-left: 100px;">
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label form-control-label">Nama Restoran</label>
+                            <div class="col-lg-7">
+                              <h8> MCD</h8>
+                            </div>
+                          </div>
+      
+                      <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Cabang</label>
+                        <div class="col-lg-7">
+                          <h8>Margonda</h8>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Nomor Telepon</label>
+                        <div class="col-lg-7">
+                          <h8>0813333333333</h8>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-lg-4 col-form-label form-control-label">Jalan</label>
+                          <div class="col-lg-7">
+                            <h8>Margonda</h8>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-lg-4 col-form-label form-control-label">Kecamatan</label>
+                          <div class="col-lg-7">
+                              <h8>Kukusan</h8>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-lg-4 col-form-label form-control-label">Kota</label>
+                          <div class="col-lg-7">
+                              <h8>Depok</h8>
+                          </div>
+                      </div>
+      
+                        <div class="form-group row">
+                          <label class="col-lg-4 col-form-label form-control-label">Provinsi</label>
+                          <div class="col-lg-7">
+                              <h8>Jawa Barat</h8>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Rating</label>
+                        <div class="col-lg-7">
+                            <h8>Jawa Barat</h8>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Kategori restoran</label>
+                      <div class="col-lg-7">
+                          <h8>Karnivora</h8>
+                      </div>
+                    </div>
+                      <div class="form-group row">
+                          <label class="col-lg-4 col-form-label form-control-label">Jam Operasional</label>
+                          <div class="col-lg-4" >
+                              <ul class="list-group list-group-flush" style="color: black;">
+                                  <li class="list-group-item" style="color: black;">An item</li>
+                                  <li class="list-group-item" style="color: black;">A second item</li>
+                                  <li class="list-group-item" style="color: black;">A third item</li>
+                                </ul>
+                          </div>
+                      </div>
+                    </div>
+      </form>
+            </div>
+        </div>
+    </div>
+
+
+
+ 
+{% endblock %}

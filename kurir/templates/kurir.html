@@ -1,0 +1,125 @@
+{% include 'kurirTemplates.html' %}
+{% load static %}
+
+
+{% block content %}
+    <style>
+        p {
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 3em;
+            font-weight: bold;
+            color: black;
+        }
+        
+        label{
+            font-size: 12px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .card{
+            border-radius: 10px;
+        }
+
+        
+    </style>
+
+</head>
+<body>
+    <div class="container" style="padding: 40px;">
+        <div class="card card-outline-secondary" >
+            <div class="card-body">
+              <form autocomplete="off" class="form" role="form">
+                <div class="row" style="padding-top: 20px;">
+                    <div class="col-md-6" style="padding-left: 100px;">
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">email</label>
+                    <div class="col-lg-7">
+                      <h8> momo@ponyo.com</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Password</label>
+                    <div class="col-lg-7">
+                      <h8>009808080990</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nama</label>
+                      <div class="col-lg-7">
+                        <h8>momo suromo</h8>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nomor HP</label>
+                      <div class="col-lg-7">
+                        <h8>9899890800</h8>
+                      </div>
+                      </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">NIK</label>
+                        <div class="col-lg-7">
+                          <h8>009808080990</h8>
+                        </div>
+                    </div>
+                      <div class="form-group row">
+                          <label class="col-lg-4 col-form-label form-control-label">Nama Bank</label>
+                          <div class="col-lg-7">
+                            <h8>momo suromo</h8>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-lg-4 col-form-label form-control-label">Nomor Rekening</label>
+                          <div class="col-lg-7">
+                            <h8>9899890800</h8>
+                          </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 100px;">
+                <div class="form-group row">
+                  <label class="col-lg-4 col-form-label form-control-label">Plat Nomor Kendaraan: </label>
+                  <div class="col-lg-7">
+                    <h8> PT898878</h8>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-4 col-form-label form-control-label">Nomor SIM</label>
+                  <div class="col-lg-7">
+                    <h8>009808080990</h8>
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Jenis Kendaraaan</label>
+                    <div class="col-lg-7">
+                      <h8>Kucing</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Merk Kendaraan</label>
+                    <div class="col-lg-7">
+                      <h8>Persia</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Verirfikasi</label>
+                    <div class="col-lg-7">
+                      <h8>momo suromo</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Saldo RestoPay</label>
+                    <div class="col-lg-7">
+                      <h8>0</h8>
+                    </div>
+                  </div>
+                    </div>
+      </form>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+

@@ -1,69 +1,160 @@
+{% include 'restoTemplates.html' %}
+{% load static %}
 
 
-<html>
-    <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="max-w-screen min-h-screen  bg-gray-100 text-black">
-        <navbar class="navbar bg-base-100">
-            <div class="navbar-start">
-              <div class="dropdown">
-                <label tabindex="0" class="btn btn-ghost lg:hidden">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-                </label>
-                <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><a>Item 1</a></li>
-                  <li tabindex="0">
-                    <a class="justify-between">
-                      Parent
-                      <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
-                    </a>
-                    <ul class="p-2">
-                      <li><a>Submenu 1</a></li>
-                      <li><a>Submenu 2</a></li>
-                    </ul>
-                  </li>
-                  <li><a>Item 3</a></li>
-                </ul>
+{% block content %}
+    <style>
+        p {
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 3em;
+            font-weight: bold;
+            color: black;
+        }
+        
+        label{
+            font-size: 12px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .card{
+            border-radius: 10px;
+        }
+
+        
+    </style>
+
+</head>
+<body>
+    <div class="container" style="padding: 40px;">
+        <div class="card card-outline-secondary" style="margin: 50px">
+            <div class="card-body">
+              <form autocomplete="off" class="form" role="form">
+                {% csrf_token %}
+                <div class="row" style="padding-top: 20px;">
+                <div class="col-md-6" style="padding-left: 100px;">
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">email</label>
+                    <div class="col-lg-7">
+                      <h8> momo@ponyo.com</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Password</label>
+                    <div class="col-lg-7">
+                      <h8>009808080990</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nama</label>
+                      <div class="col-lg-7">
+                        <h8>momo suromo</h8>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nomor HP</label>
+                      <div class="col-lg-7">
+                        <h8>9899890800</h8>
+                      </div>
+                      </div>
+                
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">NIK</label>
+                        <div class="col-lg-7">
+                          <h8>009808080990</h8>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Nama Bank</label>
+                        <div class="col-lg-7">
+                          <h8>momo suromo</h8>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Nomor Rekening</label>
+                        <div class="col-lg-7">
+                          <h8>9899890800</h8>
+                        </div>
+                        </div>
+                    <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nama Restoran</label>
+                      <div class="col-lg-7">
+                        <h8> MCD</h8>
+                      </div>
+                    </div>
+
+                <div class="form-group row">
+                  <label class="col-lg-4 col-form-label form-control-label">Cabang</label>
+                  <div class="col-lg-7">
+                    <h8>Margonda</h8>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-4 col-form-label form-control-label">Nomor Telepon</label>
+                  <div class="col-lg-7">
+                    <h8>0813333333333</h8>
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Jalan</label>
+                    <div class="col-lg-7">
+                      <h8>Margonda</h8>
+                    </div>
+                </div>
               </div>
-              <a class="btn btn-ghost normal-case text-xl">SIREST</a>
-            </div>
-            <div class="navbar-center hidden lg:flex">
-              <ul class="menu menu-horizontal p-0">
-                <li><a>Item 1</a></li>
-                <li tabindex="0">
-                  <a>
-                    Jadwal
-                    <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
-                  </a>
-                  <ul class="p-2">
-                    <li><a href="/restoran/jadwal/">Lihat Jadwal</a></li>
-                    <li><a href="/restoran/jadwal/buat/">Buat Jadwal</a></li>
-                  </ul>
-                </li>
-                <li tabindex="1">
-                    <a>
-                      Pesanan
-                      <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
-                    </a>
-                    <ul class="p-2">
-                      <li><a href="/restoran/pesanan/">Lihat semua pesanan</a></li>
-                      <li><a href="/restoran/pesanan/ongoing/">pesanan berlangsung</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="/restopay">Restopay</a></li>
-              </ul>
-            </div>
-            <div class="navbar-end">
-              <a class="btn">Get started</a>
-            </div>
-          </navbar>
+              <div class="col-md-6" style="padding-left: 100px;">
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Kecamatan</label>
+                    <div class="col-lg-7">
+                        <h8>Kukusan</h8>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Kota</label>
+                    <div class="col-lg-7">
+                        <h8>Depok</h8>
+                    </div>
+                </div>
 
-          <main class="max-w-screen min-h-screen">
-            LMEAO HALoo
-          </main>
-    </body>
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Provinsi</label>
+                    <div class="col-lg-7">
+                        <h8>Jawa Barat</h8>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-4 col-form-label form-control-label">Rating</label>
+                  <div class="col-lg-7">
+                      <h8>Jawa Barat</h8>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-lg-4 col-form-label form-control-label">Kategori restoran</label>
+                <div class="col-lg-7">
+                    <h8>Karnivora</h8>
+                </div>
+              </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Jam Operasional</label>
+                    <div class="col-lg-4" >
+                        <ul class="list-group list-group-flush" style="color: black;">
+                            <li class="list-group-item" style="color: black;">An item</li>
+                            <li class="list-group-item" style="color: black;">A second item</li>
+                            <li class="list-group-item" style="color: black;">A third item</li>
+                          </ul>
+                    </div>
+                </div>
 
-</html>
+            </div>
+        </div>       
+                <a class="btn float-right btn-sm"  href="{% url 'pelanggan:daftar-restauran' %}" style="background-color: black;color: white;"> Kembali</a>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+

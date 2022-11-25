@@ -2,10 +2,12 @@ from django.urls import path
 from . import views
 from .views import *
 from django.contrib import admin
+from .views import *
 
 app_name = 'pelanggan'
 
 urlpatterns = [
+    path('', views.pelangganHome, name="pelanggan-home"),
     path('daftar-restauran/', views.dRestauran, name='daftar-restauran'),
     path('daftar-menu/', views.dMenu, name='daftar-menu'),
     path('detail-menu/', views.detailMenu, name='detail-menu'),
@@ -19,5 +21,9 @@ urlpatterns = [
     path('ringkasan_pesanan/', get_ringkasan_pesanan, name="get_ringkasan_pesanan"),
     # path('pesanan/', get_all_schedule, name="get_all_schedule"),
     path('', home, name="home"),
+    path('detail-restoran/', views.detailRestauran, name='detail-restoran'),
+    path('histori-pesanan/pelanggan', get_transaction_history_pelanggan, name="get_transaction_history_pelanggan"),
+    
+
 ]
 
