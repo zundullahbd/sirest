@@ -3,8 +3,158 @@
 
 
 {% block content %}
-          <main class="max-w-screen min-h-screen">
-            LMEAO HALoo
-          </main>
+    <style>
+        p {
+            text-align: center;
+        }
 
-{% endblock %}
+        h2 {
+            font-size: 3em;
+            font-weight: bold;
+            color: black;
+        }
+        
+        label{
+            font-size: 12px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .card{
+            border-radius: 10px;
+        }
+
+        
+    </style>
+
+</head>
+<body>
+    <div class="container" style="padding: 40px;">
+        <div class="card card-outline-secondary" style="margin: 50px">
+            <div class="card-body">
+              <form autocomplete="off" class="form" role="form">
+                {% csrf_token %}
+                <div class="row" style="padding-top: 20px;">
+                <div class="col-md-6" style="padding-left: 100px;">
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">email</label>
+                    <div class="col-lg-7">
+                      <h8> momo@ponyo.com</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Password</label>
+                    <div class="col-lg-7">
+                      <h8>009808080990</h8>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nama</label>
+                      <div class="col-lg-7">
+                        <h8>momo suromo</h8>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nomor HP</label>
+                      <div class="col-lg-7">
+                        <h8>9899890800</h8>
+                      </div>
+                      </div>
+                
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">NIK</label>
+                        <div class="col-lg-7">
+                          <h8>009808080990</h8>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Nama Bank</label>
+                        <div class="col-lg-7">
+                          <h8>momo suromo</h8>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-lg-4 col-form-label form-control-label">Nomor Rekening</label>
+                        <div class="col-lg-7">
+                          <h8>9899890800</h8>
+                        </div>
+                        </div>
+                    <div class="form-group row">
+                      <label class="col-lg-4 col-form-label form-control-label">Nama Restoran</label>
+                      <div class="col-lg-7">
+                        <h8> MCD</h8>
+                      </div>
+                    </div>
+
+                <div class="form-group row">
+                  <label class="col-lg-4 col-form-label form-control-label">Cabang</label>
+                  <div class="col-lg-7">
+                    <h8>Margonda</h8>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-4 col-form-label form-control-label">Nomor Telepon</label>
+                  <div class="col-lg-7">
+                    <h8>0813333333333</h8>
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Jalan</label>
+                    <div class="col-lg-7">
+                      <h8>Margonda</h8>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-6" style="padding-left: 100px;">
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Kecamatan</label>
+                    <div class="col-lg-7">
+                        <h8>Kukusan</h8>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Kota</label>
+                    <div class="col-lg-7">
+                        <h8>Depok</h8>
+                    </div>
+                </div>
+
+                  <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Provinsi</label>
+                    <div class="col-lg-7">
+                        <h8>Jawa Barat</h8>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-lg-4 col-form-label form-control-label">Rating</label>
+                  <div class="col-lg-7">
+                      <h8>Jawa Barat</h8>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-lg-4 col-form-label form-control-label">Kategori restoran</label>
+                <div class="col-lg-7">
+                    <h8>Karnivora</h8>
+                </div>
+              </div>
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label form-control-label">Jam Operasional</label>
+                    <div class="col-lg-4" >
+                        <ul class="list-group list-group-flush" style="color: black;">
+                            <li class="list-group-item" style="color: black;">An item</li>
+                            <li class="list-group-item" style="color: black;">A second item</li>
+                            <li class="list-group-item" style="color: black;">A third item</li>
+                          </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>       
+                <a class="btn float-right btn-sm"  href="{% url 'pelanggan:daftar-restauran' %}" style="background-color: black;color: white;"> Kembali</a>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+

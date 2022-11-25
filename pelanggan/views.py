@@ -2,14 +2,16 @@ from django.shortcuts import render, redirect
 from django.db import connection
 from utils.query import query
 
+def pelangganHome(request):
+    return render(request, 'pelanggan.html')
 def dMenu(request):
     return render(request, "daftarMenu.html")
 
 def dRestauran(request):
     return render(request, "daftarRestauran.html")
 
-def detailMenu(request):
-    return render(request, "detailMenu.html")
+def detailRestauran(request):
+    return render(request, "detailRestauran.html")
 
 def get_transaction_history_pelanggan(request):
     
