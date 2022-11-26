@@ -137,7 +137,6 @@ def get_transaction_detail(request):
             'total_food_price': food_price
         }
 
-        print(context)
         return render(request, "detail_pesanan.html", context)
 
 def get_ongoing_pesanan(request):
