@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+    
+    {% extends 'navbar.html' %}
+    {% block content %}
+    <main class="w-screen min-h-screen flex pt-20 justify-center bg-gray-100 text-black">
+        <a href="/pesanan/buat" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a>
+       <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
+        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Ringkasan Pesanan<h2>
+            <div class="w-full flex flex-col gap-y-2">
+                <p>Waktu Pemesanan: 2022-11-04 11:30:05</p>
+
+                <p>Nama Pelanggan: Mikayla Putri</p>
+                <p>Jalan: Jalan Bahagia nomor 72</p>
+                <p>Kecamatan: Cinere</p>
+                <p>Kota: Depok</p>
+                <p>Provinsi: Jawa Barat</p>
+
+                <p>Restoran: Warung Mantap Depok</p>
+                <p>Jalan: Jalan Sejahtera nomor 5</p>
+                <p>Kecamatan: Bojongsari</p>
+                <p>Kota: Depok</p>
+                <p>Provinsi: Jawa Barat</p>
+
+                <p>Makanan yang dipesan:</p>
+                <p>Ayam Goreng (1) - [catatan bila ada]</p>
+                <p>Ice Cream (2) - [catatan bila ada]</p>
+                <p>Total Harga Makanan: 11000</p>
+                <p>Total Diskon: 0</p>
+                <p>Biaya Pengantaran: 4000</p>
+                <p>Total Biaya: 15000</p>
+                <p>Jenis Pembayaran: RestoPay</p>
+
+                <p>Status Pembayaran: Berhasil</p>
+                <p>Status Pesanan: Menunggu Konfirmasi Restoran</p>
+
+                <p>Kurir: -</p>
+                <p>Plat Kendaraan: -</p>
+                <p>Jenis Kendaraan: -</p>
+                <p>Merk Kendaraan: -</p>
+
+                <a href="{% url 'pelanggan:home' %}"><button class=" px-3 py-2 rounded-md bg-green-600 text-white btn btn-primary"
+                    href=>Kembali</button></a>
+
+            </div>
+       </main>
+       <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+    </main>
+    {% endblock content %}
+</body>
+
+</html>

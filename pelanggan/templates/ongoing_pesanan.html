@@ -1,10 +1,14 @@
-{% include 'restoTemplates.html' %}
-{% load static %}
-
-
-{% block content %}
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
+    </head>
     <body>
+    {% extends 'navbar.html' %}
+    {% block content %}
     <main class="w-screen min-h-screen flex pt-20 justify-center bg-gray-100 text-black">
+        <a href="/pelanggan/" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> kembali</a>
        <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
         <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Riwayat Transaksi Restoran<h2>
             <div class="w-full flex flex-col gap-y-2">
@@ -26,13 +30,13 @@
                         <p class="w-1/4">{{pesanan.name}}</p>
                         <div class="flex flex-col">
 
-                            <form class="flex flex-col" METHOD="POST" action="{% url 'restoran:get_transaction_detail'  %}">
+                            <form class="flex flex-col" METHOD="POST" action="/pesanan/detail">
                                 <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
                                 <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
                                 <input type="submit" value="detail" class=" hover:underline"></input>
                             </form>
 
-                            <form class="flex flex-col" METHOD="POST" action="{% url 'restoran:update_transaction'  %}">
+                            <!-- <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/update">
                                 <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
                                 <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
                                 
@@ -43,7 +47,7 @@
                                 <input class="hidden" id="time"  value='kirim' type="text" name="status"></input>
                                 <button type="submit"  class=""> Kirim</button>
                                 {%endif%}
-                            </form>
+                            </form> -->
                         </div>
                     
                     
@@ -52,6 +56,7 @@
                 {%endif%}
             <div>
        </main>
+       {% endblock content %}
        <script>
         function goBack(){
             window.history.back();
@@ -60,4 +65,4 @@
     </main>
 </body>
 
-{% endblock %}
+</html>

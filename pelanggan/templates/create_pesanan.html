@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@2.41.0/dist/full.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+
+    {% extends 'navbar.html' %}
+    {% block content %}
+    <main class="w-screen min-h-screen flex items-center justify-center bg-gray-100 text-black">
+        <form METHOD="POST" class="w-96 h-auto flex flex-col justify-between gap-y-10 bg-slate-300 p-8 rounded-xl shadow-md">
+            
+            <div >
+                <h1 class="text-3xl font-bold text-center">Pesan Makanan</h1>
+                
+            </div>
+
+            <div class="flex flex-col gap-y-1">
+  
+                <div class="flex flex-col">
+                    <label class="pr-2" for="jalan">Jalan: </label>
+                    <input name="jalan" class="border rounded-sm bg-white"></input>
+                </div>
+                <div class="flex flex-col">
+                    <label class="pr-2" for="kecamatan">Kecamatan: </label>
+                    <input name="kecamatan" class="border rounded-sm bg-white"></input>
+                </div>
+                <div class="flex flex-col">
+                  <label class="pr-2" for="kota">Kota: </label>
+                  <input name="kota" class="border rounded-sm bg-white"></input>
+                </div>
+                <div class="flex flex-col">
+                  <label class="form-label" for="provinsi">Provinsi</label>
+                  <select name="provinsi" class="border roundded-md bg-white">
+                      <option value="Jakarta">
+                          Jakarta
+                      </option>
+                      <!-- <option value="selasa">
+                          selasa
+                      </option>
+                      <option value="rabu">
+                          rabu
+                      </option> -->
+                  </select>
+                </div>
+
+                {%if isNotValid%}
+                    <p class="text-center text-red-500">{{message}}<p>
+                {%endif%}
+
+            </div>
+
+            
+
+            <div class="w-full flex gap-x-4 items-center justify-center self-align-end">
+                <button class=" px-3 py-2 rounded-md bg-green-600 text-white" 
+                type="submit" value="buat">Lanjut</button>
+
+            </div>
+
+        </form>
+
+    </main>
+    {% endblock content %}
+</body>
+</html>
