@@ -51,15 +51,17 @@ def add_pesanan(request):
     return redirect("/pelanggan/list_cabang")
 
 def get_ongoing_pesanan(request):
-    res_name = request.session['rname']
-    r_branch = request.session['rbranch']
+    # res_name = request.session['rname']
+    # r_branch = request.session['rbranch']
+    res_name = 'Yacero'
+    r_branch = 'THE'
     res = query(f"SELECT * FROM USER_ACC JOIN (SELECT * FROM TRANSACTION_HISTORY TH JOIN TRANSACTION_STATUS TS ON TH.TSid=TS.id WHERE TH.Email IN (SELECT Email FROM TRANSACTION_FOOD WHERE (RName, Rbranch) = ('{res_name}', '{r_branch}')) AND (TS.name ILIKE 'pending' OR TS.name ILIKE 'on%')) X USING(email)") 
     for i in res:
         i['datetime'] = str(i['datetime'])
 
-    context = {"total" : len(res), "list_pesanan": res}
+    context = {"total" : len(res), "list_pesanan": res, 'rname':res_name, 'rbranch':r_branch}
 
-    return render(request, "ongoing_pesanan.html", context)
+    return render(request, "ongoing_pelanggan.html", context)
 
 @csrf_exempt
 def get_transaction_detail(request):
