@@ -56,22 +56,22 @@ def verify(request):
     except:
         return False
 
-def get_role(email, password):
-    admres = query(f"SELECT * FROM ADMIN WHERE EMAIL='{email}'AND password = '{password}")
-    if type(admres) == list and len(admres) > 0:
+def get_role(email):
+    res = query(f"SELECT * FROM ADMIN WHERE EMAIL='{email}'")
+    if len(res) > 0:
         return 'admin'
     
-    restres = query(f"SELECT * FROM RESTAURANT WHERE EMAIL='{email}'AND password = '{password}")
-    if type(restres) == list and len(restres) > 0:
-        return 'restoran'
+    res = query(f"SELECT * FROM customer WHERE EMAIL='{email}'")
+    if len(res) > 0:
+        return 'customer'
     
-    kurres = query(f"SELECT * FROM COURIER WHERE EMAIL='{email}'AND password = '{password}")
-    if type(kurres) == list and len(kurres) > 0:
-        return 'kurir'
-    
-    pelres = query(f"SELECT * FROM PELANGGAN WHERE EMAIL='{email}'AND password = '{password}")
-    if type(pelres) == list and len(pelres) > 0:
-        return 'pelanggan'
+    res = query(f"SELECT * FROM courier WHERE EMAIL='{email}'")
+    if len(res) > 0:
+        return 'courier'
+    res = query(f"SELECT * FROM restaurant WHERE EMAIL='{email}'")
+    if len(res) > 0:
+        return 'restaurant'
+
 
 
 
@@ -84,6 +84,9 @@ def login(request):
     if request.method != "POST":
         return login_view(request)
 
+    username=''
+    password=''
+    
     if verify(request):
         username = str(request.session["username"])
         password = str(request.session["password"])
@@ -95,8 +98,9 @@ def login(request):
         cont["berhasil"] = True
         return render(request, "login.html", cont)
 
-    role = get_role(username, password)
-
+    print(username, password)
+    role = get_role(username)
+    print(role)
     if role == "":
         if username and password :
             cont["gagal"] = True
@@ -111,33 +115,38 @@ def login(request):
         request.session.modified = True
 
         if next != None and next != "None":
+            print('salah masuk')
             return redirect(next)
-        else:
+        else:   
+            print('masuk')
             if role == "admin":
-                return redirect("/admin_homepage/")
-            elif role == "restoran":
-                return redirect("/restoran_homepage/")
+                return redirect("/admin/")
+            elif role == "restaurant":
+                res = query(f"SELECT * FROM restaurant WHERE EMAIL='{username}'")[0]
+                request.session['rname'] = res['rname']
+                request.session['rbranch'] = res['rbranch']
+                return redirect("/restoran/")
             elif role == "kurir":
-                return redirect("/kurir_homepage/")
+                return redirect("/kurir/")
             elif role == "pelanggan":
-                return redirect("/pelanggan_homepage/")
+                return redirect("/pelanggan/")
 
                 
 
 def login_view(request):
-    if verify(request):
+    if not verify(request):
         return render(request, "login.html")
 
 
 def logout(request):
     next=request.GET.get("next")
     if not verify(request):
-        return redirect("auth/login/")
+        return redirect("/auth/login/")
     request.session.flush()
     request.session.clear_expired()
     if next!= None and next!="None":
         return redirect(next)
-    return redirect(" ")
+    return redirect("")
 
 @csrf_exempt
 def register_admin(request):

@@ -1,0 +1,60 @@
+{% extends 'adminTemplates.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+  p {
+      text-align: center;
+  }
+
+  h2 {
+      font-size: 3em;
+      font-weight: bold;
+      color: black;
+  }
+  
+  label{
+      font-size: 12px;
+      font-weight: bold;
+      color: black;
+  }
+
+  .card{
+      border-radius: 10px;
+  }
+
+  .btn{
+      border-radius: 15px;
+      font-size: 14px;
+      background: black;
+      color: white;
+  }
+
+  .table {
+    background-color: white;
+  }
+  
+</style>
+</head>
+<body>
+<div class="container" style="padding: 40px;">
+  <h2 style="text-align: center;">Tambah Kategori Makanan</h2>
+  <div class="card card-outline-secondary" style="margin: 50px">
+      <div class="card-body">
+        <form autocomplete="off" class="form" role="form">
+          {% csrf_token %}
+          <div class="form-group row flex justify-center">
+            <label class="col-lg-3 col-form-label form-control-label">Nama Kategori Makanan</label>
+            <div class="flex col-lg-9">
+              <input class="form-control" type="text">
+            </div>
+          <a class="btn float-right btn-sm mt-10"  href="/admin-resto/kategori_restoran/" style="background-color: black;color: white;"> Simpan</a>
+        </form>
+      </div>
+  </div>
+</div>
+  
+
+    {% endblock %}

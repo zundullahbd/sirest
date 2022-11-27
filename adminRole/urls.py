@@ -25,6 +25,9 @@ urlpatterns = [
     path('bahan_makanan/buat/', add_bahan_makanan, name="add_bahan_makanan"),
     path('bahan_makanan/ubah/<str:oldNama>', update_bahan_makanan, name="update_bahan_makanan"),
     path('bahan_makanan/hapus/<str:nama>', delete_bahan_makanan, name="delete_bahan_makanan"),
+    path('kategori_makanan/', get_all_kategori_makanan, name="get_all_kategori_makanan"),
+    path('kategori_makanan/buat/', add_kategori_makanan, name="add_kategori_makanan"),
+    path('kategori_makanan/hapus/', delete_kategori_makanan, name="delete_kategori_makanan"),
 
 
 

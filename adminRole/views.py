@@ -113,6 +113,31 @@ def delete_kategori_restoran(request):
         return redirect('/kategori_restoran')
     return render(request, "delete_kategori_restoran.html")
 
+def get_all_kategori_makanan(request):
+    if request.method == "POST":
+        id = request.POST["id"]
+        name = request.POST["name"]
+
+        result = query(f"SELECT * FROM food_CATEGORY")
+        context = {"total" : len(result), "kategori_makanan": result}
+        return render(request, "kategori_makanan.html", context)
+    return render(request, "kategori_makanan.html")
+
+def add_kategori_makanan(request):
+    if request.method == "POST":
+        id = request.POST["id"]
+        name = request.POST["name"]
+        query(f"INSERT INTO food_CATEGORY VALUES ('{id}', '{name}')")
+        return redirect('admin-resto/kategori_makanan/')
+    return render(request, "add_kategori_makanan.html")
+
+def delete_kategori_makanan(request):
+    if request.method == "POST":
+        id = request.POST["id"]
+        query(f"DELETE FROM RESTAURANT_CATEGORY WHERE id='{id}'")
+        return redirect('/kategori_makanan')
+    return render(request, "delete_kategori_makanan.html")
+
 def get_all_bahan_makanan(request):
     res_name = request.session['rname']
     r_branch = request.session['rbranch']
