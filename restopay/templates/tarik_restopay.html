@@ -1,9 +1,10 @@
-<html>
-    <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="w-screen min-h-screen flex items-center justify-center bg-gray-100 text-black">
+{% include 'restoTemplates.html' %}
+{% load static %}
+
+
+{% block content %}
+   
+    <main class="w-screen min-h-screen flex items-center justify-center bg-gray-100 text-black">
         <form METHOD="POST" class="w-96 h-auto flex flex-col justify-between gap-y-10 bg-white p-8 rounded-xl shadow-md">
             
             <div >
@@ -43,6 +44,6 @@
 
         </form>
 
-    </body>
+    </main>
 
-</html>
+{% endblock %}

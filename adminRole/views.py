@@ -139,11 +139,13 @@ def delete_kategori_makanan(request):
     return render(request, "delete_kategori_makanan.html")
 
 def get_all_bahan_makanan(request):
-    res_name = request.session['rname']
-    r_branch = request.session['rbranch']
-    result = query(f"SELECT * FROM FOOD WHERE (Rname, Rbranch) = ('{res_name}', '{r_branch}')")
-    context = {"total" : len(result), "list_bahan_makanan": result}
-    return render(request, "bahan_makanan.html", context)
+    if request.method == "POST":
+        rname = request.POST['rname']
+        rbranch = request.POST['rbranch']
+        result = query(f"SELECT * FROM FOOD WHERE (Rname, Rbranch) = ('{rname}', '{rbranch}')")
+        context = {"total" : len(result), "list_bahan_makanan": result}
+        return render(request, "list_bahan_makanan.html", context)
+    return render(request, "list_bahan_makanan.html")
 
 
 def add_bahan_makanan(request):
@@ -155,7 +157,7 @@ def add_bahan_makanan(request):
         
         query(f"INSERT INTO FOOD VALUES ('{rname}', '{rbranch}', '{foodname}', '{ingredient}')")
         return redirect('/bahan_makanan/')
-    return render(request, "add_bahan_makanan.html")
+    return render(request, "add_bhn_makanan.html")
 
 
 def update_bahan_makanan(request):
