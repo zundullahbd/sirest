@@ -3,15 +3,14 @@ import psycopg2
 from psycopg2 import Error
 from psycopg2.extras import RealDictCursor
 
-pw = [109, 117, 114, 100, 101, 114, 98, 117, 114, 103, 101, 114, 49, 50, 51]
 
 try:
     # Connect to an existing database
     connection = psycopg2.connect(user="postgres",
-                        password=''.join(chr(i) for i in pw),
+                        password='64318',
                         host="localhost",
                         port="5432",
-                        database="bryan.tjandra")
+                        database="sirest")
 
     # Create a cursor to perform database operations
     connection.autocommit = True
