@@ -89,23 +89,11 @@ WSGI_APPLICATION = 'sirest.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "OPTIONS": {"options": "-c search_path=sirest,public"},
-
-        # konfigurasi postgres local
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "localhost",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-if PRODUCTION:
-    DATABASES["default"] = dj_database_url.config()
-    DATABASES["default"]["OPTIONS"] = {
-        "options": "-c search_path=sirest,public"}
 
 
 
