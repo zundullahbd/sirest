@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+PRODUCTION = os.environ.get("DATABASE_URL") != None
 
 
 # Quick-start development settings - unsuitable for production
@@ -85,11 +89,24 @@ WSGI_APPLICATION = 'sirest.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "OPTIONS": {"options": "-c search_path=sirest,public"},
+
+        # konfigurasi postgres local
+        "NAME": "sirest",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "localhost",
+        "PORT": "5432",
     }
 }
+
+if PRODUCTION:
+    DATABASES["default"] = dj_database_url.config()
+    DATABASES["default"]["OPTIONS"] = {
+        "options": "-c search_path=sirest,public"}
+
 
 
 # Password validation
