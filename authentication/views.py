@@ -141,7 +141,7 @@ def login_view(request):
 def logout(request):
     next=request.GET.get("next")
     if not verify(request):
-        return redirect("/auth/login/")
+        return redirect("/login/")
     request.session.flush()
     request.session.clear_expired()
     if next!= None and next!="None":
