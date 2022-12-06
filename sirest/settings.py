@@ -94,7 +94,7 @@ DATABASES = {
         "OPTIONS": {"options": "-c search_path=sirest,public"},
 
         # konfigurasi postgres local
-        "NAME": "sirest",
+        "NAME": "postgres",
         "USER": "postgres",
         "PASSWORD": "postgres",
         "HOST": "localhost",
