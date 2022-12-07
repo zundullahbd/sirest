@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+PRODUCTION = os.environ.get("DATABASE_URL") != None
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,7 +30,9 @@ SECRET_KEY = 'django-insecure-mbu6u@os%mirofv6_!g1p#6e12cbb35*lpip#v(v!@#e!_a+&i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost', '127.0.0.1', 'sirest.up.railway.app',
+]
 
 
 # Application definition
@@ -89,6 +95,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation

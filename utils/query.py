@@ -7,10 +7,11 @@ from psycopg2.extras import RealDictCursor
 try:
 
     connection = psycopg2.connect(user="postgres",
-                        password='test',
-                        host="localhost",
-                        port="5432",
-                        database="DATA")
+                        password='mYLqZXeewHuUZWk9KPPK',
+                        host="containers-us-west-115.railway.app",
+                        port="7154",
+                        database="railway")
+
     # Create a cursor to perform database operations
     connection.autocommit = True
     cursor = connection.cursor()
