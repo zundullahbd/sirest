@@ -8,28 +8,33 @@ import datetime;
 
 def get_restopay(request):
     username = request.session["username"];
+    role = request.session['role']
+    name = request.session['rname'] + " " + request.session['rbranch']
     res = query(f"SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='{username}'")[0]
     restopay = '{:,}'.format( res['restopay'])
     bank = res['bankname']
     account = res['accountno']
-    return render(request,"restopay.html", {"balance": restopay, "bank" : bank, 'account': account})
+    return render(request,"restopay.html", {"balance": restopay, "bank" : bank, 'account': account, 'role': role, 'name': name})
 
 def get_form_restopay(request, type):
     username = request.session["username"];
-
+    role = request.session['role']
+    name = request.session['rname'] + " " + request.session['rbranch']
     res = query(f"SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='{username}'")[0]
     restopay = '{:,}'.format( res['restopay'])
     bank = res['bankname']
     account = res['accountno']
 
     if (type == "tambah_saldo"):
-        return render(request, "tambah_restopay.html", {"balance": restopay, "bank" : bank, 'account': account})
+        return render(request, "tambah_restopay.html", {"balance": restopay, "bank" : bank, 'account': account, 'role': role, 'name': name})
     
-    return render(request, "tarik_restopay.html", {"balance": restopay, "bank" : bank, 'account': account})
+    return render(request, "tarik_restopay.html", {"balance": restopay, "bank" : bank, 'account': account, 'role': role, 'name': name})
 
 @csrf_exempt
 def add_restopay(request):
-    context = {"isNotValid" : False, "message":"input tidak valid"}
+    role = request.session['role']
+    name = request.session['rname'] + " " + request.session['rbranch']
+    context = {"isNotValid" : False, "message":"input tidak valid", 'role': role, 'name': name}
 
     if request.method != "POST":
         return get_form_restopay(request, "tambah_saldo")
@@ -58,7 +63,9 @@ def add_restopay(request):
 
 @csrf_exempt
 def withdraw_restopay(request):
-    context = {"isNotValid" : False, "message":"input tidak valid"}
+    role = request.session['role']
+    name = request.session['rname'] + " " + request.session['rbranch']
+    context = {"isNotValid" : False, "message":"input tidak valid", 'role': role, 'name': name}
 
     if request.method != "POST":
         return get_form_restopay(request, "tarik_saldo")
