@@ -2,7 +2,7 @@
   <a class="font-weight-bold" style="color: white; padding-left: 10px;">[NAMA PENGGUNA] - PElANGGAN</a>
     <div class="justify-content-center">
       <ul class="menu menu-horizontal p-0" style="size: 10px;">
-        <li><a>Dashboard</a></li>
+        <li><a href="/pelanggan/">Dashboard</a></li>
         <li><a href="{% url 'pelanggan:daftar-restauran' %}">Daftar Restoran dan Makanan</a></li>
         <li tabindex="0">
             <a>
@@ -15,10 +15,10 @@
               <!-- <li><a href="{% url 'pelanggan:get_transaction_detail' %}">Riwayat Pesanan</a></li> -->
             </ul>
         </li>
-        <li><a>RestoPay</a></li>
+        <li><a href="/restopay">RestoPay</a></li>
       </ul>
     </div>
-    <a class="btn btn-sm font-weight-bold" style="background-color: #01870E; color: white;" >Logout</a>
+    <a href="{% url 'authentication:logout' %}" class="btn btn-sm font-weight-bold" style="background-color: #01870E; color: white;" >Logout</a>
   </nav>
 {% block content %}
 {% endblock content %}
