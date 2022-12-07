@@ -33,8 +33,8 @@ def home(request):
 @csrf_exempt
 def add_pesanan(request):
 
+    res = query(f"select distinct province from delivery_fee_per_km dfpk order by 1")
     if request.method != "POST":
-        res = query(f"select distinct province from delivery_fee_per_km dfpk")
         return render(request, "create_pesanan.html", {'province':res}) 
     
     context = {"isNotValid" : False, "message":"Harap masukan data yang lengkap"}
@@ -47,6 +47,7 @@ def add_pesanan(request):
     context["isNotValid"] = not jalan or not kecamatan or not kota or not provinsi
 
     if(context["isNotValid"]):
+        context["province"] = res
         return render(request, "create_pesanan.html", context)
     
     forms['street'] = jalan
@@ -61,7 +62,7 @@ def add_pesanan(request):
 @csrf_exempt
 def get_list_cabang(request):
     # provinsi = request.session['provinsi']
-    print("provinsi",forms['provinsi'])
+    # print("provinsi",forms['provinsi'])
     res = query(f"""select row_number() over() as "row", r.rname, r.rbranch , p.promoname promo, p.discount
                     from restaurant r 
                     join restaurant_promo rp 
@@ -91,7 +92,7 @@ def get_list_makanan(request):
         rname = forms['rname']
         rbranch = forms['rbranch']
 
-    print("rname rbranch",rname, rbranch)
+    # print("rname rbranch",rname, rbranch)
     # print(request.session.keys())
     res = query(f"""select row_number() over() as "row",foodname, price
                     from restaurant r 
@@ -111,12 +112,12 @@ def add_catatan(request):
         try:
             food = request.POST['foodname']
             notes['food'] = food
-            print("food", food)
+            # print("food", food)
         except:
             food = notes['food']
             catatan = request.POST['catatan']
             notes_value[food] =  catatan
-            print('notes value', notes_value)
+            # print('notes value', notes_value)
     return render(request, 'catatan.html')
 
 # DONE
@@ -139,7 +140,9 @@ def get_daftar_pesanan(request):
 
     filter = []
     for i in range(1,len(res)+1):
-        filter.append(int(request.POST['output'+str(i)]))
+        if request.method == 'POST':
+            forms['output'+str(i)] = int(request.POST['output'+str(i)])
+        filter.append(forms['output'+str(i)])
     # print(filter)
 
     if sum(filter)==0:
@@ -153,8 +156,9 @@ def get_daftar_pesanan(request):
             j['jumlah'] = i
             total_price+=j['price_cum']
             res_filtered.append(j)
-    print("======== res filter ============")
-    print(res_filtered)
+    # print("======== res filter ============")
+    # print(res_filtered)
+    res_filter_final.clear()
     res_filter_final.extend(res_filtered)
 
     date = datetime.datetime.now()
@@ -195,7 +199,7 @@ def get_daftar_pesanan(request):
     lists['courierid'] = res5[0]['email']
     lists['vehicletype'] = kendaraan
  
-    print(lists)
+    # print(lists)
     res = query(f"""INSERT INTO TRANSACTION VALUES 
                     ('{lists['email']}', '{lists['datetime']}', '{lists['street']}', '{lists['district']}', 
                     '{lists['city']}', '{lists['province']}', '{lists['totalfood']}', '{lists['totaldiscount']}',
@@ -206,7 +210,7 @@ def get_daftar_pesanan(request):
                         from transaction t
                         order by row_number() over() desc
                         limit 1""")
-    print(final_res)
+    # print(final_res)
 
     return render(request, "daftar_pesanan.html", {'list_food':res_filtered,
                                                     'pembayaran':pembayaran,
@@ -243,8 +247,8 @@ def get_konfirmasi_pembayaran(request):
         except:
             i['note'] ='Tidak ada catatan'
 
-    print('===========res_filter_final===============')
-    print(res_filter_final)
+    # print('===========res_filter_final===============')
+    # print(res_filter_final)
     return render(request, "konfirmasi_pembayaran.html", {"ringkasan": res[0], 
                                                         "res_final":res_filter_final})
 
@@ -254,15 +258,15 @@ def get_ringkasan_pesanan(request):
     rname = forms['rname']
     rbranch = forms['rbranch']
     time = request.POST['time']
-    print(time)
-    
+    # print(time)
+    # print(int(time) > 2)
     res = query("""select email, datetime from "transaction" t 
                     order by 2 desc
                     limit 1""")
     email = res[0]['email']
     date = res[0]['datetime']
 
-    print(email, date)
+    # print(email, date)
     if int(time) > 2:
         query("""with temp as(
                     select datetime from "transaction" t 
@@ -305,7 +309,30 @@ def get_ringkasan_pesanan(request):
                     join transaction_history th on th.datetime = t.datetime 
                     join transaction_status ts on ts.id = th.tsid 
                     order by 1 desc limit 1""")
-    print(res)
+    # print(res)
+    if (res[0]['status'] != 'Cancelled') and (res[0]['pembayaran'] == 'Restopay'):
+        restopay = query(f"""update transaction_actor 
+                                set restopay = -{res[0]['totalprice']}
+                                where email = '{email}'""")
+
+        # print(str(restopay)[:12]=='Jumlah saldo')
+        # print(str(restopay)[:12])
+
+        if str(restopay)[:12]=='Jumlah saldo':
+            res[0]['status'] = 'Cancelled'
+            res[0]['status_trx']= 'Cancelled'
+            query("""with temp as(
+                    select datetime from "transaction" t 
+                    order by 1 desc
+                    limit 1
+                )
+                UPDATE "transaction" t
+                SET psid = 'F8LCGrKFTm'
+                WHERE t.datetime = (select datetime from temp)""")
+
+            query(f"""update transaction_history 
+                        set tsid = 'Z11SNJSHDG'
+                        where email = '{email}' and datetime ='{date}'""")
 
     if res[0]['status'] == 'Cancelled':
         res[0]['courier_name'] = '-'
@@ -320,9 +347,9 @@ def get_ringkasan_pesanan(request):
         except:
             i['note'] ='Tidak ada catatan'
 
-        print(f"""insert into transaction_food 
-                values('{email}', '{date}', '{rname}', '{rbranch}', '{i['foodname']}', 
-                        {int(i['jumlah'])}, '{i['note']}')""")
+        # print(f"""insert into transaction_food 
+        #         values('{email}', '{date}', '{rname}', '{rbranch}', '{i['foodname']}', 
+        #                 {int(i['jumlah'])}, '{i['note']}')""")
         query(f"""insert into transaction_food 
                 values('{email}', '{date}', '{rname}', '{rbranch}', '{i['foodname']}', 
                         {int(i['jumlah'])}, '{i['note']}')""")
@@ -359,7 +386,7 @@ def get_transaction_detail(request):
         email = request.POST["email"]
         time = request.POST["time"]
 
-        print(email, time)
+        # print(email, time)
         foods = query(f"""select rname, rbranch, foodname, amount, note
                     from "transaction" t
                     join transaction_food tf 
@@ -393,7 +420,7 @@ def get_transaction_detail(request):
                     on ts.id = th.tsid 
                     where t.datetime = '{time}' and t.email = '{email}'""")
 
-        print(res[0])
+        # print(res[0])
         return render(request, "detail_pesanan_pelanggan.html", {'list_food':foods,
                                                     'ringkasan':res[0]})
 
