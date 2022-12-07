@@ -43,18 +43,33 @@
   <h2 style="text-align: center;">Tambah Kategori Makanan</h2>
   <div class="card card-outline-secondary" style="margin: 50px">
       <div class="card-body">
-        <form autocomplete="off" class="form" role="form">
+        <form method="POST" action="../create/post/">
           {% csrf_token %}
           <div class="form-group row flex justify-center">
             <label class="col-lg-3 col-form-label form-control-label">Nama Kategori Makanan</label>
             <div class="flex col-lg-9">
-              <input class="form-control" type="text">
+              <input type="text" name="nama" placeholder="Masukkan Kategori" class="form-control">
             </div>
-          <a class="btn float-right btn-sm mt-10"  href="/admin-resto/kategori_restoran/" style="background-color: black;color: white;"> Simpan</a>
+          <!-- <p class="btn float-right btn-sm mt-10" style="background-color: black;color: white;" 
+                type="submit" name="submit" value="Simpan"/> -->
+                <button class="btn float-right btn-sm mt-10" style="background-color: black;color: white;"  
+                    onclick="submit()" type="submit">Simpan</button>
         </form>
       </div>
   </div>
 </div>
-  
+</body>
 
-    {% endblock %}
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+
+// $(document).on("submit", "#kategori_makanan", function (e) {
+  function submit(){
+    alert("Data berhasil ditambahkan")
+  };
+
+</script>  
+
+{% endblock %}

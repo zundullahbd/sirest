@@ -63,65 +63,45 @@
         <!-- <a href="/pesanan/buat" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a> -->
        <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
         <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Daftar Pesanan<h2>
-            <div class="w-full flex flex-col gap-y-2">
+            <table class="w-full flex flex-col gap-y-2">
                 <!-- {%if total == 0 %}
                 <h3 class="text-2xl font-semibold text-gray-700">Restoran tidak memiliki riwayat transaksi</h3>
                 {%else%} -->
 
-                <div class="flex justify-between items-center p-4 px-28 rounded-t-lg bg-blue-300 shadow-sm text-lg font-semibold">
-                    <p>No</p>
-                    <p>Nama Makanan</p>
-                    <p>Harga</p>
-                    <p>Jumlah</p>
-                    <p>Total</p>
-                </div>
+                <tr class="flex justify-between items-center p-4 px-28 rounded-t-lg bg-blue-300 shadow-sm text-lg font-semibold">
+                    <th>No</th>
+                    <th>Nama Makanan</th>
+                    <th>Harga</th>
+                    <th>Jumlah</th>
+                    <th>Total</th>
+                </tr>
 
-                {%for pesanan in list_pesanan%}
-                    <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
-                        <p class="w-1/4">{{pesanan.fname}} {{pesanan.lname}}</p>
-                        <p class="w-1/4">{{pesanan.datetime}}</p>
-                        <p class="w-1/4">{{pesanan.name}}</p>
-                        <div class="flex flex-col">
-
-                            <!-- <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/detail">
-                                <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
-                                <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
-                                <input type="submit" value="detail" class=" hover:underline"></input>
-                            </form> -->
-
-                            <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/update">
-                                <!-- <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
-                                <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input> -->
-                                
-                                <input class="hidden" id="time"  value='pilih' type="text" name="status"></input>
-                                <button type="submit"  class="">Pilih</button>
-                            </form>
-                        </div>
-                    </div>
-                
+                {%for food in list_food%}
+                    <tr class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
+                        <td class="">{{food.row}}</td>
+                        <td class="">{{food.foodname}}</td>
+                        <td class="">{{food.price}}</td>
+                        <td class="">{{food.jumlah}}</td>
+                        <td class="">{{food.price_cum}}</td>
+                    </tr>
                 {%endfor%}
-                <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
-                    <p class="w-1/4">1</p>
-                    <p class="w-1/4">Ayam Goreng</p>
-                    <p class="w-1/4">5000</p>
-                    <p class="w-1/4">10</p>
-                    <p class="w-1/4">50000</p>
-                </div>
+                </table>
 
-                <h2 class="text-3xl font-semibold text-center text-violet-800 mt-10 mb-10">Total Pesanan: 50000<h2>
-                <p> Metode Pengantaran: Motor </p>
-                <p> Metode Pembayaran: RestoPay </p>
-                <p>Total Diskon: 0 </p>
-                <p>Biaya Pengantaran: 4000 </p>
-                <p>Total Biaya: 15000</p>
+                <h2 class="text-3xl font-semibold text-center text-violet-800 mt-10 mb-10">Total Pesanan: {{total_price}}<h2>
+                <p> Metode Pengantaran: {{kendaraan}} </p>
+                <p> Metode Pembayaran: {{pembayaran}} </p>
+                <p>Total Diskon: {{final.totaldiscount}} </p>
+                <p>Biaya Pengantaran: {{final.deliveryfee}} </p>
+                <p>Total Biaya: {{final.totalprice}}</p>
                     
                 <a href="{% url 'pelanggan:get_konfirmasi_pembayaran' %}"><button class=" px-3 py-2 rounded-md bg-green-600 text-white btn btn-primary"
-                    href=>Lanjut ke Pembayaran</button></a>
-            </div>
+                    href=>Lanjut ke Pembayaran</button>
+                </a>
+
             {%endif%}
             <div>
-                <a href="/pelanggan/list_makanan" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a>
-                </div>
+                <a href="/pelanggan/list_makanan/" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a>
+            </div>
        </main>
        <script>
         function goBack(){

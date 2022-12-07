@@ -72,10 +72,6 @@ def get_role(email):
     if len(res) > 0:
         return 'restaurant'
 
-
-
-
-
 @csrf_exempt
 def login(request):
     next = request.GET.get("next")
@@ -128,7 +124,7 @@ def login(request):
                 return redirect("/restoran/")
             elif role == "kurir":
                 return redirect("/kurir/")
-            elif role == "pelanggan":
+            elif role == "customer":
                 return redirect("/pelanggan/")
 
                 

@@ -62,36 +62,46 @@
     <main class="w-screen min-h-screen flex pt-20 justify-center bg-gray-100 text-black">
         <!-- <a href="/pesanan/buat" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a> -->
        <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
-        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Konfirrmasi Pembayaran<h2>
+        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Konfirmasi Pembayaran<h2>
             <div class="w-full flex flex-col gap-y-2">
-                <p>Waktu Pemesanan: 2022-11-04 11:30:05</p>
+                <form METHOD="POST" action="../ringkasan_pesanan/">   
+                    <p>Waktu Pemesanan: {{ringkasan.datetime}}</p>
+                    <br>
+                    <p>Nama Pelanggan: {{ringkasan.name}}</p>
+                    <p>Jalan: {{ringkasan.street}}</p>
+                    <p>Kecamatan: {{ringkasan.district}}</p>
+                    <p>Kota: {{ringkasan.city}}</p>
+                    <p>Provinsi: {{ringkasan.province}}</p>
+                    <br>
+                    <p>Restoran: {{ringkasan.restaurant}}</p>
+                    <p>Jalan: {{ringkasan.rstreet}}</p>
+                    <p>Kecamatan: {{ringkasan.rdistrict}}</p>
+                    <p>Kota: {{ringkasan.rcity}}</p>
+                    <p>Provinsi: {{ringkasan.rprovince}}</p>
 
-                <p>Nama Pelanggan: Mikayla Putri</p>
-                <p>Jalan: Jalan Bahagia nomor 72</p>
-                <p>Kecamatan: Cinere</p>
-                <p>Kota: Depok</p>
-                <p>Provinsi: Jawa Barat</p>
+                    <p>Makanan yang dipesan:</p>
+                    {%for row in res_final%}
+                    <p class="pl-4">* {{row.foodname}} ({{row.jumlah}}) - {{row.note}}</p>
+                    {%endfor%}
+                    <p>Total Harga Makanan: {{ringkasan.totalfood}}</p>
+                    <p>Total Diskon: {{ringkasan.totaldiscount}}</p>
+                    <p>Biaya Pengantaran: {{ringkasan.deliveryfee}}</p>
+                    <p>Total Biaya: {{ringkasan.totalprice}}</p>
+                    <p>Jenis Pembayaran: {{ringkasan.pembayaran}}</p>
 
-                <p>Restoran: Warung Mantap Depok</p>
-                <p>Jalan: Jalan Sejahtera nomor 5</p>
-                <p>Kecamatan: Bojongsari</p>
-                <p>Kota: Depok</p>
-                <p>Provinsi: Jawa Barat</p>
-
-                <p>Makanan yang dipesan:</p>
-                <p>* Ayam Goreng (1) - [catatan bila ada]</p>
-                <p>* Ice Cream (2) - [catatan bila ada]</p>
-                <p>Total Harga Makanan: 11000</p>
-                <p>Total Diskon: 0</p>
-                <p>Biaya Pengantaran: 4000</p>
-                <p>Total Biaya: 15000</p>
-                <p>Jenis Pembayaran: RestoPay</p>
-
-                <p>Sisa Waktu Konfirmasi: 00:00:55</p>
-                <p>Status Pembayaran: Menunggu Pembayaran</p>
-                <p>Status Pesanan: Menunggu Konfirmasi Restoran</p>
-                <a href="{% url 'pelanggan:get_ringkasan_pesanan' %}"><button class=" px-3 py-2 rounded-md bg-green-600 text-white btn btn-primary"
-                    href=>Konfirmasi Pembayaran</button></a>
+                    <br>
+                    
+                    <p>Sisa Waktu Konfirmasi: 
+                    <input class="bg-white" id="time" value=60 type="text" name="time"></input>
+                    </p>
+                    
+                    <p>Status Pembayaran: {{ringkasan.status}}</p>
+                    <p>Status Pesanan: Menunggu Konfirmasi Restoran</p>
+                    <br>
+                    <button type='submit' id='confirm' class=" px-3 py-2 rounded-md bg-green-600 text-white btn btn-primary">
+                        Konfirmasi Pembayaran
+                    </button>
+                </form>
 
             </div>
             <div>
@@ -99,10 +109,39 @@
                 </div>
        </main>
        <script>
+        setTimeout("CallButton()",60000)
+        function CallButton()
+        {
+        document.getElementById("confirm").click();   
+        }
+
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+                document.getElementById('time').value = seconds;
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
         function goBack(){
             window.history.back();
         }
-    </script>
+
+        window.onload = function () {
+            var oneMinutes = 59,
+                display = document.querySelector('#time');
+            startTimer(oneMinutes, display);
+        };
+        </script>
     
     </main>
     

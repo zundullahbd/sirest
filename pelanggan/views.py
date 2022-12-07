@@ -9,8 +9,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 import datetime;
 
+forms = {}
+notes = {}
+notes_value = {}
+res_filter_final = []
+
 def pelangganHome(request):
     return render(request, 'pelanggan.html')
+
 def dMenu(request):
     return render(request, "daftarMenu.html")
 
@@ -23,14 +29,13 @@ def detailMenu(request):
 def home(request):
     return render(request, 'pelanggan.html')
 
-def get_pesanan_form(request):
-    return render(request, "create_pesanan.html") 
-
+# DONE
 @csrf_exempt
 def add_pesanan(request):
-    
+
     if request.method != "POST":
-        return get_pesanan_form(request)
+        res = query(f"select distinct province from delivery_fee_per_km dfpk")
+        return render(request, "create_pesanan.html", {'province':res}) 
     
     context = {"isNotValid" : False, "message":"Harap masukan data yang lengkap"}
 
@@ -44,24 +49,309 @@ def add_pesanan(request):
     if(context["isNotValid"]):
         return render(request, "create_pesanan.html", context)
     
-    # res_name = request.session['rname']
-    # r_branch = request.session['rbranch']
-    # res = query(f"INSERT INTO RESTAURANT_OPERATING_HOURS VALUES ('{res_name}', '{r_branch}', '{jalan}', '{kecamatan}', '{kota}')")
+    forms['street'] = jalan
+    forms['district'] = kecamatan
+    forms['city'] = kota
+    forms['provinsi'] = provinsi
 
+    # res = query(f"INSERT INTO RESTAURANT_OPERATING_HOURS VALUES ('{res_name}', '{r_branch}', '{jalan}', '{kecamatan}', '{kota}')")
     return redirect("/pelanggan/list_cabang")
+
+# DONE
+@csrf_exempt
+def get_list_cabang(request):
+    # provinsi = request.session['provinsi']
+    print("provinsi",forms['provinsi'])
+    res = query(f"""select row_number() over() as "row", r.rname, r.rbranch , p.promoname promo, p.discount
+                    from restaurant r 
+                    join restaurant_promo rp 
+                        on r.rname = rp.rname and r.rbranch = rp.rbranch 
+                    join promo p 
+                        on p.id = rp.pid 
+                    WHERE r.province = '{forms['provinsi']}'""") 
+
+    context = {"list_resto": res}
+    # print(res)
+    return render(request, "pilih_cabang.html", context)
+
+# DONE
+# Asumsikan promo hanya dapat dimiliki 1 pada setiap restoran
+# Promo diskon ini yang akan digunakan pada 
+@csrf_exempt
+def get_list_makanan(request):
+    if request.method == "POST":
+        rname = request.POST['rname']
+        rbranch = request.POST['rbranch']
+        discount = request.POST['discount']
+        # print(discount)
+        forms['rname']=rname
+        forms['rbranch']=rbranch
+        forms['discount']=discount
+    else:
+        rname = forms['rname']
+        rbranch = forms['rbranch']
+
+    print("rname rbranch",rname, rbranch)
+    # print(request.session.keys())
+    res = query(f"""select row_number() over() as "row",foodname, price
+                    from restaurant r 
+                    join food f 
+                    using (rname,rbranch)
+                    where r.rname = '{rname}' and rbranch = '{rbranch}'""") 
+    # print(res)
+
+    res2 = query("select distinct name from payment_method pm")
+
+    return render(request, "pilih_makanan.html", {'list_food':res, 'list_payment':res2,'valid':1})
+
+# DONE
+@csrf_exempt
+def add_catatan(request):
+    if request.method == 'POST':
+        try:
+            food = request.POST['foodname']
+            notes['food'] = food
+            print("food", food)
+        except:
+            food = notes['food']
+            catatan = request.POST['catatan']
+            notes_value[food] =  catatan
+            print('notes value', notes_value)
+    return render(request, 'catatan.html')
+
+# DONE
+@csrf_exempt
+def get_daftar_pesanan(request):
+    # print(request.POST)
+    if request.method == 'POST':
+        pembayaran = request.POST['pembayaran']
+        kendaraan = request.POST['kendaraan']
+        forms['pembayaran'] = pembayaran
+        forms['kendaraan'] = kendaraan
+    rname = forms['rname']
+    rbranch = forms['rbranch']
+    res = query(f"""select row_number() over() as "row",foodname, price, rating
+                    from restaurant r 
+                    join food f 
+                    using (rname,rbranch)
+                    where r.rname = '{rname}' and rbranch = '{rbranch}'""") 
+    res2 = query("select distinct name from payment_method pm")
+
+    filter = []
+    for i in range(1,len(res)+1):
+        filter.append(int(request.POST['output'+str(i)]))
+    # print(filter)
+
+    if sum(filter)==0:
+        return render(request, "pilih_makanan.html", {'list_food':res, 'list_payment':res2,'valid':0})
+
+    res_filtered = []
+    total_price = 0
+    for i,j in zip(filter,res):
+        if i > 0:
+            j['price_cum'] = j['price']*i
+            j['jumlah'] = i
+            total_price+=j['price_cum']
+            res_filtered.append(j)
+    print("======== res filter ============")
+    print(res_filtered)
+    res_filter_final.extend(res_filtered)
+
+    date = datetime.datetime.now()
+    date= date.strftime("%Y-%m-%d %H:%M:%S")
+
+    res3 = query(f"""select id from delivery_fee_per_km dfpk 
+                    where province = '{forms['provinsi']}'""")
+    # print(res)
+    # print(res3)
+    pembayaran = forms['pembayaran']
+    # print(pembayaran)
+    res4 = query(f"select id from payment_method pm where name = '{pembayaran}'")
+
+    kendaraan = forms['kendaraan']
+    res5 = query(f"select email from courier c where vehicletype = '{kendaraan}'")
+
+    disc = int(forms['discount'])
+    if disc > 100:
+        disc = 100
+
+    lists = {}
+    # TO DO
+    # lists['email'] = request.session['email']
+    lists['email'] = 'arapkins8@reddit.com'
+    lists['datetime'] = date
+    lists['street'] = forms['street']
+    lists['district'] = forms['district']
+    lists['city'] = forms['city']
+    lists['province'] = forms['provinsi']
+    lists['totalfood'] = int(total_price)
+    lists['totaldiscount'] = int((disc)/100 * total_price)
+    lists['deliveryfee'] = 0
+    lists['totalprice'] = 0
+    lists['rating'] = int(res[0]['rating'])
+    lists['pmid'] = res4[0]['id']
+    lists['psid'] = 'SzKzmHaqm1'
+    lists['dfid'] = res3[0]['id']
+    lists['courierid'] = res5[0]['email']
+    lists['vehicletype'] = kendaraan
+ 
+    print(lists)
+    res = query(f"""INSERT INTO TRANSACTION VALUES 
+                    ('{lists['email']}', '{lists['datetime']}', '{lists['street']}', '{lists['district']}', 
+                    '{lists['city']}', '{lists['province']}', '{lists['totalfood']}', '{lists['totaldiscount']}',
+                    '{lists['deliveryfee']}', '{lists['totalprice']}', '{lists['rating']}', '{lists['pmid']}',
+                    '{lists['psid']}', '{lists['dfid']}', '{lists['courierid']}', '{lists['vehicletype']}')""")
+
+    final_res = query(f"""select *
+                        from transaction t
+                        order by row_number() over() desc
+                        limit 1""")
+    print(final_res)
+
+    return render(request, "daftar_pesanan.html", {'list_food':res_filtered,
+                                                    'pembayaran':pembayaran,
+                                                    'kendaraan':kendaraan,
+                                                    'total_price':total_price,
+                                                    'final':final_res[0]
+                                                    })
+
+@csrf_exempt
+def get_konfirmasi_pembayaran(request): 
+    rname = forms['rname']
+    rbranch = forms['rbranch']
+    res = query(f"""select datetime::text, fname || ' ' || lname as name, 
+                    t.street , t.district, t.city , t.province ,
+                    r.rname || ' ' || r.rbranch restaurant, r.street rstreet, r.district rdistrict,
+                    r.city rcity, r.province rprovince, t.totalfood , t.totaldiscount , 
+                    t.deliveryfee ,t.totalprice , pm."name" pembayaran , ps."name" status 
+                    from transaction t
+                    join payment_status ps 
+                    on ps.id = t.psid 
+                    join payment_method pm 
+                    on pm.id = t.pmid  
+                    join user_acc ua 
+                    on ua.email = t.email 
+                    join restaurant r 
+                    on r.rname = '{rname}' and r.rbranch = '{rbranch}'
+                    order by datetime desc
+                    limit 1""")
+
+    for i in res_filter_final:
+        food  = i['foodname']
+        try:
+            i['note'] = notes_value[food]
+        except:
+            i['note'] ='Tidak ada catatan'
+
+    print('===========res_filter_final===============')
+    print(res_filter_final)
+    return render(request, "konfirmasi_pembayaran.html", {"ringkasan": res[0], 
+                                                        "res_final":res_filter_final})
+
+@csrf_exempt
+def get_ringkasan_pesanan(request):
+    # forms.clear()
+    rname = forms['rname']
+    rbranch = forms['rbranch']
+    time = request.POST['time']
+    print(time)
+    
+    res = query("""select email, datetime from "transaction" t 
+                    order by 2 desc
+                    limit 1""")
+    email = res[0]['email']
+    date = res[0]['datetime']
+
+    print(email, date)
+    if int(time) > 2:
+        query("""with temp as(
+                    select datetime from "transaction" t 
+                    order by 1 desc
+                    limit 1
+                )
+                UPDATE "transaction" t
+                SET psid = 'vq63gaILPd'
+                WHERE t.datetime = (select datetime from temp)""")
+        
+        query(f"""insert into transaction_history
+                values('{email}','{date}','X19DBUSBDU',null)""")
+    else:
+        query("""with temp as(
+                    select datetime from "transaction" t 
+                    order by 1 desc
+                    limit 1
+                )
+                UPDATE "transaction" t
+                SET psid = 'F8LCGrKFTm'
+                WHERE t.datetime = (select datetime from temp)""")
+        
+        query(f"""insert into transaction_history
+                values('{email}','{date}','Z11SNJSHDG',null)""")
+
+    res = query(f"""select t.datetime::text, ua.fname || ' ' || ua.lname as name, 
+                    t.street , t.district, t.city , t.province ,
+                    r.rname || ' ' || r.rbranch restaurant, r.street rstreet, r.district rdistrict,
+                    r.city rcity, r.province rprovince, t.totalfood , t.totaldiscount , 
+                    t.deliveryfee ,t.totalprice , pm."name" pembayaran , ps."name" status,
+                    ua2.fname || ' ' || ua2.lname as courier_name, 
+                    c.platenum , c.vehicletype , c.vehiclebrand, ts."name" as status_trx
+                    from transaction t
+                    join payment_status ps on ps.id = t.psid 
+                    join payment_method pm on pm.id = t.pmid  
+                    join user_acc ua on ua.email = t.email 
+                    join restaurant r on r.rname = '{rname}' and r.rbranch = '{rbranch}'
+                    join courier c on c.email = t.courierid 
+                    join user_acc ua2 on ua2.email = t.courierid 
+                    join transaction_history th on th.datetime = t.datetime 
+                    join transaction_status ts on ts.id = th.tsid 
+                    order by 1 desc limit 1""")
+    print(res)
+
+    if res[0]['status'] == 'Cancelled':
+        res[0]['courier_name'] = '-'
+        res[0]['platenum'] = '-'
+        res[0]['vehicletype'] = '-'
+        res[0]['vehiclebrand'] = '-'
+
+    for i in res_filter_final:
+        food  = i['foodname']
+        try:
+            i['note'] = notes_value[food]
+        except:
+            i['note'] ='Tidak ada catatan'
+
+        print(f"""insert into transaction_food 
+                values('{email}', '{date}', '{rname}', '{rbranch}', '{i['foodname']}', 
+                        {int(i['jumlah'])}, '{i['note']}')""")
+        query(f"""insert into transaction_food 
+                values('{email}', '{date}', '{rname}', '{rbranch}', '{i['foodname']}', 
+                        {int(i['jumlah'])}, '{i['note']}')""")
+
+    return render(request, "ringkasan_pesanan.html",{"ringkasan": res[0], 
+                                                        "res_final":res_filter_final})
 
 def get_ongoing_pesanan(request):
     # res_name = request.session['rname']
     # r_branch = request.session['rbranch']
-    res_name = 'Yacero'
-    r_branch = 'THE'
-    res = query(f"SELECT * FROM USER_ACC JOIN (SELECT * FROM TRANSACTION_HISTORY TH JOIN TRANSACTION_STATUS TS ON TH.TSid=TS.id WHERE TH.Email IN (SELECT Email FROM TRANSACTION_FOOD WHERE (RName, Rbranch) = ('{res_name}', '{r_branch}')) AND (TS.name ILIKE 'pending' OR TS.name ILIKE 'on%')) X USING(email)") 
+
+    # TO DO
+    email =  'arapkins8@reddit.com'
+    res = query(f"""select distinct tf.rname || ' '  || tf.rbranch as restaurant, t.datetime, ts."name" 
+                    from "transaction" t
+                    join transaction_history th 
+                    on t.email = th.email and t.datetime = th.datetime 
+                    join transaction_status ts 
+                    on ts.id = th.tsid 
+                    join transaction_food tf 
+                    ON tf.email = t.email  and tf.datetime = t.datetime 
+                    where t.email = 'arapkins8@reddit.com' and ts."name" = 'Pending'""") 
     for i in res:
         i['datetime'] = str(i['datetime'])
 
-    context = {"total" : len(res), "list_pesanan": res, 'rname':res_name, 'rbranch':r_branch}
+    context = {"total" : len(res), "list_pesanan": res, 'email': email}
 
     return render(request, "ongoing_pelanggan.html", context)
+
 
 @csrf_exempt
 def get_transaction_detail(request):
@@ -69,113 +359,44 @@ def get_transaction_detail(request):
         email = request.POST["email"]
         time = request.POST["time"]
 
-        transaction_status = query(f"SELECT NAME from TRANSACTION_STATUS WHERE Id IN ( SELECT TSID FROM TRANSACTION_HISTORY WHERE (Email, datetime) = ('{email}', '{time}'))")[0]['name']
-        transaction = query(f"SELECT * FROM TRANSACTION WHERE (Email, datetime) = ('{email}', '{time}')")[0]
-        payment_method = query(f"SELECT * FROM PAYMENT_METHOD WHERE id='{transaction['pmid']}'") 
-        payment_status = query(f"SELECT * FROM PAYMENT_status WHERE id='{transaction['psid']}'") 
-        foods = query(f"SELECT * FROM TRANSACTION_FOOD WHERE (Email, Datetime) = ('{email}', '{time}')")
-        courier = query(f"select * FROM COURIER WHERE EMail= '{transaction['courierid']}'")[0]
-        courier_name = query(f"SELECT * FROM USER_ACC WHERE EMAIL='{courier['email']}'")[0]
-        courier_name = courier_name['fname'] + " " + courier_name['lname']
-        restaurant = query(f"SELECT * FROM RESTAURANT WHERE (Rname, Rbranch) = ('{foods[0]['rname']}', '{foods[0]['rbranch']}')")
-        customer = query(f"SELECT * FROM USER_ACC WHERE EMAIL = '{email}'")[0]
+        print(email, time)
+        foods = query(f"""select rname, rbranch, foodname, amount, note
+                    from "transaction" t
+                    join transaction_food tf 
+                    on t.email = tf.email and t.datetime = tf.datetime 
+                    where t.email='{email}' and t.datetime = '{time}'""")
         
-        food_price=0
-        for i in foods:
-            j = query(f"SELECT PRICE FROM FOOD WHERE (Rname, Rbranch, foodname) = ('{i['rname']}','{i['rbranch']}','{i['foodname']}')")
-            food_price+= j[0]['price']
-        
-        
-        context = {
-            'transaction': transaction,
-            'transaction_status': transaction_status,
-            'payment_method': payment_method[0]['name'],
-            'payment_status': payment_status[0]['name'],
-            'foods' : foods,
-            'courier': courier,
-            'courier_name': courier_name,
-            'restaurant': restaurant[0],
-            'customer' : customer,
-            'total_food_price': food_price
-        }
+        # print(foods)
+        res = query(f"""select t.datetime::text, ua.fname || ' ' || ua.lname as name, 
+                    t.street , t.district, t.city , t.province ,
+                    r.rname || ' ' || r.rbranch restaurant, r.street rstreet, r.district rdistrict,
+                    r.city rcity, r.province rprovince, t.totalfood , t.totaldiscount , 
+                    t.deliveryfee ,t.totalprice , pm."name" pembayaran , ps."name" status,
+                    ts."name" as status_trx, ua2.fname || ' ' || ua2.lname as courier_name, 
+                    c.platenum , c.vehicletype , c.vehiclebrand
+                    from transaction t
+                    join payment_status ps 
+                    on ps.id = t.psid 
+                    join payment_method pm 
+                    on pm.id = t.pmid  
+                    join user_acc ua 
+                    on ua.email = t.email 
+                    join restaurant r 
+                    on r.rname = '{foods[0]['rname']}' and r.rbranch = '{foods[0]['rbranch']}'
+                    join courier c 
+                    on c.email = t.courierid 
+                    join user_acc ua2 
+                    on ua2.email = t.courierid 
+                    join transaction_history th 
+                    on th.datetime = t.datetime 
+                    join transaction_status ts 
+                    on ts.id = th.tsid 
+                    where t.datetime = '{time}' and t.email = '{email}'""")
 
-        print(context)
-        return render(request, "detail_pesanan.html", context)
+        print(res[0])
+        return render(request, "detail_pesanan_pelanggan.html", {'list_food':foods,
+                                                    'ringkasan':res[0]})
 
-
-def get_list_cabang(request):
-    # provinsi = request.session['provinsi']
-    # res = query(f"""select row_number() over() as "row", r.rname || ' ' || r.rbranch restoran, p.promoname promo 
-    #                     from restaurant r 
-    #                     join restaurant_promo rp 
-    #                         on r.rname = rp.rname and r.rbranch = rp.rbranch 
-    #                     join promo p 
-    #                         on p.id = rp.pid 
-    #                     WHERE r.province = '{provinsi}'""") 
-
-    # context = {"list_cabang": res}
-
-    return render(request, "pilih_cabang.html")
-
-@csrf_exempt
-def get_list_makanan(request):
-    # provinsi = request.session['provinsi']
-    # res = query(f"""select row_number() over() as "row", r.rname || ' ' || r.rbranch restoran, p.promoname promo 
-    #                     from restaurant r 
-    #                     join restaurant_promo rp 
-    #                         on r.rname = rp.rname and r.rbranch = rp.rbranch 
-    #                     join promo p 
-    #                         on p.id = rp.pid 
-    #                     WHERE r.province = '{provinsi}'""") 
-
-    # context = {"list_makanan": res}
-
-    return render(request, "pilih_makanan.html")
-
-@csrf_exempt
-def get_daftar_pesanan(request):
-    # provinsi = request.session['provinsi']
-    # res = query(f"""select row_number() over() as "row", r.rname || ' ' || r.rbranch restoran, p.promoname promo 
-    #                     from restaurant r 
-    #                     join restaurant_promo rp 
-    #                         on r.rname = rp.rname and r.rbranch = rp.rbranch 
-    #                     join promo p 
-    #                         on p.id = rp.pid 
-    #                     WHERE r.province = '{provinsi}'""") 
-
-    # context = {"daftar_pesanan": res}
-
-    return render(request, "daftar_pesanan.html")
-
-@csrf_exempt
-def get_konfirmasi_pembayaran(request):
-    # provinsi = request.session['provinsi']
-    # res = query(f"""select row_number() over() as "row", r.rname || ' ' || r.rbranch restoran, p.promoname promo 
-    #                     from restaurant r 
-    #                     join restaurant_promo rp 
-    #                         on r.rname = rp.rname and r.rbranch = rp.rbranch 
-    #                     join promo p 
-    #                         on p.id = rp.pid 
-    #                     WHERE r.province = '{provinsi}'""") 
-
-    # context = {"konfirmasi_pembayaran": res}
-
-    return render(request, "konfirmasi_pembayaran.html")
-
-@csrf_exempt
-def get_ringkasan_pesanan(request):
-    # provinsi = request.session['provinsi']
-    # res = query(f"""select row_number() over() as "row", r.rname || ' ' || r.rbranch restoran, p.promoname promo 
-    #                     from restaurant r 
-    #                     join restaurant_promo rp 
-    #                         on r.rname = rp.rname and r.rbranch = rp.rbranch 
-    #                     join promo p 
-    #                         on p.id = rp.pid 
-    #                     WHERE r.province = '{provinsi}'""") 
-
-    # context = {"ringkasan_pesanan": res}
-
-    return render(request, "ringkasan_pesanan.html")
 def detailRestauran(request):
     return render(request, "detailRestauran.html")
 

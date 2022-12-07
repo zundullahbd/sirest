@@ -5,18 +5,16 @@ from psycopg2.extras import RealDictCursor
 
 
 try:
-    # Connect to an existing database
+
     connection = psycopg2.connect(user="postgres",
-                        password='64318',
+                        password='test',
                         host="localhost",
                         port="5432",
-                        database="sirest")
-
+                        database="DATA")
     # Create a cursor to perform database operations
     connection.autocommit = True
     cursor = connection.cursor()
 
-        
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)
 

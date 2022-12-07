@@ -84,9 +84,11 @@
                 <div class="flex flex-col">
                   <label class="form-label" for="provinsi">Provinsi</label>
                   <select name="provinsi" class="border roundded-md bg-white">
-                      <option value="Jakarta">
-                          Jakarta
+                      {%for prov in province%}
+                      <option value={{prov.province}}>
+                          {{prov.province}}
                       </option>
+                      {%endfor%}
                       <!-- <option value="selasa">
                           selasa
                       </option>

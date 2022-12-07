@@ -52,6 +52,25 @@
                 margin-bottom: 70px !important;
             }
 
+            #minus , #plus{
+                height:25px;
+                width:25px;
+                border:1px black solid;
+                border-radius:50%;
+            }
+
+            #minus:hover{
+                background-color:red;    
+                border:none;
+            }
+            #plus:hover{
+                background-color:green;
+                border:none;
+            }
+            #numberPlace {
+                margin-left:5px;
+                margin-right:5px;
+            }
 
           </style>
       </head>
@@ -62,114 +81,128 @@
     <main class="w-screen min-h-screen flex justify-center bg-gray-100 text-black">
         <!-- <a href="/pesanan/buat" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a> -->
        <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
+        <p id="valid" class="hidden">{{valid}}</p>
         <h2 class="text-3xl font-semibold text-center text-violet-800 mb-5">Pilih Makanan<h2>
-            <div class="w-full flex flex-col gap-y-2">
+            <table class="w-full flex flex-col gap-y-2">
                 <!-- {%if total == 0 %}
                 <h3 class="text-2xl font-semibold text-gray-700">Restoran tidak memiliki riwayat transaksi</h3>
                 {%else%} -->
 
-                <div class="flex justify-between items-center p-4 px-28 rounded-t-lg bg-blue-300 shadow-sm text-lg font-semibold">
-                    <p>No</p>
-                    <p>Nama Makanan</p>
-                    <p>Harga</p>
-                    <p>Jumlah</p>
-                    <p>Catatan (Opsional)</p>
-                </div>
+                <tr class="flex justify-between items-center p-4 px-28 rounded-t-lg bg-blue-300 shadow-sm text-lg font-semibold">
+                    <td>No</td>
+                    <td>Nama Makanan</td>
+                    <td>Harga</td>
+                    <td>Jumlah</td>
+                    <td>Catatan (Opsional)</td>
+                </tr>
 
-                {%for pesanan in list_pesanan%}
-                    <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
-                        <p class="w-1/4">{{pesanan.fname}} {{pesanan.lname}}</p>
-                        <p class="w-1/4">{{pesanan.datetime}}</p>
-                        <p class="w-1/4">{{pesanan.name}}</p>
-                        <div class="flex flex-col">
+                {%for food in list_food%}
+                <tr class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
+                    <td class="text-left">{{food.row}}</td>
+                    <td class="text-left">{{food.foodname}}</td>
+                    <td class="text-left">{{food.price}}</td>
+                    <td class="flex flex-row">
+                        <!-- <div class=""> -->
+                        <button id="plus" onclick="increment(`{{food.row}}`)" class="bg-slate-100">+</button>
+                        <p id="counter{{food.row}}">0</p>
+                        <button id="minus" onclick="decrement(`{{food.row}}`)" class="bg-slate-100">-</button>
+                        <!-- </div> -->
+                    </td>
+                    <td class="flex flex-col">
 
-                            <!-- <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/detail">
-                                <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
-                                <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
-                                <input type="submit" value="detail" class=" hover:underline"></input>
-                            </form> -->
-
-                            <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/update">
-                                <!-- <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
-                                <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input> -->
-                                
-                                <input class="hidden" id="time"  value='pilih' type="text" name="status"></input>
-                                <button type="submit"  class="">Pilih</button>
-                            </form>
-                        </div>
-                    </div>
-                
-                {%endfor%}
-                <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
-                    <p class="w-1/4">1</p>
-                    <p class="w-1/4">Ayam Goreng</p>
-                    <p class="w-1/4">5000</p>
-                    <button class="btn btn-outline-secondary bg-slate-100">+</button>
-                    <button class="btn btn-outline-secondary bg-slate-100">-</button>
-                        <p class="w-1/4">1</p>
-                    <div class="flex flex-col">
-
-                        <!-- <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/detail">
-                            <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
-                            <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
-                            <input type="submit" value="detail" class=" hover:underline"></input>
-                        </form> -->
-
-                        <form class="flex flex-col" METHOD="POST" action="">
+                        <form class="flex flex-col" METHOD="POST" action="../catatan/">
                             <!-- <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
                             <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input> -->
                             
-                            <input class="hidden" id="time"  value='catatan' type="text" name="status"></input>
-                            <button type="submit"  class="hover:underline">Catatan</button>
+                            <input class="hidden" id="foodname"  value='{{food.foodname}}' type="text" name="foodname"></input>
+                            <button type="submit" class="underline text-cyan-400" href="/pelanggan/catatan/">Catatan</button>
                         </form>
-                    </div>
-                </div>
+                    </td>
+                </tr>
+                {%endfor%}
+            </table>
+            
                 <h2 class="text-3xl font-semibold text-center text-violet-800 mt-10 mb-10">Pilih Metode Pembayaran atau Pengantaran<h2>
-                <div class="flex justify-center">
-                    <div class = "w-96 h-auto flex flex-col justify-between gap-y-10 bg-slate-300 p-8 rounded-xl shadow-md">
-                    <div class="flex flex-col">
-                        <label class="form-label" for="kendaraan">Jenis Kendaraan</label>
-                        <select name="kendaraan" class="border roundded-md bg-white">
-                            <option value="Mobil">
-                                Mobil
-                            </option>
-                            <option value="Motor">
-                                Motor
-                            </option>
-                        </select>
-                      </div>
-                      <div class="flex flex-col">
-                        <label class="form-label" for="pembayaran">Metode Pembayaran</label>
-                        <select name="pembayaran" class="border roundded-md bg-white">
-                            <option value="BCA">
-                                BCA
-                            </option>
-                            <option value="BRI">
-                                BRI
-                            </option>
-                        </select>
-                      </div>
-                      </div>
-                </div>
+
                 <div class="w-full flex gap-x-4 items-center justify-center self-align-end">
-                    <a href="{% url 'pelanggan:get_daftar_pesanan' %}"><button class=" px-3 py-2 rounded-md bg-green-600 text-white btn btn-primary"
-                        href=>Pesan</button></a>
-                    
-    
+                    <form class="flex flex-col" METHOD="POST" action="../daftar_pesanan/">
+                        <div class="flex justify-center">
+                            <div class = "w-96 h-auto flex flex-col justify-between gap-y-10 bg-slate-300 p-8 rounded-xl shadow-md">
+                            <div class="flex flex-col">
+                                <label class="form-label" for="kendaraan">Jenis Kendaraan</label>
+                                <select name="kendaraan" class="border roundded-md bg-white">
+                                    <option value="Mobil">
+                                        Mobil
+                                    </option>
+                                    <option value="Motor">
+                                        Motor
+                                    </option>
+                                </select>
+                              </div>
+                              <div class="flex flex-col">
+                                <label class="form-label" for="pembayaran">Metode Pembayaran</label>
+                                <select name="pembayaran" class="border roundded-md bg-white">
+                                    {%for payment in list_payment%}
+                                    <option value="{{payment.name}}">
+                                        {{payment.name}}
+                                    </option>
+                                    {%endfor%}
+                                </select>
+                              </div>
+                              </div>
+                        </div>
+                        <button type="submit" class=" px-3 py-2 rounded-md bg-green-600 text-white btn btn-primary">
+                            Pesan
+                        </button>
+                        <!-- <input type="hidden" id="" name="output{{food.row}}" value="0" type="text"></input> -->
+                        {%for food in list_food%}
+                            <input type="hidden" id="output{{food.row}}" name="output{{food.row}}" value="0" type="text"></input>
+                        {%endfor%}
+                    </form>
                 </div>
-            </div>
             {%endif%}
             <div>
-                <a href="/pelanggan/list_cabang" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a>
+                <a href="/pelanggan/list_cabang/" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a>
                 </div>
        </main>
        <script>
+            function increment(param){
+            data = document.getElementById("counter"+param).innerText;
+            data = parseInt(data);
+            data++;
+            document.getElementById("counter"+param).innerText = data;
+            document.getElementById("output"+param).value = data;
+        }
+
+        function decrement(param){
+            data = document.getElementById("counter"+param).innerText;
+            data = parseInt(data);
+            data--;
+            if (data<0) data = 0;
+            document.getElementById("counter"+param).innerText = data;
+            document.getElementById("output"+param).value = data;
+        }
+
         function goBack(){
             window.history.back();
         }
-    </script>
+
+        function warning() {
+            console.log('warning')
+            alert("Pemesanan harus lebih dari 0");
+        }
+
+        $(document).ready(function(){
+            isValid = document.getElementById('valid');
+            console.log(isValid.innerText)
+            if (isValid.innerText==0) {
+               warning();
+            } 
+        });
+        </script>
     </main>
     {% endblock content %}
 </body>
 
 </html>
+

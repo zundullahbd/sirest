@@ -25,10 +25,16 @@ urlpatterns = [
     path('bahan_makanan/buat/', add_bahan_makanan, name="add_bahan_makanan"),
     path('bahan_makanan/ubah/', update_bahan_makanan, name="update_bahan_makanan"),
     path('bahan_makanan/hapus/', delete_bahan_makanan, name="delete_bahan_makanan"),
-    path('kategori_makanan/', get_all_kategori_makanan, name="get_all_kategori_makanan"),
-    path('kategori_makanan/buat/', add_kategori_makanan, name="add_kategori_makanan"),
-    path('kategori_makanan/hapus/', delete_kategori_makanan, name="delete_kategori_makanan"),
 
+    # path('kategori_makanan/', get_all_kategori_makanan, name="get_all_kategori_makanan"),
+    # path('kategori_makanan/buat/', add_kategori_makanan, name="add_kategori_makanan"),
+    # path('kategori_makanan/hapus/', delete_kategori_makanan, name="delete_kategori_makanan"),
+
+    path('kategori_makanan/create/', kategori_makanan, name='kategori_makanan'),
+    path('kategori_makanan/read/', get_all_kategori_makanan, name='get_all_kategori_makanan'),
+    path('kategori_makanan/delete/', delete_kategori_makanan, name='delete_kategori_makanan'),
+    path('kategori_makanan/create/post/', add_kategori_makanan, name='add_kategori_makanan'),
+    # path('kategori_makanan/create/post/', posts, name='post'),
 
 
 

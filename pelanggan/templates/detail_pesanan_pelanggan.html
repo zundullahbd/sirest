@@ -56,13 +56,13 @@
           </style>
       </head>
     <body class="max-w-screen min-h-screen  bg-gray-100 text-black">
-
+    
     {% extends 'navbar.html' %}
     {% block content %}
     <main class="w-screen min-h-screen flex pt-20 justify-center bg-gray-100 text-black">
         <!-- <a href="/pesanan/buat" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a> -->
        <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
-        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Detail Pesanan<h2>
+        <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Konfirmasi Pembayaran<h2>
             <div class="w-full flex flex-col gap-y-2">
                 <p>Waktu Pemesanan: {{ringkasan.datetime}}</p>
                 <br>
@@ -79,8 +79,8 @@
                 <p>Provinsi: {{ringkasan.rprovince}}</p>
 
                 <p>Makanan yang dipesan:</p>
-                {%for row in res_final%}
-                <p class="pl-4">* {{row.foodname}} ({{row.jumlah}}) - {{row.note}}</p>
+                {%for row in list_food%}
+                <p class="pl-4">* {{row.foodname}} ({{row.amount}}) - {{row.note}}</p>
                 {%endfor%}
                 <p>Total Harga Makanan: {{ringkasan.totalfood}}</p>
                 <p>Total Diskon: {{ringkasan.totaldiscount}}</p>
@@ -98,20 +98,18 @@
                 <p>Plat Kendaraan: {{ringkasan.platenum}}</p>
                 <p>Jenis Kendaraan: {{ringkasan.vehicletype}}</p>
                 <p>Merk Kendaraan: {{ringkasan.vehiclebrand}}</p>
-                <a href="{% url 'pelanggan:pelanggan-home' %}"><button class=" px-3 py-2 rounded-md bg-green-600 text-white btn btn-primary"
+                <a href="{% url 'pelanggan:get_ongoing_pesanan' %}"><button class=" px-3 py-2 rounded-md bg-green-600 text-white btn btn-primary"
                     href=>Kembali</button></a>
-                    
+
             </div>
-            <div>
-                <!-- <a href="/pelanggan/konfirmasi_pembayaran" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> Kembali</a> -->
-                </div>
        </main>
        <script>
-        function goBack(){
-            window.history.back();
-        }
-    </script>
+            function goBack(){
+                window.history.back();
+            }
+            </script>
     </main>
+    
     {% endblock content %}
 </body>
 

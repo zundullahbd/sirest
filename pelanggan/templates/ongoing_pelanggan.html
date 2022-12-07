@@ -60,7 +60,6 @@
     {% extends 'navbar.html' %}
     {% block content %}
     <main class="w-screen min-h-screen flex pt-20 justify-center bg-gray-100 text-black">
-        <a href="/pelanggan/" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> kembali</a>
        <main class="flex flex-col w-[70vw] p-8 rounded-lg shadow-md bg-white relative">
         <h2 class="text-3xl font-semibold text-center text-violet-800 mb-20">Daftar Pesanan Berlangsung<h2>
             <div class="w-full flex flex-col gap-y-2">
@@ -77,36 +76,23 @@
 
                 {%for pesanan in list_pesanan%}
                     <div class="flex justify-between items-center p-4 px-28 rounded-lg bg-white shadow-sm text-lg font-semibold border-2 border-gray-500">
-                        <p class="w-1/4">{{rname}} {{rbranch}}</p>
+                        <p class="w-1/4">{{pesanan.restaurant}}</p>
                         <p class="w-1/4">{{pesanan.datetime}}</p>
                         <p class="w-1/4">{{pesanan.name}}</p>
                         <div class="flex flex-col">
-
-                            <form class="flex flex-col" METHOD="POST" action="/pesanan/detail">
-                                <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
+                            <form class="flex flex-col" METHOD="POST" action="/pelanggan/detail/">
+                                <input class="hidden" id="email" value='{{email}}' type="text" name="email"></input>
                                 <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
                                 <input type="submit" value="detail" class=" hover:underline"></input>
                             </form>
-
-                            <!-- <form class="flex flex-col" METHOD="POST" action="/restoran/pesanan/update">
-                                <input class="hidden" id="email" value='{{pesanan.email}}' type="text" name="email"></input>
-                                <input class="hidden" id="time"  value='{{pesanan.datetime}}' type="text" name="time"></input>
-                                
-                                {%if pesanan.name == 'Pending'%}
-                                <input class="hidden" id="time"  value='buat' type="text" name="status"></input>
-                                <button type="submit"  class=""> Buat</button>
-                                {%elif pesanan.name == 'on process'%}
-                                <input class="hidden" id="time"  value='kirim' type="text" name="status"></input>
-                                <button type="submit"  class=""> Kirim</button>
-                                {%endif%}
-                            </form> -->
                         </div>
                     
                     
                     </div>
                 {%endfor%}
                 {%endif%}
-            <div>
+            </div>
+            <a href="/pelanggan/" class="absolute top-10 left-10 hover:underline text-red-500 text-[18px]"> kembali</a>
        </main>
        {% endblock content %}
        <script>
