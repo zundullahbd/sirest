@@ -43,7 +43,10 @@
   <h2 style="text-align: center;">Tambah Kategori Makanan</h2>
   <div class="card card-outline-secondary" style="margin: 50px">
       <div class="card-body">
-        <form method="POST" action="../create/post/">
+        {% if valid == 0 %}
+          <p class="text-red-500" onLoad="noValid()">Input tidak boleh kosong</p>
+        {% endif %}
+        <form method="POST" action="/admin-resto/kategori_makanan/create/post/">
           {% csrf_token %}
           <div class="form-group row flex justify-center">
             <label class="col-lg-3 col-form-label form-control-label">Nama Kategori Makanan</label>
@@ -53,7 +56,8 @@
           <!-- <p class="btn float-right btn-sm mt-10" style="background-color: black;color: white;" 
                 type="submit" name="submit" value="Simpan"/> -->
                 <button class="btn float-right btn-sm mt-10" style="background-color: black;color: white;"  
-                    onclick="submit()" type="submit">Simpan</button>
+                    onClick="submit()" type="submit">Simpan</button>
+          </div>
         </form>
       </div>
   </div>
@@ -62,12 +66,17 @@
 
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 
 // $(document).on("submit", "#kategori_makanan", function (e) {
   function submit(){
     alert("Data berhasil ditambahkan")
+  };
+
+  function noValid(){
+    alert("Input tidak boleh kosong")
   };
 
 </script>  

@@ -15,19 +15,24 @@ notes_value = {}
 res_filter_final = []
 
 def pelangganHome(request):
-    return render(request, 'pelanggan.html')
+    email = request.session['username']
+    nama = query(f"""select fname || ' ' || lname as nama from user_acc ua 
+                where email ='{email}'""")[0]['nama']
+    print(nama)
+    forms['nama_navbar'] = nama
+    return render(request, 'pelanggan.html', {'nama':nama})
 
 def dMenu(request):
-    return render(request, "daftarMenu.html")
+    return render(request, "daftarMenu.html", {'nama':forms['nama_navbar']})
 
 def dRestauran(request):
-    return render(request, "daftarRestauran.html")
+    return render(request, "daftarRestauran.html", {'nama':forms['nama_navbar']})
 
 def detailMenu(request):
-    return render(request, "detailMenu.html")
+    return render(request, "detailMenu.html", {'nama':forms['nama_navbar']})
 
 def home(request):
-    return render(request, 'pelanggan.html')
+    return render(request, 'pelanggan.html', {'nama':forms['nama_navbar']})
 
 # DONE
 @csrf_exempt
@@ -35,8 +40,9 @@ def add_pesanan(request):
 
     res = query(f"select distinct province from delivery_fee_per_km dfpk order by 1")
     if request.method != "POST":
-        return render(request, "create_pesanan.html", {'province':res}) 
-    
+        return render(request, "create_pesanan.html", {'province':res, 
+                                                        'nama':forms['nama_navbar']}) 
+
     context = {"isNotValid" : False, "message":"Harap masukan data yang lengkap"}
 
     jalan = request.POST["jalan"]
@@ -48,6 +54,7 @@ def add_pesanan(request):
 
     if(context["isNotValid"]):
         context["province"] = res
+        {'nama': forms['nama_navbar']}
         return render(request, "create_pesanan.html", context)
     
     forms['street'] = jalan
@@ -71,7 +78,7 @@ def get_list_cabang(request):
                         on p.id = rp.pid 
                     WHERE r.province = '{forms['provinsi']}'""") 
 
-    context = {"list_resto": res}
+    context = {"list_resto": res, 'nama':forms['nama_navbar']}
     # print(res)
     return render(request, "pilih_cabang.html", context)
 
@@ -103,7 +110,8 @@ def get_list_makanan(request):
 
     res2 = query("select distinct name from payment_method pm")
 
-    return render(request, "pilih_makanan.html", {'list_food':res, 'list_payment':res2,'valid':1})
+    return render(request, "pilih_makanan.html", {'list_food':res, 'list_payment':res2,'valid':1,
+                                                    'nama':forms['nama_navbar']})
 
 # DONE
 @csrf_exempt
@@ -118,7 +126,7 @@ def add_catatan(request):
             catatan = request.POST['catatan']
             notes_value[food] =  catatan
             # print('notes value', notes_value)
-    return render(request, 'catatan.html')
+    return render(request, 'catatan.html', {'nama':forms['nama_navbar']})
 
 # DONE
 @csrf_exempt
@@ -146,7 +154,8 @@ def get_daftar_pesanan(request):
     # print(filter)
 
     if sum(filter)==0:
-        return render(request, "pilih_makanan.html", {'list_food':res, 'list_payment':res2,'valid':0})
+        return render(request, "pilih_makanan.html", {'list_food':res, 'list_payment':res2,'valid':0,
+        'nama':forms['nama_navbar']})
 
     res_filtered = []
     total_price = 0
@@ -216,7 +225,8 @@ def get_daftar_pesanan(request):
                                                     'pembayaran':pembayaran,
                                                     'kendaraan':kendaraan,
                                                     'total_price':total_price,
-                                                    'final':final_res[0]
+                                                    'final':final_res[0],
+                                                    'nama':forms['nama_navbar']
                                                     })
 
 @csrf_exempt
@@ -250,7 +260,8 @@ def get_konfirmasi_pembayaran(request):
     # print('===========res_filter_final===============')
     # print(res_filter_final)
     return render(request, "konfirmasi_pembayaran.html", {"ringkasan": res[0], 
-                                                        "res_final":res_filter_final})
+                                                        "res_final":res_filter_final,
+                                                        'nama':forms['nama_navbar']})
 
 @csrf_exempt
 def get_ringkasan_pesanan(request):
@@ -355,7 +366,8 @@ def get_ringkasan_pesanan(request):
                         {int(i['jumlah'])}, '{i['note']}')""")
 
     return render(request, "ringkasan_pesanan.html",{"ringkasan": res[0], 
-                                                        "res_final":res_filter_final})
+                                                        "res_final":res_filter_final,
+                                                        'nama':forms['nama_navbar']})
 
 def get_ongoing_pesanan(request):
     # res_name = request.session['rname']
@@ -375,7 +387,7 @@ def get_ongoing_pesanan(request):
     for i in res:
         i['datetime'] = str(i['datetime'])
 
-    context = {"total" : len(res), "list_pesanan": res, 'email': email}
+    context = {"total" : len(res), "list_pesanan": res, 'email': email, 'nama':forms['nama_navbar']}
 
     return render(request, "ongoing_pelanggan.html", context)
 
@@ -422,10 +434,10 @@ def get_transaction_detail(request):
 
         # print(res[0])
         return render(request, "detail_pesanan_pelanggan.html", {'list_food':foods,
-                                                    'ringkasan':res[0]})
+                                                    'ringkasan':res[0], 'nama':forms['nama_navbar']})
 
 def detailRestauran(request):
-    return render(request, "detailRestauran.html")
+    return render(request, "detailRestauran.html", {'nama':forms['nama_navbar']})
 
 def get_transaction_history_pelanggan(request):
     
@@ -433,6 +445,6 @@ def get_transaction_history_pelanggan(request):
     for i in res:
         i['datetime'] = str(i['datetime'])
 
-    context = {"total" : len(res), "list_transaction_history_pelanggan": res}
+    context = {"total" : len(res), "list_transaction_history_pelanggan": res, 'nama':forms['nama_navbar']}
 
     return render(request, "listTransactionHistoryPelanggan.html", context)

@@ -138,14 +138,16 @@ def get_all_kategori_makanan(request):
     return render(request, "kategori_makanan.html", context)
 
 # bryan DONE
-def kategori_makanan(request):
+def kategori_makanan(request, valid=1):
 #   print('tidak masuk')
-  return render(request, 'add_kategori_makanan.html')
+  return render(request, 'add_kategori_makanan.html', {'valid':valid})
 
 # bryan DONE
 def add_kategori_makanan(request):
-    print('masuk weee')
     nama = request.POST.get("nama")
+
+    if nama == '':
+        return kategori_makanan(request, 0)
     id = uuid.uuid1()
     print(nama, str(id))
     quer = f"insert into food_category values('{str(id)[:12]}','{nama}')"
