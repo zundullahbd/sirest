@@ -7,15 +7,17 @@ import datetime;
 
 
 def get_restopay(request):
-    res = query("SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='spritchett5@earthlink.net'")[0]
+    username = request.session["username"];
+    res = query(f"SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='{username}'")[0]
     restopay = '{:,}'.format( res['restopay'])
     bank = res['bankname']
     account = res['accountno']
     return render(request,"restopay.html", {"balance": restopay, "bank" : bank, 'account': account})
 
 def get_form_restopay(request, type):
+    username = request.session["username"];
 
-    res = query("SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='spritchett5@earthlink.net'")[0]
+    res = query(f"SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='{username}'")[0]
     restopay = '{:,}'.format( res['restopay'])
     bank = res['bankname']
     account = res['accountno']
@@ -35,8 +37,9 @@ def add_restopay(request):
     nominal = str(request.POST["nominal"])
 
     context["isNotValid"] = not nominal or  not nominal.isdigit(); 
+    username = request.session["username"];
     
-    res = query("SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='spritchett5@earthlink.net'")[0]
+    res = query(f"SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='{username}'")[0]
     context['restopay'] = '{:,}'.format( res['restopay'])
     context['bank']  = res['bankname']
     context['account'] = res['accountno']
@@ -44,7 +47,7 @@ def add_restopay(request):
     if(context["isNotValid"]):
         return render(request, "tambah_restopay.html", context)
     
-    response = query(f"UPDATE TRANSACTION_ACTOR SET RESTOPAY='{nominal}' WHERE EMAIL='spritchett5@earthlink.net'");
+    response = query(f"UPDATE TRANSACTION_ACTOR SET RESTOPAY='{nominal}' WHERE EMAIL='{username}'");
     if(response == "Jumlah saldo tidak mencukupi."):
         context["isNotValid"] = True
         context["message"] = response
@@ -63,8 +66,9 @@ def withdraw_restopay(request):
     nominal = str(request.POST["nominal"])
 
     context["isNotValid"] = not nominal or  not nominal.isdigit(); 
+    username = request.session["username"];
     
-    res = query("SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='spritchett5@earthlink.net'")[0]
+    res = query(f"SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='{username}'")[0]
     context['restopay'] = '{:,}'.format( res['restopay'])
     context['bank']  = res['bankname']
     context['account'] = res['accountno']
@@ -73,7 +77,7 @@ def withdraw_restopay(request):
         return render(request, "tarik_restopay.html", context)
     
     nominal = int(nominal)
-    response = query(f"UPDATE TRANSACTION_ACTOR SET RESTOPAY='{nominal*-1}' WHERE EMAIL='spritchett5@earthlink.net'");
+    response = query(f"UPDATE TRANSACTION_ACTOR SET RESTOPAY='{nominal*-1}' WHERE EMAIL='{username}'");
     print(response)
 
     if(type(response) != list and response != 1 ):

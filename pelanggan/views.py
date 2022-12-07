@@ -178,7 +178,7 @@ def get_daftar_pesanan(request):
     lists = {}
     # TO DO
     # lists['email'] = request.session['email']
-    lists['email'] = 'arapkins8@reddit.com'
+    lists['email'] = request.session['username']
     lists['datetime'] = date
     lists['street'] = forms['street']
     lists['district'] = forms['district']
@@ -335,7 +335,7 @@ def get_ongoing_pesanan(request):
     # r_branch = request.session['rbranch']
 
     # TO DO
-    email =  'arapkins8@reddit.com'
+    email =  request.session['username']
     res = query(f"""select distinct tf.rname || ' '  || tf.rbranch as restaurant, t.datetime, ts."name" 
                     from "transaction" t
                     join transaction_history th 
@@ -344,7 +344,7 @@ def get_ongoing_pesanan(request):
                     on ts.id = th.tsid 
                     join transaction_food tf 
                     ON tf.email = t.email  and tf.datetime = t.datetime 
-                    where t.email = 'arapkins8@reddit.com' and ts."name" = 'Pending'""") 
+                    where t.email = '{email}' and ts."name" = 'Pending'""") 
     for i in res:
         i['datetime'] = str(i['datetime'])
 

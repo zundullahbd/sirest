@@ -142,7 +142,7 @@ def logout(request):
     request.session.clear_expired()
     if next!= None and next!="None":
         return redirect(next)
-    return redirect("")
+    return redirect("/")
 
 @csrf_exempt
 def register_admin(request):
