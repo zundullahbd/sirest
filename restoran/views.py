@@ -23,19 +23,20 @@ def get_all_schedule(request):
     r_branch = request.session['rbranch']
     res = query(f"SELECT * FROM RESTAURANT_OPERATING_HOURS WHERE name='{res_name}' AND Branch='{r_branch}' ")
 
-    return render(request, "jadwal_resto.html", {"schedules" : res, "total": len(res)})
+    return render(request, "jadwal_resto.html", {"schedules" : res, "total": len(res), 'name': res_name + " " + r_branch})
 
 
 def get_schedule_form(request):
-    return render(request, "create_jadwal.html") 
+    name = request.session['rname'] + " " + request.session['rbranch']
+    return render(request, "create_jadwal.html", {'name' : name}) 
 
 @csrf_exempt
 def add_schedule(request):
-    
+    name = request.session['rname'] + " " + request.session['rbranch']
     if request.method != "POST":
         return get_schedule_form(request)
     
-    context = {"isNotValid" : False, "message":"Harap masukan data yang lengkap"}
+    context = {"isNotValid" : False, "message":"Harap masukan data yang lengkap", 'name' : name}
 
     hari = request.POST["hari"]
     jam_buka = request.POST["jam_buka"]
@@ -54,6 +55,7 @@ def add_schedule(request):
 
 @csrf_exempt
 def update_schedule(request, oldDay):
+    name = request.session['rname'] + " " + request.session['rbranch']
     res_name = request.session['rname']
     r_branch = request.session['rbranch']
 
@@ -65,6 +67,7 @@ def update_schedule(request, oldDay):
             "old_day" : oldDay,
             "old_open" : str(res["starthours"]),
             "old_close" : str(res["endhours"]),
+            'name' : name
         }
 
         print(oldValues["old_open"])
@@ -88,7 +91,7 @@ def delete_schedule(request, hari):
 
 @csrf_exempt
 def get_all_transaction(request):
-    
+    name = request.session['rname'] + " " + request.session['rbranch']
     res_name = request.session['rname']
     r_branch = request.session['rbranch']
     
@@ -97,12 +100,13 @@ def get_all_transaction(request):
     for i in res:
         i['datetime'] = str(i['datetime'])
 
-    context = {"total" : len(res), "list_pesanan": res}
+    context = {"total" : len(res), "list_pesanan": res, 'name' : name}
 
     return render(request, "list_pesanan.html", context)
 
 @csrf_exempt
 def get_transaction_detail(request):
+    name = request.session['rname'] + " " + request.session['rbranch']
     if request.method == "POST":
         email = request.POST["email"]
         time = request.POST["time"]
@@ -135,23 +139,26 @@ def get_transaction_detail(request):
             'restaurant': restaurant[0],
             'customer' : customer,
             'total_food_price': food_price
+            , 'name' : name
         }
 
         return render(request, "detail_pesanan.html", context)
 
 def get_ongoing_pesanan(request):
+    name = request.session['rname'] + " " + request.session['rbranch']
     res_name = request.session['rname']
     r_branch = request.session['rbranch']
     res = query(f"SELECT * FROM USER_ACC JOIN (SELECT * FROM TRANSACTION_HISTORY TH JOIN TRANSACTION_STATUS TS ON TH.TSid=TS.id WHERE TH.Email IN (SELECT Email FROM TRANSACTION_FOOD WHERE (RName, Rbranch) = ('{res_name}', '{r_branch}')) AND (TS.name ILIKE 'pending' OR TS.name ILIKE 'on%')) X USING(email)") 
     for i in res:
         i['datetime'] = str(i['datetime'])
 
-    context = {"total" : len(res), "list_pesanan": res}
+    context = {"total" : len(res), "list_pesanan": res, 'name' : name}
 
     return render(request, "ongoing_pesanan.html", context)
 
 @csrf_exempt
 def update_transaction(request):
+    name = request.session['rname'] + " " + request.session['rbranch']
     if request.method == 'POST':
         email = request.POST["email"]
         time = request.POST["time"]
@@ -179,18 +186,19 @@ def update_transaction(request):
 
 @csrf_exempt
 def get_promo_restoran(request):
-    
+    name = request.session['rname'] + " " + request.session['rbranch']
     res = query(f"SELECT P.PromoName, MTP.Id, SDP.Id FROM RESTAURANT_PROMO AS RP, PROMO AS P, MIN_TRANSACTION_PROMO AS MTP, SPECIAL_DAY_PROMO AS SDP WHERE RP.PId = P.Id AND RP.PId = MTP.Id AND RP.RName = 'Skynoodle' AND RP.RBranch = 'Glyburide';")
     
     for i in res:
         i['PId'] = str(i['PId'])
 
-    context = {"total" : len(res), "list_promo_restoran": res}
+    context = {"total" : len(res), "list_promo_restoran": res, 'name' : name}
 
     return render(request, "list_promo_restoran.html", context)
 
 @csrf_exempt
 def restoran_detail_hariSpesial(request):
+    name = request.session['rname'] + " " + request.session['rbranch']
     if request.method == "POST":
         RName = request.POST["RName"]
         RBranch = request.POST["RBranch"]
@@ -203,7 +211,8 @@ def restoran_detail_hariSpesial(request):
         context = {
             'restaurant_promo': restaurant_promo,
             'special_day_promo': special_day_promo,
-            'promo': promo,
+            'promo': promo
+            , 'name' : name
         }
 
         print(context)
@@ -211,6 +220,7 @@ def restoran_detail_hariSpesial(request):
 
 @csrf_exempt
 def restoran_detail_minTransaction(request):
+    name = request.session['rname'] + " " + request.session['rbranch']
     if request.method == "POST":
         RName = request.POST["RName"]
         RBranch = request.POST["RBranch"]
@@ -224,6 +234,7 @@ def restoran_detail_minTransaction(request):
             'restaurant_promo': restaurant_promo,
             'min_transaction_promo': min_transaction_promo,
             'promo': promo,
+            'name' : name
         }
 
         print(context)
