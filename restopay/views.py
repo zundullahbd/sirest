@@ -45,7 +45,7 @@ def add_restopay(request):
     username = request.session["username"];
     
     res = query(f"SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='{username}'")[0]
-    context['restopay'] = '{:,}'.format( res['restopay'])
+    context['balance'] = '{:,}'.format( res['restopay'])
     context['bank']  = res['bankname']
     context['account'] = res['accountno']
 
@@ -76,7 +76,7 @@ def withdraw_restopay(request):
     username = request.session["username"];
     
     res = query(f"SELECT RESTOPAY, bankname, accountno FROM TRANSACTION_ACTOR WHERE Email='{username}'")[0]
-    context['restopay'] = '{:,}'.format( res['restopay'])
+    context['balance'] = '{:,}'.format( res['restopay'])
     context['bank']  = res['bankname']
     context['account'] = res['accountno']
 
@@ -90,7 +90,7 @@ def withdraw_restopay(request):
     if(type(response) != list and response != 1 ):
         context["isNotValid"] = True
         context["message"] = "jumlah saldo tidak mencukupi."
-        context['restopay'] = '{:,}'.format( res['restopay'])
+        context['balance'] = '{:,}'.format( res['restopay'])
         return render(request, "tarik_restopay.html", context)
 
     return redirect("/restopay")
