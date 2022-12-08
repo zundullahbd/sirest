@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import login_required
 import datetime;
 
 def home(request):
-    return render(request, 'restoran.html')
+    name = request.session['rname'] + " " + request.session['rbranch']
+    return render(request, 'restoran.html', {'name': name})
 
 def cm(request):
     return render(request, "formMakanan.html")
