@@ -20,7 +20,19 @@ def pelangganHome(request):
                 where email ='{email}'""")[0]['nama']
     print(nama)
     forms['nama_navbar'] = nama
-    return render(request, 'pelanggan.html', {'nama':nama})
+
+    res = query(f"""SELECT * FROM user_acc ua 
+                    natural join transaction_actor ta 
+                    natural join customer c 
+                    where ua.email = '{email}'""")[0]
+    print(res)
+
+    if res['sex'] == 'F':
+        res['sex'] = 'Perempuan'
+    else:
+        res['sex'] = 'Laki-Laki'
+
+    return render(request, 'pelanggan.html', {'nama':nama, 'result':res})
 
 def dMenu(request):
     return render(request, "daftarMenu.html", {'nama':forms['nama_navbar']})
