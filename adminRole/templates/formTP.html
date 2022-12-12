@@ -36,31 +36,46 @@
         <h2 style="text-align: center;">Tambah Tarif Pengiriman per  KM</h2>
         <div class="card card-outline-secondary" style="margin: 50px">
             <div class="card-body">
-              <form autocomplete="off" class="form" role="form" style="padding: 30px;">
+              {% if valid == 0 %}
+                <p class="text-red-500" onLoad="noValid()">Input tidak boleh kosong</p>
+              {% endif %}
+              <form method="POST" style="padding: 30px;" action="/admin-resto/daftar-tarif-pengiriman/create/post/">
                 {% csrf_token %}
                 <div class="form-group row">
                   <label class="col-lg-3 col-form-label form-control-label">Provinsi</label>
                   <div class="col-lg-9">
-                    <input class="form-control" type="text">
+                    <input id="province" name ="province" class="form-control" type="text">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-lg-3 col-form-label form-control-label">Tarif Motor</label>
                   <div class="col-lg-9">
-                    <input class="form-control" type="text" >
+                    <input id="motorfee" name ="motorfee" class="form-control" type="text" >
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-lg-3 col-form-label form-control-label">Tarif Mobil</label>
                   <div class="col-lg-9">
-                    <input class="form-control" type="text" >
+                    <input id="carfee" name ="carfee" class="form-control" type="text" >
                   </div>
                 </div>
-                <a class="btn float-right btn-sm"  href="{% url 'adminRole:tarif-pengiriman' %}" style="background-color: black;color: white;"> Save</a>
-
+                {%if error %}
+                <p class="text-center text-red-500">{{message}}<p>
+                {% else %}
+                    <p class="text-center text-red-500">{{message}}<p>
+                {%endif%}
+                <input class="btn btn-primary" type="submit" value="Save" role="button" style="background-color: black;color: white;"></input>
               </form>
             </div>
         </div>
     </div>
    
+
+    <script>
+        function noValid(){
+          alert("Input tidak boleh kosong")
+        };
+      
+      </script>  
+      
 {% endblock %}

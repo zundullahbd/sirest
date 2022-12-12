@@ -9,7 +9,6 @@ import datetime;
 def get_session_data(request):
     if not verify(request):
         return {}
-
     try:
         return {"username": request.session["username"], "role": request.session["role"]}
     except:
@@ -21,7 +20,7 @@ def homepage(request):
 def login_form(request):
     if verify(request):
         if request.session["role"] == "admin":
-            return redirect("/admin")
+            return redirect("/admin-resto")
         elif request.session["role"] == "restoran":
             return redirect("/restoran")
         elif request.session["role"] == "kurir":
@@ -116,7 +115,7 @@ def login(request):
         else:   
             print('masuk')
             if role == "admin":
-                return redirect("/admin/")
+                return redirect("/admin-resto/")
             elif role == "restaurant":
                 res = query(f"SELECT * FROM restaurant WHERE EMAIL='{username}'")[0]
                 request.session['rname'] = res['rname']
@@ -131,6 +130,8 @@ def login(request):
 
 def login_view(request):
     if not verify(request):
+        return render(request, "login.html")
+    else:
         return render(request, "login.html")
 
 

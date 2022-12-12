@@ -89,17 +89,22 @@
                         <th>Aksi</th>
                       </tr>
                     </thead>
+                    {% for data in tarif %}
                     <tr>
-                        <td> 1 </td>
-                        <td>jakarta</td>
-                        <td>5000</td>
-                        <td>15000</td>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ data.province }}</td>
+                        <td>{{ data.motorfee }}</td>
+                        <td>{{ data.carfee }}</td>
                         <td> 
-                            <a class="btn btn-sm"  href="{% url 'adminRole:update-tarif-pengiriman' %}" style="background-color: black;color: white;"> Update</a>
-                            <a class="btn btn-sm" style="background-color: black;color: white;"> Delete </a>
+                            <div>
+                                <form method="POST" action="/admin-resto/daftar-tarif-pengiriman/delete/">
+                                <a class="btn btn-sm"  href="{% url 'adminRole:update-tarif-pengiriman' %}" style="background-color: black;color: white;"> Update</a>
+                                 <button class="btn btn-sm" name="id" value="{{data.id}}" type="submit" style="background-color: black;color: white;">Hapus</button>
+                                </form>
+                              </div>
                         </td>
-        
                     </tr>
+                    {%endfor%}
                     
                 </table>
                 
@@ -108,4 +113,11 @@
         </div>
         </div>
     
+        <script>
+
+            function deleteAction(param){
+                alert("Data berhasil dihapus");
+              };
+            
+            </script>
     {% endblock %}

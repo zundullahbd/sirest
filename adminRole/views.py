@@ -5,11 +5,42 @@ from utils.query import query
 from django.http.response import JsonResponse
 import uuid
 
-def ctp(request):
-    return render(request, "formTP.html")
+def get_all_tarif(request):
+    temp  = query("""select row_number() over() as "row", * from delivery_fee_per_km""")
+    context = {
+      'tarif' : temp,
+    }
+    print(temp)
+    return render(request, "daftarTP.html", context)
 
-def dtp(request):
-    return render(request, "daftarTP.html")
+def tarif_pengiriman(request, valid=1):
+    print("gagal")
+    return render(request, 'formTP.html', {'valid':valid})
+
+def add_tarif(request):
+    province = request.POST["province"]
+    motorfee = request.POST["motorfee"]
+    carfee = request.POST["carfee"]
+    print(province + " ini")
+
+    if province == '':
+        return tarif_pengiriman(request, 0)
+
+    print(province + " ini")
+    generate_id = uuid.uuid4()
+    hasil = str(generate_id)
+    id = hasil[0:6]
+    gid = "ZYX0{}".format(id)
+    quer = f"insert into delivery_fee_per_km values('{gid}','{province}','{motorfee}','{carfee}')"
+    temp = query(quer)
+    print(temp)
+    return get_all_tarif(request)
+
+@csrf_exempt  
+def delete_tarif(request):
+  id = request.POST['id']
+  res = query(f"DELETE FROM delivery_fee_per_km WHERE id='{id}'")
+  return get_all_tarif(request)
 
 def utp(request):
     return render(request, "updateTP.html")

@@ -13,8 +13,13 @@ def cm(request):
     return render(request, "formMakanan.html")
 
 def dm(request):
-    return render(request, "daftarMakanan.html")
-    
+    res_name = request.session['rname']
+    r_branch = request.session['rbranch']
+    res = query(f"SELECT * FROM FOOD F INNER JOIN FOOD_CATEGORY FC ON FC.ID = F.FCATEGORY WHERE rname='{res_name}' AND rbranch='{r_branch}' ")
+    ing =query(f"SELECT FI.FOODNAME, I.NAME FROM FOOD_INGREDIENTS FI, INGREDIENT I WHERE rname='{res_name}' AND rbranch='{r_branch}' AND FI.INGREDIENT = I.ID") 
+    print(ing)
+    return render(request, "daftarMakanan.html", {"ingredients" : ing,"menu" : res,'name': res_name + " " + r_branch})
+
 def um(request):
     return render(request, "updateMakanan.html")
 

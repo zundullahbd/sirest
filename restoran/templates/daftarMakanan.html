@@ -88,18 +88,23 @@
                               <th>Stok</th>
                               <th>Harga</th>
                               <th>Kategori Makanan</th>
-                              <th>Bahanan Makanan</th>
+                              <th>Bahan Makanan</th>
                               <th>Aksi</th>
                             </tr>
                           </thead>
+                          {% for data in menu %}
                           <tr>
-                              <td> 1 </td>
-                          <td> burger </td>
-                          <td> roti lapis patty daging</td>
-                          <td>50 </td>
-                          <td>55000</td>
-                          <td> karnivora </td>
-                          <td>sapi</td>
+                              <td> {{ forloop.counter }}</td>
+                          <td> {{ data.foodname }}</td>
+                          <td> {{ data.description}}</td>
+                          <td>{{ data.stock }}</td>
+                          <td> {{ data.price }} </td>
+                          <td>{{ data.name}}</td>
+                            {% for i in ingredients %}
+                                {% if data.foodname == i.foodname %}
+                                    <td>{{ i.name}}</td>
+                                {%endif%}
+                            {%endfor%}
                           <td> 
                               <div>
                                   <a class="btn btn-sm"  href="{% url 'restoran:update-makanan' %}" style="background-color: black;color: white;"> Update</a>
@@ -109,8 +114,8 @@
                                   <a class="btn btn-sm" style="background-color: black;color: white;"> Delete </a>
                               </div>
                           </td>
-              
                           </tr>
+                          {%endfor%}
                     
                 </table>
                 

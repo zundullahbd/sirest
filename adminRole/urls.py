@@ -6,8 +6,10 @@ from .views import *
 app_name = 'adminRole'
 
 urlpatterns = [
-    path('create-tarif-pengiriman/', views.ctp, name='tarif-pengiriman'),
-    path('daftar-tarif-pengiriman/', views.dtp, name='daftar-tarif-pengiriman'),
+    path('daftar-tarif-pengiriman/create/', tarif_pengiriman, name='tarif-pengiriman'),
+    path('daftar-tarif-pengiriman/create/post/', add_tarif, name='add-tarif-pengiriman'),
+    path('daftar-tarif-pengiriman/', get_all_tarif, name='daftar-tarif-pengiriman'),
+    path('daftar-tarif-pengiriman/delete/', delete_tarif, name="delete_fee"),
     path('update-tarif-pengiriman/', views.utp, name='update-tarif-pengiriman'),
     path('', views.dashAdmin, name='dashboard-admin'),
     path('detail-aktorTransaksi/', views.detailAktor, name='detail-aktor'),
@@ -25,6 +27,7 @@ urlpatterns = [
     path('bahan_makanan/buat/', add_bahan_makanan, name="add_bahan_makanan"),
     path('bahan_makanan/ubah/', update_bahan_makanan, name="update_bahan_makanan"),
     path('bahan_makanan/hapus/', delete_bahan_makanan, name="delete_bahan_makanan"),
+    
 
     # path('kategori_makanan/', get_all_kategori_makanan, name="get_all_kategori_makanan"),
     # path('kategori_makanan/buat/', add_kategori_makanan, name="add_kategori_makanan"),

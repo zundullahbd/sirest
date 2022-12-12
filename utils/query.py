@@ -30,7 +30,21 @@ def query(query_str: str):
     hasil = []
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
         cursor.execute("SET SEARCH_PATH TO SIREST")
-
+        cursor.execute("""CREATE OR REPLACE FUNCTION sirest.checktarif() RETURNS trigger
+        LANGUAGE plpgsql
+        AS $$
+        BEGIN
+            IF (NEW.motorfee >= NEW.carfee) THEN
+                RAISE EXCEPTION 'Tarif mobil harus lebih besar dari motor';
+            END IF;
+            IF (NEW.motorfee > 7000 OR NEW.motorfee < 2000 OR NEW.carfee > 7000 OR NEW.carfee < 2000) THEN 
+            RAISE EXCEPTION 'Tarif tidak sesuai dengan aturan';
+            END IF;
+            RETURN NEW;
+        END;
+        $$;""")
+        
+        
         try:
             cursor.execute(query_str)
 
