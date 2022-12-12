@@ -87,25 +87,44 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                            <tr>
-                                <td> 1 </td>
-                                <td> Indonesia </td>
-                            <tr>
-                                <td> 2 </td>
-                                <td> Jepang </td>
-                            <td>
-                              <div style="padding-top: 0px;">
-                                  <a class="btn btn-sm" href="/admin-resto/kategori_restoran/"style="background-color: black;color: white;"> Delete </a>
-                              </div>
-                          </td>
+                        {% for i in listKategoriRes %}
+                        <tr>
+                            <td> {{i.row}} </td>
+                            <td id="{{i.id}}">{{i.name}}</td>
+                            <td> 
+                              
+                            <div>
+                              <form method="POST" action="/admin-resto/kategori_restoran/delete/">
+                                {% if i.id not in listRestaurant %}
+                                  <button class="btn btn-sm" name="id" style="background-color: black;color: white;" value="{{i.id}}" type="submit"
+                                   onClick="deleteKategori(`{{i.id}}`)">Hapus</button>
+                                {% endif %}
+                              </form>
+                            </div>
+
+                            <!-- <div style="padding-top: 10px;">
+                                <a class="btn btn-sm" style="background-color: black;color: white;"> Delete </a>
+                            </div> -->
+                        </td>
+            
+                        </tr>
+                        {% endfor %}
+                  
+              </table>
               
-                          </tr>
-                    
-                </table>
-                
-              </div>
             </div>
-        </div>
-        </div>
-    
-    {% endblock %}
+          </div>
+      </div>
+  </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+function deleteKategori(param){
+  alert("Data berhasil dihapus");
+};
+
+</script>
+
+{% endblock %}

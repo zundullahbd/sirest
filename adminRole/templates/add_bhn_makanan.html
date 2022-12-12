@@ -43,19 +43,42 @@
   <h2 style="text-align: center;">Tambah Bahan Makanan</h2>
   <div class="card card-outline-secondary" style="margin: 50px">
       <div class="card-body">
-        <form autocomplete="off" class="form" role="form">
+        {% if valid == 0 %}
+          <p class="text-red-500" onLoad="noValid()">Input tidak boleh kosong</p>
+        {% endif %}
+        <form method="POST" action="/admin-resto/bahan_makanan/create/post/">
           {% csrf_token %}
-          <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label">Nama Bahan Makanan</label>
-            <div class="col-lg-9">
-              <input class="form-control" type="text">
+          <div class="form-group row flex justify-center">
+            <label class="col-lg-3 col-form-label form-control-label">Nama Kategori Restoran</label>
+            <div class="flex col-lg-9">
+              <input type="text" name="nama" placeholder="Masukkan Kategori" class="form-control">
             </div>
+          <!-- <p class="btn float-right btn-sm mt-10" style="background-color: black;color: white;" 
+                type="submit" name="submit" value="Simpan"/> -->
+                <button class="btn float-right btn-sm mt-10" style="background-color: black;color: white;"  
+                    onClick="submit()" type="submit">Simpan</button>
           </div>
-          <a class="btn float-right btn-sm"  href="/admin-resto/bahan_makanan/" style="background-color: black;color: white ;align-content: center;">Save</a>
         </form>
       </div>
   </div>
 </div>
-  
+</body>
 
-    {% endblock %}
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+// $(document).on("submit", "#kategori_makanan", function (e) {
+  function submit(){
+    alert("Data berhasil ditambahkan")
+  };
+
+  function noValid(){
+    alert("Input tidak boleh kosong")
+  };
+
+</script>  
+
+{% endblock %}
