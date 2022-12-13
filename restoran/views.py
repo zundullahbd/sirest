@@ -6,8 +6,42 @@ from django.contrib.auth.decorators import login_required
 import datetime;
 
 def home(request):
+    res_name = request.session['rname']
+    r_branch = request.session['rbranch']
     name = request.session['rname'] + " " + request.session['rbranch']
-    return render(request, 'restoran.html', {'name': name})
+    res = query(f"SELECT * FROM RESTAURANT WHERE RNAME = '{res_name}' AND rbranch='{r_branch}'")
+    email1 = query(f"SELECT email FROM RESTAURANT WHERE RNAME = '{res_name}' AND rbranch='{r_branch}'")
+    res1 = query(f"SELECT * FROM RESTAURANT_OPERATING_HOURS WHERE NAME = '{res_name}' AND branch='{r_branch}'")
+    email2 = email1[0].get("email")
+    print(email2)
+    res2 = query(f"SELECT * FROM USER_ACC WHERE EMAIL = '{email2}'")
+    nama_profil = res2[0].get("fname") + " " + res2[0].get("lname")
+    res3 = query(f"SELECT * FROM TRANSACTION_ACTOR WHERE email = '{email2}'")
+
+    context = {
+        'name': res_name + " " + r_branch,
+        'data_rest' : res,
+        'data_operasi' :res1,
+        'data_diri' : res2,
+        'transaksi' : res3,
+        'email2':email2,
+        'namaprofil' : nama_profil,
+        'phonenum': res2[0].get('phonenum'),
+        'nik': res3[0].get('nik'),
+        'bankname': res3[0].get('bankname'),
+        'accountno': res3[0].get('accountno'),
+        'rname' : res[0].get('rname'),
+        'rbranch' : res[0].get('rbranch'),
+        'rphonenum' : res[0].get('rphonenum'),
+        'street' : res[0].get('street'),
+        'district' : res[0].get('district'),
+        'city' : res[0].get('city'),
+        'province' : res[0].get('province'),
+        'rating' : res[0].get('rating'),
+        'rcategory' : res[0].get('rcategory'),
+    }
+
+    return render(request, 'restoran.html', context)
 
 def get_all_makanan(request):
     context = {}
@@ -27,18 +61,9 @@ def get_all_makanan(request):
     return render(request, "daftarMakanan.html", context)
 
 def menu_makanan(request, valid=1):
-    print("gagal")
-    fc  = query(f"select name from food_category")
-    ig = query(f"select name from ingredient")
-    context = {
-        'listKategori' : fc,
-        'listBahan' : ig,
-    }
-    return render(request, 'formMakanan.html',context)
-
-def add_makanan(request):
     res_name = request.session['rname']
     r_branch = request.session['rbranch']
+    print("gagal")
     fc  = query(f"select name from food_category")
     ig = query(f"select name from ingredient")
     context = {
@@ -46,25 +71,42 @@ def add_makanan(request):
         'listBahan' : ig,
         'name': res_name + " " + r_branch,
     }
+    return render(request, 'formMakanan.html',context)
+
+def add_makanan(request):
+    res_name = request.session['rname']
+    r_branch = request.session['rbranch']
+    fi = query(f"select * from food_ingredients")
+
+    context = {
+        'name': res_name + " " + r_branch,
+    }
     foodname = request.POST["foodname"]
     description = request.POST["description"]
     stock = request.POST["stock"]
     price = request.POST["price"]
     fcategory  = request.POST["fcategory"]
-    ingredient = request.POST["ingredient"]
+    ingredients = []
+    for ingredient in request.POST.getlist('ingredient'):
+        ingredients.append(ingredient)
+    print(ingredients)
 
     if  foodname == '':
         return menu_makanan(request, 0)
-    print(fcategory)
     quer1 = query(f"SELECT id FROM FOOD_CATEGORY WHERE name = '{fcategory}'")
-    print(quer1)
     hasil = quer1[0].get('id')
-    quer2 = query(f"SELECT id FROM INGREDIENT WHERE name = '{ingredient}'")
-    hasil1 = quer2[0].get('id')
-    print(hasil)
-    print(hasil1)
+    hasil_ing = []
+    for ing in ingredients:
+        quer = query(f"SELECT id FROM INGREDIENT WHERE name = '{ing}'")
+        id = quer[0].get('id')
+        hasil_ing.append(id)
+
     quer3 = query(f"insert into food values('{res_name}','{r_branch}','{foodname}','{description}','{stock}','{price}','{hasil}')")
-    quer4 = query(f"insert into food_ingredients values('{res_name}','{r_branch}','{foodname}','{hasil1}')")
+    for i in hasil_ing:
+        quer = f"insert into food_ingredients values('{res_name}','{r_branch}','{foodname}','{i}')"
+        temp = query(quer)
+        print(temp)
+    print(fi)
     return get_all_makanan(request)
 
 @csrf_exempt  
@@ -73,6 +115,10 @@ def delete_makanan(request):
     r_branch = request.session['rbranch']
     foodname= request.POST['foodname']
     print(foodname)
+    ingredients = []
+    for ingredient in request.POST.getlist('ingredient'):
+        ingredients.append(ingredient)
+        
     res = f"DELETE FROM FOOD_INGREDIENTS WHERE rname='{res_name}' AND rbranch = '{r_branch}' AND foodname = '{foodname}'"
     temp1 = query(res)
     #print(temp1)
@@ -81,31 +127,64 @@ def delete_makanan(request):
     #print(temp)
     return get_all_makanan(request)
 
-def um(request):
+def update_makanan(request, foodname):
+    print(foodname)
+    res_name = request.session['rname']
+    r_branch = request.session['rbranch']
+    context = {}
+    print(foodname)
     fc  = query(f"select name from food_category")
-    ig = query(f"select name from ingredient")
+    ig = query(f"select name from food_ingredients FI left join ingredient I on FI.ingredient = I.id where rname='{res_name}' AND rbranch = '{r_branch}' AND foodname = '{foodname}'")
+    bahan = query(f"select name from ingredient")
+    
+    print(ig)
+    hasil_ig = []
+    for i in range (len(ig)):
+        hasil_ig.append(ig[i].get('name'))
+
+    description = request.POST.get("description")
+    stock = request.POST.get("stock")
+    price = request.POST.get("price")
+    fcategory  = request.POST.get("fcategory")
+    
+    ingredients = []
+    for ingredient in request.POST.getlist('ingredient'):
+        ingredients.append(ingredient)
+    
+    rm = []
+    for ingredient in request.POST.getlist('ing'):
+        rm.append(ingredient)
+    print(rm)
+    print(ingredients)
     context = {
         'listKategori' : fc,
-        'listBahan' : ig,
+        'bahan' : bahan,
+        'foodname' : foodname,
+        'name': res_name + " " + r_branch,
+        'list' : hasil_ig
     }
 
+    quer1 = query(f"SELECT id FROM FOOD_CATEGORY WHERE name = '{fcategory}'")
+    
+    print(fcategory)
+    print(quer1)
+    hasil =""
+    for i in quer1:
+        hasil = i['id']
+    print(hasil)
+    quer = query(f"UPDATE FOOD SET description = '{description}', stock = '{stock}', fcategory = '{hasil} WHERE  foodname = '{foodname}' AND rname='{res_name}' AND rbranch = '{r_branch}'")
+     
+    
+    if len(ingredients) > 0:
+        for i in ingredients:
+            data = query(f"select id from ingredient where name = '{i}'")
+            data = data[0].get("id")
+            quer = query(f"INSERT INTO FOOD_INGREDIENTS VALUES ('{res_name}','{r_branch}','{foodname}','{data}')")
+            print(quer)
+    result = query(f"SELECT * FROM FOOD_INGREDIENTS WHERE rname='{res_name}' AND rbranch = '{r_branch}' AND foodname = '{foodname}'")
+    print(result)
     return render(request, "updateMakanan.html",context)
 
-def update_tarif(request, province):
-    context = {}
-    print(province)
-    motor = request.POST.get('motor')
-    car = request.POST.get('car')
-    print(motor)
-    quer = f"UPDATE delivery_fee_per_km SET motorfee = '{motor}', carfee = '{car}' WHERE  province = '{province}'"
-    temp = query(quer)
-    print(temp)
-
-    context = {
-        'provinsi' : province
-    }
-    
-    return render(request, "updateTP.html",context)
 def get_all_schedule(request):
     res_name = request.session['rname']
     r_branch = request.session['rbranch']

@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 import datetime;
 
 def kurirHome(request):
+    email = request.session['email']
+    print(email)
     return render(request, "kurir.html")
 
 def lihat_detail_pesanan(request):

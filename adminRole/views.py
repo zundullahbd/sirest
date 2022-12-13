@@ -6,6 +6,17 @@ from django.http.response import JsonResponse
 from django.http import HttpResponseRedirect
 import uuid
 
+def dashAdmin(request):
+    res = query(f"select TA.email, fname, lname,adminid from transaction_actor TA join user_acc U on TA.email = U.email")
+    res = sel
+
+
+    context = {
+        'aktor' : res,
+    } 
+    return render(request, "home.html",context)
+
+
 def dMenu(request, rname, rbranch):
     res = query(f"SELECT * FROM FOOD WHERE rname='{rname}' AND rbranch='{rbranch}' ")
     res = query(f"SELECT * FROM FOOD WHERE rname='{rname}' AND rbranch='{rbranch}' ")
@@ -106,9 +117,6 @@ def update_tarif(request, province):
     }
     
     return render(request, "updateTP.html",context)
-
-def dashAdmin(request):
-    return render(request, "home.html")
 
 def cp(request):
     return render(request, "createPromo.html")
