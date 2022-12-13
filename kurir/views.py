@@ -7,8 +7,8 @@ import datetime;
 from django.http import HttpResponse
 
 def kurirHome(request):
-    email = request.session['email']
-    print(email)
+    username = request.session['username']
+    print(username)
     return render(request, "kurir.html")
 
 #def kurirHome(request):
