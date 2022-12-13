@@ -4,6 +4,7 @@ from utils.query import query
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 import datetime;
+from django.http import HttpResponse
 
 def kurirHome(request):
     return render(request, "kurir.html")
@@ -15,5 +16,5 @@ def pesanan_terupdate(request):
     return render(request, "pesanan_terupdate.html")
 
 def list_pesananan_berlangsung(request):
-    return render(request, "list_pesanan_berlangsung.html")
+    temp = query("""select row_number() over() as "row", * from delivery_order where status = 'on process'""")
 
