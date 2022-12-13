@@ -8,6 +8,28 @@ from django.http import HttpResponse
 
 def kurirHome(request):
     return render(request, "kurir.html")
+#def kurirHome(request):
+    res = query(f"select * from courier where email = '{request.user.email}'")
+    res1 = query(f"select * from transaction_actor where email = '{request.user.email}'")
+    res2 = query(f"select * from user_acc uc where uc.email = '{request.user.email}'")
+    admid = query(f"select a.fname, a.lname from admin a, transaction_actor ta, user_acc uc where ta.email = '{request.user.email}' AND ta.admid = a.id AND uc.email = '{request.user.email}'")
+    context = {
+        'email' : res[0].get('email'),
+        'password' : res[0].get('password'),
+        'fname, lname' : res2[0].get('fname, lname'),
+        'phone' : res2[0].get('phone'),
+        'nik' :res1[0].get('nik'),
+        'bankname' : res1[0].get('bankname'),
+        'accountno' : res1[0].get('accountno'),
+        'platenum' : res[0].get('platenum'),
+        'drivinglicensenum' : res[0].get('drivinglicensenum'),
+        'vehicletype' : res[0].get('vehicletype'),
+        'vehiclebrand' : res[0].get('vehiclebrand'),
+        'verification' : admid[0].get('fname, lname'),
+        'restopay' : res[0].get('restopay'),
+    }
+    return render(request, "kurir.html", context)
+
 
 def lihat_detail_pesanan(request):
     return render(request, "detail_pesanan_berlangsung.html")
@@ -65,3 +87,5 @@ def detailRestauran(request,rname, rbranch):
         'cat' : res3,
     }
     return render(request, "detailRestauran.html",context)
+
+

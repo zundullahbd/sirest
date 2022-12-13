@@ -178,16 +178,25 @@ def register_admin(request):
 
 @csrf_exempt            
 def register_kurir(request):
+    cont = {}
     if request.method != "POST":
         return render(request, 'form_register_kurir.html')
     else:
-        nama = str(request.POST["nama"])
-        email = str(request.POST["email"])
-        password = str(request.POST["password"])
-        no_telp = str(request.POST["no_telp"])
-        alamat = str(request.POST["alamat"])
-        if not nama or not email or not password or not no_telp or not alamat:
-            return render(request, 'form_register_kurir.html')
-        else:
-            query(f"INSERT INTO COURIER (NAMA, EMAIL, PASSWORD, NO_TELP, ALAMAT) VALUES ('{nama}', '{email}', '{password}', '{no_telp}', '{alamat}')")
-            return redirect("/auth/login")
+        email = request.POST.get("kurirEmailInput")
+        password = request.POST.get("kurirPasswordInput")
+        nama = request.POST.get("kurirNamaInput")
+        no_telp = request.POST.get("kurirNoHPInput")
+        nik = request.POST.get("kurirNIKInput")
+        bank = request.POST.get("kurirBankInput")
+        norek = request.POST.get("kurirRekInput")
+        plat = request.POST.get("kurirPlatInput")
+        nosim = request.POST.get("kurirSIMInput")
+        kendaraan = request.POST.get("kurirKendaraanInput")
+        merk = request.POST.get("kurirMerkInput")
+        if not email or not password or not nama or not no_telp or not nik or not bank or not norek or not plat or not nosim or not kendaraan or not merk:
+            cont["berhasil"] = True
+            return render(request, "form_register_kurir.html", cont)
+        query(f"INSERT INTO courier VALUES ('{email}', '{password}', '{nama}', '{no_telp}', '{nik}', '{bank}', '{norek}', '{plat}', '{nosim}', '{kendaraan}', '{merk}')")
+        return redirect("/kurir/")
+
+    

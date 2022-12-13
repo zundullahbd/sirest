@@ -54,7 +54,7 @@ def dRestauran(request):
     res = query(f"select * from restaurant")
     context = {
         'listRestauran' : res,
-        'nama':forms['nama_navbar']
+        #'nama':forms['nama_navbar']
     }
     return render(request, "daftarRestauran.html", context)
 
