@@ -194,7 +194,7 @@ def get_all_kategori_restoran(request):
     return render(request, 'kategori_restoran.html', context)
 
 
-
+@csrf_exempt
 def add_kategori_restoran(request):
     name = request.POST.get("nama")
     
@@ -213,6 +213,7 @@ def delete_kategori_restoran(request):
     res = query(f"DELETE FROM restaurant_category WHERE id='{id}'")
     return HttpResponseRedirect('/admin-resto/kategori_restoran/read/')
 
+@csrf_exempt
 def kategori_restoran(request, valid=1):
     return render(request, "add_kategori_res.html", {'valid': valid})
 
@@ -264,6 +265,7 @@ def delete_kategori_makanan(request):
   res = query(f"DELETE FROM FOOD_CATEGORY WHERE id='{id}'")
   return get_all_kategori_makanan(request)
 
+
 def get_all_bahan_makanan(request):
     temp = query("""select row_number() over() as "row", * from ingredient""")
     fid = query("select ingredient from food_ingredients")
@@ -284,9 +286,11 @@ def get_all_bahan_makanan(request):
     }
     return render(request, 'list_bahan_makanan.html', context)
 
+@csrf_exempt
 def bahan_makanan(request, valid=1):
     return render(request, "add_bhn_makanan.html", {'valid':valid})
 
+@csrf_exempt
 def add_bahan_makanan(request):
     name = request.POST.get("nama")
     if name == '':
