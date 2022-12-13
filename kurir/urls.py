@@ -13,4 +13,5 @@ urlpatterns = [
     path('daftar-restauran/', views.dRestauran, name='daftar-restauran'),
     path('daftar-restauran/<str:rname>/<str:rbranch>/detail/', detailRestauran, name='detail-restoran'),
     path('daftar-restauran/<str:rname>/<str:rbranch>/menu/', views.dMenu, name='dMenu'),
+    path('kurir-riwayat_pesanan/', riwayat_pesanan_kurir, name='riwayat_pesanan_kurir'),
 ]

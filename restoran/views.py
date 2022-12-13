@@ -328,3 +328,5 @@ def restoran_detail_minTransaction(request):
         print(context)
         return render(request, "restoranDetailMinTransaction.html", context)
         
+def riwayat_pesanan_restoran(request):
+    return render(request, 'riwayat_pesanan_restoran.html')

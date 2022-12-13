@@ -65,3 +65,6 @@ def detailRestauran(request,rname, rbranch):
         'cat' : res3,
     }
     return render(request, "detailRestauran.html",context)
+
+def riwayat_pesanan_kurir(request):
+    return render(request, 'riwayat_pesanan_kurir.html')
