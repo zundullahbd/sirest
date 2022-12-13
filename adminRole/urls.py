@@ -19,6 +19,7 @@ urlpatterns = [
     path('promo/', get_promo, name="get_promo"),
     path('promo/detail-hari-spesial', get_detail_hariSpesial, name="get_detail_hariSpesial"),
     path('promo/detail-min-transaction', get_detail_minTransaction, name="get_detail_minTransaction"),
+<<<<<<< HEAD
     path('kategori_restoran/', get_all_kategori_restoran, name="get_all_kategori_restoran"),
     path('kategori_restoran/buat/', add_kategori_restoran, name="add_kategori_restoran"),
     path('kategori_restoran/ubah/', update_kategori_restoran, name="update_kategori_restoran"),
@@ -30,6 +31,18 @@ urlpatterns = [
     path('daftar-restauran/', views.dRestauran, name='daftar-restauran'),
     path('daftar-restauran/<str:rname>/<str:rbranch>/detail/', detailRestauran, name='detail-restoran'),
     path('daftar-restauran/<str:rname>/<str:rbranch>/menu/', views.dMenu, name='dMenu'),
+=======
+    path('kategori_restoran/read/', get_all_kategori_restoran, name="get_all_kategori_restoran"),
+    path('kategori_restoran/create/post/', add_kategori_restoran, name="add_kategori_restoran"),
+    path('kategori_restoran/delete/', delete_kategori_restoran, name="delete_kategori_restoran"),
+    path('kategori_restoran/create/', kategori_restoran, name="kategori_restoran"),
+    path('bahan_makanan/read/', get_all_bahan_makanan, name="get_all_bahan_makanan"),
+    path('bahan_makanan/create/post/', add_bahan_makanan, name="add_bahan_makanan"),
+    path('bahan_makanan/delete/', delete_bahan_makanan, name="delete_bahan_makanan"),
+    path('bahan_makanan/create/', bahan_makanan, name="bahan_makanan"),
+    
+
+>>>>>>> 11ed5ad0e349051e30e6e3391cfea5f1a7e335bc
     # path('kategori_makanan/', get_all_kategori_makanan, name="get_all_kategori_makanan"),
     # path('kategori_makanan/buat/', add_kategori_makanan, name="add_kategori_makanan"),
     # path('kategori_makanan/hapus/', delete_kategori_makanan, name="delete_kategori_makanan"),

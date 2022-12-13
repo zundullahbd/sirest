@@ -3,6 +3,7 @@ from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
 from utils.query import query
 from django.http.response import JsonResponse
+from django.http import HttpResponseRedirect
 import uuid
 
 def dMenu(request, rname, rbranch):
@@ -174,38 +175,46 @@ def get_detail_minTransaction(request):
         return render(request, "detail_promoMinTransaction.html", context)
 
 def get_all_kategori_restoran(request):
-    if request.method == "POST":
-        id = request.POST["id"]
-        name = request.POST["name"]
+    temp = query("""select row_number() over() as "row", * from restaurant_category""")
+    rcid = query("select rcategory from restaurant")
+    rcname = query('select name from restaurant_category')
 
-        result = query(f"SELECT * FROM RESTAURANT_CATEGORY")
-        context = {"total" : len(result), "kategori_restoran": result}
-        return render(request, "kategori_restoran.html", context)
-    return render(request, "kategori_restoran.html")
+    restaurant_category = []
+    for a in rcname:
+        restaurant_category.append(a['name'])
+    
+    restaurant = []
+    for a in rcid:
+        restaurant.append(a['rcategory'])
+    
+    context = {
+        'listKategoriRes' : temp,
+        'listRestaurant' : restaurant,
+    }
+    return render(request, 'kategori_restoran.html', context)
+
+
 
 def add_kategori_restoran(request):
-    if request.method == "POST":
-        id = request.POST["id"]
-        name = request.POST["name"]
-        query(f"INSERT INTO RESTAURANT_CATEGORY VALUES ('{id}', '{name}')")
-        return redirect('admin-resto/kategori_restoran/')
-    return render(request, "add_kategori_res.html")
+    name = request.POST.get("nama")
+    
+    if name == '':
+        return kategori_restoran(request, 0)
+    id = uuid.uuid1()
+    print(name, str(id))
+    queryres = f"INSERT INTO restaurant_category VALUES('{str(id)[:20]}','{name}')"
+    temp = query(queryres)
 
-def update_kategori_restoran(request):
-    if request.method == "POST":
-        id = request.POST["id"]
-        name = request.POST["name"]
-        query(f"UPDATE RESTAURANT_CATEGORY SET name='{name}' WHERE id='{id}'")
-        return redirect('/kategori_restoran')
-    return render(request, "update_kategori_res.html")
+    return HttpResponseRedirect('/admin-resto/kategori_restoran/read/')
 
+@csrf_exempt
 def delete_kategori_restoran(request):
-    if request.method == "POST":
-        id = request.POST["id"]
-        query(f"DELETE FROM RESTAURANT_CATEGORY WHERE id='{id}'")
-        return redirect('/kategori_restoran')
-    return render(request, "delete_kategori_restoran.html")
+    id = request.POST['id']
+    res = query(f"DELETE FROM restaurant_category WHERE id='{id}'")
+    return HttpResponseRedirect('/admin-resto/kategori_restoran/read/')
 
+def kategori_restoran(request, valid=1):
+    return render(request, "add_kategori_res.html", {'valid': valid})
 
 # bryan DONE
 def get_all_kategori_makanan(request):
@@ -256,44 +265,41 @@ def delete_kategori_makanan(request):
   return get_all_kategori_makanan(request)
 
 def get_all_bahan_makanan(request):
-    if request.method == "POST":
-        rname = request.POST['rname']
-        rbranch = request.POST['rbranch']
-        result = query(f"SELECT * FROM FOOD WHERE (Rname, Rbranch) = ('{rname}', '{rbranch}')")
-        context = {"total" : len(result), "list_bahan_makanan": result}
-        return render(request, "list_bahan_makanan.html", context)
-    return render(request, "list_bahan_makanan.html")
+    temp = query("""select row_number() over() as "row", * from ingredient""")
+    fid = query("select ingredient from food_ingredients")
+    finame = query('select name from ingredient')
+    print(fid)
 
+    ingredient = []
+    for i in finame:
+        ingredient.append(i['name'])
+
+    food_ingredient = []
+    for i in fid:
+        food_ingredient.append(i['ingredient'])
+    
+    context = {
+        'listBahanMakanan' : temp,
+        'listFoodIngredient' : food_ingredient,
+    }
+    return render(request, 'list_bahan_makanan.html', context)
+
+def bahan_makanan(request, valid=1):
+    return render(request, "add_bhn_makanan.html", {'valid':valid})
 
 def add_bahan_makanan(request):
-    if request.method == "POST":
-        rname = request.POST["rname"]
-        rbranch = request.POST["rbranch"]
-        foodname = request.POST["foodname"]
-        ingredient = request.POST["ingredient"]
-        
-        query(f"INSERT INTO FOOD VALUES ('{rname}', '{rbranch}', '{foodname}', '{ingredient}')")
-        return redirect('/bahan_makanan/')
-    return render(request, "add_bhn_makanan.html")
+    name = request.POST.get("nama")
+    if name == '':
+        return bahan_makanan(request, 0)
+    id = uuid.uuid1()
+    print(name, str(id))
+    queryres = f"INSERT INTO ingredient VALUES('{str(id)[:20]}','{name}')"
+    temp = query(queryres)
 
+    return HttpResponseRedirect('/admin-resto/bahan_makanan/read/')
 
-def update_bahan_makanan(request):
-    if request.method == "POST":
-        rname = request.POST["rname"]
-        rbranch = request.POST["rbranch"]
-        foodname = request.POST["foodname"]
-        ingredient = request.POST["ingredient"]
-        
-        query(f"UPDATE FOOD SET ingredient='{ingredient}' WHERE (Rname, Rbranch, foodname) = ('{rname}', '{rbranch}', '{foodname}')")
-        return redirect('/bahan_makanan/')
-    return render(request, "update_bahan_makanan.html")
-
+@csrf_exempt
 def delete_bahan_makanan(request):
-    if request.method == "POST":
-        rname = request.POST["rname"]
-        rbranch = request.POST["rbranch"]
-        foodname = request.POST["foodname"]
-        
-        query(f"DELETE FROM FOOD WHERE (Rname, Rbranch, foodname) = ('{rname}', '{rbranch}', '{foodname}')")
-        return redirect('/admin-role/bahan_makanan')
-    return render(request, "delete_bahan_makanan.html")
+    id = request.POST['id']
+    res = query(f"DELETE FROM ingredient WHERE id='{id}'")
+    return HttpResponseRedirect('/admin-resto/bahan_makanan/read/')
