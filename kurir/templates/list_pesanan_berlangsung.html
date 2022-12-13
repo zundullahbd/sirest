@@ -83,32 +83,33 @@
                         <thead>
                             <tr >
                               <th>No</th>
-                              <th>Restoran -Cabang</th>
+                              <th>Restoran - Cabang</th>
                               <th>Nama Pelanggan</th>
                               <th>Waktu Pesanan Dibuat</th>
                               <th>Status Pesanan</th>
                               <th>Aksi</th>
                             </tr>
                           </thead>
+                          {% for pesanan in listPesanan %}
                           <tr>
-                              <td> 1 </td>
-                              <td>MCD - Margonda</td>
-                              <td>Gol D. Roger</td>
-                              <td>2022-11-04 11:30:05</td>
-                              <td>Pesanan Diantar</td>
+                              <td>{{ pesanan.row }} </td>
+                              <td>{{ pesanan.rname }} - {{ pesanan.rbranch }}</td>
+                              <td>{{ pesanan.fname }} {{ pesanan.lname }}</td>
+                              <td>{{ pesanan.datetime }}</td>
+                              <td>{{ pesanan.name }}</td>
 
                           <td> 
                               <div>
-                                  <a class="btn btn-sm"  href="/kurir/detail_pesanan_berlangsung/" style="background-color: black;color: white;"> Detail </a>
+                                  <a class="btn btn-sm"  onclick="location.href ='/kurir/detail_pesanan_berlangsung/{{ pesanan.id }}/detail/'" style="background-color: black;color: white;"> Detail </a>
                               </div>
       
                               <div style="padding-top: 10px;">
-                                  <a class="btn btn-sm" href="/kurir/list_pesanan_berlangsung/" style="background-color: black;color: white;"> Selesai </a>
+                                  <a class="btn btn-sm" href="#" style="background-color: black;color: white;"> Selesai </a>
                               </div>
                           </td>
               
                           </tr>
-                    
+                          {% endfor %}
                 </table>
                 
               </div>

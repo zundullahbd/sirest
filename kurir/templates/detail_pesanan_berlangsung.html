@@ -32,15 +32,15 @@
 
 </head>
 <body>
+    {% csrf_token %}
     <h2 class="text-3xl font-bold text-center text-Black-800 mb-20">Detail Pesanan<h2>
            
         <div class="w-full flex flex-col gap-y-5">
-
-            <h4 class="text=base font-semibold">Waktu Pemesanan: <span class="font-normal">2022-11-04 11:30:05</span></h4>
+            <h4 class="text=base font-semibold">Waktu Pemesanan: <span class="font-normal">{{datetime}}</span></h4>
             
             <div class="w-full flex flex-col">
                 
-                <h4 class="text=base font-semibold">Nama Pelanggan: <span class="font-normal">Gol D. Roger</span></h4>
+                <h4 class="text=base font-semibold">Nama Pelanggan: <span class="font-normal">{{fname}} {{lname}}</span></h4>
                 <h4 class="text=base font-semibold">Jalan: <span class="font-normal">Jalan H. Amat No. 58</span></h4>
                 <h4 class="text=base font-semibold">Kecamatan: <span class="font-normal">Beji</span></h4>
                 <h4 class="text=base font-semibold">Kota: <span class="font-normal">Depok</span></h4>

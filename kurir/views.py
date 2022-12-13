@@ -83,10 +83,53 @@ def riwayat_pesanan(request):
     return render(request, "riwayat_pesanan.html")
 
 def list_pesanan_berlangsung(request):
-    return render(request, "list_pesanan_berlangsung.html")
+    temp = query("""select row_number() over() as "row", TF.rname, TF.rbranch, TF.datetime, UC.fname, UC.lname, TS.name, TS.id
+                    from transaction_food tf, transaction_status ts, transaction_history th, transaction t, user_acc uc, transaction_actor ta, customer c
+                    where th.tsid = ts.id and tf.email = t.email and th.email = t.email and t.email = c.email
+                    and c.email = ta.email and ta.email = uc.email and ts.name = 'on process'""")   
+    context = {
+        'listPesanan' : temp,
+        
+    }
+    return render(request, "list_pesanan_berlangsung.html", context)
 
-def detail_pesanan_berlangsung(request):
-    return render(request, "detail_pesanan_berlangsung.html")
+
+def detail_pesanan_berlangsung(request, id):
+    temp = query(f"select * from transaction_status where id = '{id}'")
+    temp1 = query(f"select * from transaction_history where tsid = '{id}'")
+    temp2 = query(f"select tf.foodname, tf.amount, tf.note from transaction_food tf, transaction_history th where th.email = tf.email and th.tsid = '{id}'")
+    temp3 = query(f"select uc.fname, uc.lname, t.street, t.district, t.city, t.province from transaction t, transaction_actor ta, customer c , user_acc uc where t.email = ta.email and ta.email = c.email and t.email = '{temp1[0].get('email')}' and c.email = uc.email")
+    #temp4 = query(f"select r.rname, r.rbranch, r.street, r.district, r.city, r.province  from transaction t, transaction_actor ta, restaurant r, user_acc uc, transaction_history th where t.email = ta.email and ta.email = r.email and t.email = '{temp1[0].get('email')}' and r.email = uc.email and t.email = th.email")
+    temp5 = query(f"select t.totalprice, ps.name, t.totaldiscount, t.deliveryfee from transaction t, delivery_fee_per_km dfpk, payment_status ps where t.email = '{temp1[0].get('email')}' and t.psid = ps.id and t.dfid = dfpk.id")
+    temp6 = query(f"select pm.name from transaction t, payment_method pm where t.email = '{temp1[0].get('email')}' and t.pmid = pm.id")
+    context = {
+        'status' : temp[0].get('name'),
+        'datetime' : temp1[0].get('datetime'),
+        'fname' : temp3[0].get('fname'),
+        'lname' : temp3[0].get('lname'),
+       
+        
+        'foodname' : temp2[0].get('foodname'),
+        'amount' : temp2[0].get('amount'),
+        'note' : temp2[0].get('note'),
+        'totalprice' : temp5[0].get('totalprice'),
+        'paymentstatus' : temp5[0].get('name'),
+        'paymentmethod' : temp5[0].get('paymentmethod'),
+        'deliveryfee' : temp5[0].get('deliveryfee'),
+        'totaldiscount' : temp5[0].get('totaldiscount'),
+        'custstreet' : temp3[0].get('street'),
+        'custdistrict' : temp3[0].get('district'),
+        'custcity' : temp3[0].get('city'),
+        'custprovince' : temp3[0].get('province'),
+        
+        
+    
+        'paymentmethod' : temp6[0].get('name')
+    }
+    return render(request, "detail_pesanan_berlangsung.html", context)
+
+
+
 
 
 
