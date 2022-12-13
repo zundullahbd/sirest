@@ -115,13 +115,40 @@ def update_tarif(request, province):
     
     return render(request, "updateTP.html",context)
 
+@csrf_exempt
 def cp(request):
-    return render(request, "createPromo.html")
+    email = request.session['email']
+
+    res = query(f"SELECT * FROM PROMO")
+
+
+    if request.method != "POST":
+
+        return render(request, "createPromo.html")
+
+    p_min_transaksi = request.POST["p_min_transaksi"]
+    p_hari_spesial = request.POST["p_hari_spesial"]
+
+    return redirect("create-promo/min-transaksi.")
 
 def fmt(request):
+    res = query(f"SELECT P.PromoName, MTP.Id, SDP.Id FROM RESTAURANT_PROMO AS RP, PROMO AS P, MIN_TRANSACTION_PROMO AS MTP, SPECIAL_DAY_PROMO AS SDP WHERE RP.PId = P.Id AND RP.PId = MTP.Id AND RP.RName = 'Skynoodle' AND RP.RBranch = 'Glyburide';")
+    
+    for i in res:
+        i['PId'] = str(i['PId'])
+
+    context = {"total" : len(res), "list_promo": res}
+
     return render(request, "form_min_transaksi.html")
 
 def fhs(request):
+    res = query(f"SELECT P.PromoName, MTP.Id, SDP.Id FROM RESTAURANT_PROMO AS RP, PROMO AS P, MIN_TRANSACTION_PROMO AS MTP, SPECIAL_DAY_PROMO AS SDP WHERE RP.PId = P.Id AND RP.PId = MTP.Id AND RP.RName = 'Skynoodle' AND RP.RBranch = 'Glyburide';")
+    
+    for i in res:
+        i['PId'] = str(i['PId'])
+
+    context = {"total" : len(res), "list_promo": res}
+
     return render(request, "form_hari_spesial.html")
 
 def detailAktor(request):
