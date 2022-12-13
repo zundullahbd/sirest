@@ -31,6 +31,7 @@
             color: white;
         }
         
+        
     </style>
 </head>
 <body>
@@ -38,72 +39,90 @@
         <h2 style="text-align: center;">Update Data Makanan</h2>
         <div class="card card-outline-secondary" style="margin: 50px;" >
             <div class="card-body">
-              <form autocomplete="off" class="form" role="form" style="padding-top: 30px;">
+              <form method="POST" style="padding: 30px;">
                 {% csrf_token %}
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Nama Makanan</label>
-                    <div class="col-lg-9">
-                      <h8> Burger</h8>
-                    </div>
+                  <label class="col-lg-3 col-form-label form-control-label">Nama Makanan</label>
+                  <div class="col-lg-9">
+                    {{ foodname }}
                   </div>
-                  <div class="form-group row">
+                </div>
+                <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Deskripsi</label>
                     <div class="col-lg-9">
-                      <input class="form-control" type="text">
+                      <input id="description" name ="description" class="form-control" type="text">
                     </div>
-                  </div>
-                  <div class="form-group row">
+                </div>
+                <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Stok</label>
                     <div class="col-lg-9">
-                      <input class="form-control" type="text">
+                      <input id="stock" name ="stock" class="form-control" type="text">
                     </div>
-                  </div>
-                  <div class="form-group row">
-                      <label class="col-lg-3 col-form-label form-control-label">Harga</label>
-                      <div class="col-lg-9">
-                          <input class="form-control" type="text">
-                      </div>
-                  </div>
-                  <div class="form-group row">
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Harga</label>
+                    <div class="col-lg-9">
+                      <input id="price" name ="price" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Kategori Makanan</label>
                     <div class="col-lg-9">
-                        <select class="custom-select" id="inputGroupSelect01">
+                        <select class="custom-select" id="fcategory" name ="fcategory">
                           {% for data in listKategori %}
-                            <option id="fcategory" name ="fcategory" value="1">{{data.name}}</option>
+                            <option id="fcategory" name ="fcategory">{{data.name}}</option>
                           {% endfor %}
                         </select>
                     </div>
                 </div>
-                  <div class="form-group row">
+                <div class = "input-wrapper">
+                  <div class="form-group row" id="ingredient" name ="ingredient">
                       <label class="col-lg-3 col-form-label form-control-label">Bahan Makanan</label>
                       <div class="col-lg-9">
                           <div class="row justify-content-md-left">
-                              <div class="col col-lg-2">
-                                  <h8>sapi</h8>
-                              </div>
-                              <div class="col-md-auto">
-                                  <input class="btn float-center btn-sm" type="reset" value="-">
-                              </div>
-                              
+                            {% for i in list %}
+                                <div class="col col-lg-2"  id="ing" name ="ing">
+                                  <a id="ing" name ="ing"> {{ i }}</a>
+                                  <input class="remove_field btn btn-sm" type="submit" value="remove" role="button" style="background-color: black;color: white; display: inline-flex;"></input>
+                                </div>
+                              {% endfor %}
                           </div>
                       </div>
                   </div>
-                  <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                    <div class="col-lg-9">
-                        <div class="row justify-content-md-left">
-                            <div class="col col-lg-2">
-                                <input class="btn float-center btn-sm" type="reset" value="+">
-                            </div>
-                            
-                        </div>
-                    </div>
                 </div>
-
-                <a class="btn float-right btn-sm"  href="{% url 'restoran:daftar-menu-makanan' %}" style="background-color: black;color: white; font-size: 14px;"> Save</a>
+                <input class="add_field btn btn-primary" type="submit" value="Add" role="button" style="background-color: black;color: white;"></input>
+                <input class="btn btn-primary" href="{% url 'restoran:daftar-menu-makanan' %}" type="submit" value="Save" role="button" style="background-color: black;color: white;"></input>
               </form>
+
             </div>
         </div>
     </div>
 
+
+    <script>
+      function noValid(){
+        alert("Input tidak boleh kosong")
+      };
+
+      
+
+      $(document).ready(function() {
+        var wrapper = $(".input-wrapper");
+        var add_field = $(".add_field");
+        var list_id = []
+        $(add_field).click(function(e){
+          e.preventDefault();
+            $(wrapper).append('<div class="form-group row"><label class="col-lg-3 col-form-label form-control-label">Bahan Makanan</label> <div  class=" col-lg-9"><select class="custom-select" id="ingredient" name ="ingredient">{% for i in bahan %} <option id="ingredient" name ="ingredient">{{i.name}}</option>{% endfor %}</select> </div></div>')
+          });
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+          e.preventDefault(); 
+          $(this).parent('div').remove(); 
+          })
+
+      });
+    
+    </script>  
+    
     {% endblock %}
+
+ 

@@ -7,6 +7,8 @@ import datetime;
 from django.http import HttpResponse
 
 def kurirHome(request):
+    username = request.session['username']
+    print(username)
     return render(request, "kurir.html")
 
 #def kurirHome(request):
@@ -131,5 +133,7 @@ def detail_pesanan_berlangsung(request, id):
 
 
 
+def riwayat_pesanan_kurir(request):
+    return render(request, 'riwayat_pesanan_kurir.html')
 
 

@@ -128,7 +128,7 @@
 </div>
 
 <div class="container" style="width: 100%; padding: 30px;">
-  <h2 style="text-align: center;">Daftar Tarif per Pengiriman</h2>
+  <h2 style="text-align: center;">Daftar Aktor Transaksi</h2>
   <div class="card mb-5" style="margin:3vw; ">
       <div class="card-body">
           <div class="table-responsive">
@@ -143,18 +143,25 @@
                   <th>Aksi</th>
                 </tr>
               </thead>
-              <tr>
-                  <td> 1 </td>
-                  <td>jakarta</td>
-                  <td>5000</td>
-                  <td>15000</td>
-                  <td>15000</td>
+                {% for data in aktor %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ data.email }}</td>
+                  <td>{{ data.fname }}  {{ data.lname }}</td>
+                  <td>
+                      -
+                  </td>
+                  {% if data.adminid != ''%}
+                        <td>Status Terverifikasi</td>
+                  {% else %}
+                        <td>Status Tidak Terverifikasi</td>
+                  {% endif %}
                   <td> 
                       <a class="btn btn-sm"  href="{% url 'adminRole:detail-aktor' %}" style="background-color: black;color: white;"> Detail</a>
                       <a class="btn btn-sm" style="background-color: black;color: white;"> Verifikasi </a>
                   </td>
-  
-              </tr>
+                </tr>
+                {% endfor %}
               
           </table>
           

@@ -105,15 +105,17 @@
                                     <td>{{ i.name}}</td>
                                 {%endif%}
                             {%endfor%}
+                            <td>
                             {% for i in ingredients %}
                                 {% if data.foodname == i.foodname %}
-                                    <td>{{ i.name}}</td>
+                                    {{ i.name}}
                                 {%endif%}
                             {%endfor%}
+                            </td>
                           <td> 
                                 <div>
                                     <form method="POST" action="/restoran/menu/delete/">
-                                        <a class="btn btn-sm"  href="{% url 'restoran:update-menu' %}" style="background-color: black;color: white;"> Update</a>
+                                        <a class="btn btn-sm"  onclick="location.href ='/restoran/menu/{{ data.foodname }}/'"  style="background-color: black;color: white;"> Update</a>
                                         <button class="btn btn-sm" name="foodname" value="{{data.foodname}}" type="submit" style="background-color: black;color: white;">Hapus</button>
                                     </form>
                                 </div>

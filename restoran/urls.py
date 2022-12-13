@@ -19,7 +19,8 @@ urlpatterns = [
     path('menu/create/post/', add_makanan, name='add-makanan'),
     path('menu/', get_all_makanan, name='daftar-menu-makanan'),
     path('menu/delete/', delete_makanan, name="delete_makanan"),
-    path('menu/update', um, name='update-menu'),
-    path('restoran-riwayat_pesanan/', riwayat_pesanan_restoran, name='riwayat_pesanan_restoran')  
+    path('menu/<str:foodname>/', update_makanan, name="update-makanan"),
+    path('restoran-riwayat_pesanan/', riwayat_pesanan_restoran, name='riwayat_pesanan_restoran') 
+     
 ]
 
