@@ -265,7 +265,7 @@ def register_pelanggan(request):
         isValid = nama and email and password and no_telp and nik and bank and rekening and birth and sex
 
         if not isValid:
-            return render(request, 'form_register_kurir.html')
+            return render(request, 'form_register_pelanggan.html')
         else:
             a = query(f"INSERT INTO user_acc VALUES ('{email}', '{password}', '{no_telp}', '{fname}', '{lname}')")
             print(a)
