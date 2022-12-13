@@ -14,6 +14,7 @@ notes = {}
 notes_value = {}
 res_filter_final = []
 
+
 def pelangganHome(request):
     email = request.session['username']
     nama = query(f"""select fname || ' ' || lname as nama from user_acc ua 
@@ -31,17 +32,61 @@ def pelangganHome(request):
         res['sex'] = 'Perempuan'
     else:
         res['sex'] = 'Laki-Laki'
-
+    print(forms)
     return render(request, 'pelanggan.html', {'nama':nama, 'result':res})
 
-def dMenu(request):
-    return render(request, "daftarMenu.html", {'nama':forms['nama_navbar']})
+def dMenu(request, rname, rbranch):
+    res = query(f"SELECT * FROM FOOD WHERE rname='{rname}' AND rbranch='{rbranch}' ")
+    res = query(f"SELECT * FROM FOOD WHERE rname='{rname}' AND rbranch='{rbranch}' ")
+
+    fc  = query(f"select * from food_category")
+    ig = query(f"select FOODNAME, INGREDIENT, NAME  from FOOD_INGREDIENTS FI LEFT JOIN INGREDIENT I ON FI.INGREDIENT = I.ID WHERE rname='{rname}' AND rbranch='{rbranch}'")
+    context = {
+        "menu" : res,
+        'listKategori' : fc,
+        'listBahan' : ig,
+        'nama':forms['nama_navbar']
+    }
+    return render(request, "daftarMenu.html",context)
 
 def dRestauran(request):
-    return render(request, "daftarRestauran.html", {'nama':forms['nama_navbar']})
+    context = {}
+    res = query(f"select * from restaurant")
+    context = {
+        'listRestauran' : res,
+        'nama':forms['nama_navbar']
+    }
+    return render(request, "daftarRestauran.html", context)
 
-def detailMenu(request):
-    return render(request, "detailMenu.html", {'nama':forms['nama_navbar']})
+def detailRestauran(request,rname, rbranch):
+    context = {}
+    res = query(f"select * from restaurant where rname = '{rname}' AND rbranch = '{rbranch}'")
+    res1 = query(f"select * from restaurant_operating_hours where name = '{rname}' AND branch = '{rbranch}'")
+    res2 = query(f"select P.promoName from restaurant_promo RO, promo P where RO.rname = '{rname}' AND RO.rbranch = '{rbranch}' AND RO.PId = P.ID")
+    res3 = query(f"select * from restaurant_category")
+
+    print(res[0].get('rname'))
+    print(res1)
+    print(res2)
+    print(forms)
+    context = {
+        'rname' : res[0].get('rname'),
+        'rbranch' : res[0].get('rbranch'),
+        'rphonenum' : res[0].get('rphonenum'),
+        'street' : res[0].get('street'),
+        'district' : res[0].get('district'),
+        'city' : res[0].get('district'),
+        'province' : res[0].get('province'),
+        'rating' : res[0].get('rating'),
+        'rating' : res[0].get('rating'),
+        'rcategory' : res[0].get('rcategory'),
+        'op' : res1,
+        'promo' :res2,
+        'cat' : res3,
+        'nama':forms['nama_navbar']
+
+    }
+    return render(request, "detailRestauran.html",context)
 
 def home(request):
     return render(request, 'pelanggan.html', {'nama':forms['nama_navbar']})
@@ -447,9 +492,6 @@ def get_transaction_detail(request):
         # print(res[0])
         return render(request, "detail_pesanan_pelanggan.html", {'list_food':foods,
                                                     'ringkasan':res[0], 'nama':forms['nama_navbar']})
-
-def detailRestauran(request):
-    return render(request, "detailRestauran.html", {'nama':forms['nama_navbar']})
 
 def get_transaction_history_pelanggan(request):
     

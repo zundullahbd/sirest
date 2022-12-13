@@ -100,19 +100,23 @@
                           <td>{{ data.stock }}</td>
                           <td> {{ data.price }} </td>
                           <td>{{ data.name}}</td>
+                            {% for i in listKategori %}
+                                {% if data.fcategory == i.id %}
+                                    <td>{{ i.name}}</td>
+                                {%endif%}
+                            {%endfor%}
                             {% for i in ingredients %}
                                 {% if data.foodname == i.foodname %}
                                     <td>{{ i.name}}</td>
                                 {%endif%}
                             {%endfor%}
                           <td> 
-                              <div>
-                                  <a class="btn btn-sm"  href="{% url 'restoran:update-makanan' %}" style="background-color: black;color: white;"> Update</a>
-                              </div>
-      
-                              <div style="padding-top: 10px;">
-                                  <a class="btn btn-sm" style="background-color: black;color: white;"> Delete </a>
-                              </div>
+                                <div>
+                                    <form method="POST" action="/restoran/menu/delete/">
+                                        <a class="btn btn-sm"  href="{% url 'restoran:update-menu' %}" style="background-color: black;color: white;"> Update</a>
+                                        <button class="btn btn-sm" name="foodname" value="{{data.foodname}}" type="submit" style="background-color: black;color: white;">Hapus</button>
+                                    </form>
+                                </div>
                           </td>
                           </tr>
                           {%endfor%}

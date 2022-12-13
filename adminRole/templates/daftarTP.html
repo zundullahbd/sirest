@@ -98,10 +98,10 @@
                         <td> 
                             <div>
                                 <form method="POST" action="/admin-resto/daftar-tarif-pengiriman/delete/">
-                                <a class="btn btn-sm"  href="{% url 'adminRole:update-tarif-pengiriman' %}" style="background-color: black;color: white;"> Update</a>
+                                <a class="btn btn-sm" onclick="location.href ='/admin-resto/daftar-tarif-pengiriman/{{ data.province }}/'" style="background-color: black;color: white;"> Update</a>
                                  <button class="btn btn-sm" name="id" value="{{data.id}}" type="submit" style="background-color: black;color: white;">Hapus</button>
                                 </form>
-                              </div>
+                            </div>
                         </td>
                     </tr>
                     {%endfor%}
