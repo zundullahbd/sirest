@@ -31,16 +31,6 @@ def kurirHome(request):
     }
     return render(request, "kurir.html", context)
 
-
-def lihat_detail_pesanan(request):
-    return render(request, "detail_pesanan_berlangsung.html")
-
-def pesanan_terupdate(request):
-    return render(request, "pesanan_terupdate.html")
-
-def list_pesananan_berlangsung(request):
-    temp = query("""select row_number() over() as "row", * from delivery_order where status = 'on process'""")
-
 def dMenu(request, rname, rbranch):
     res = query(f"SELECT * FROM FOOD WHERE rname='{rname}' AND rbranch='{rbranch}' ")
     res = query(f"SELECT * FROM FOOD WHERE rname='{rname}' AND rbranch='{rbranch}' ")
@@ -88,4 +78,15 @@ def detailRestauran(request,rname, rbranch):
         'cat' : res3,
     }
     return render(request, "detailRestauran.html",context)
+
+def riwayat_pesanan(request):
+    return render(request, "riwayat_pesanan.html")
+
+def list_pesanan_berlangsung(request):
+    return render(request, "list_pesanan_berlangsung.html")
+
+def detail_pesanan_berlangsung(request):
+    return render(request, "detail_pesanan_berlangsung.html")
+
+
 
