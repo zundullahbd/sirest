@@ -96,7 +96,7 @@ def login(request):
     print(username, password)
     role = get_role(username)
     print(role)
-    if role == "":
+    if role == "" or role == None:
         if username and password :
             cont["gagal"] = True
             return render(request, "login.html", cont)
@@ -121,7 +121,7 @@ def login(request):
                 request.session['rname'] = res['rname']
                 request.session['rbranch'] = res['rbranch']
                 return redirect("/restoran/")
-            elif role == "kurir":
+            elif role == "courier":
                 return redirect("/kurir/")
             elif role == "customer":
                 return redirect("/pelanggan/")
@@ -181,13 +181,96 @@ def register_kurir(request):
     if request.method != "POST":
         return render(request, 'form_register_kurir.html')
     else:
-        nama = str(request.POST["nama"])
+        nama = str(request.POST["nama"]).rsplit(" ", 1)
+        fname = nama[0]
+        lname = nama[1]
         email = str(request.POST["email"])
         password = str(request.POST["password"])
-        no_telp = str(request.POST["no_telp"])
-        alamat = str(request.POST["alamat"])
-        if not nama or not email or not password or not no_telp or not alamat:
+        no_telp = str(request.POST["hp"])
+        nik = str(request.POST["nik"])
+
+        bank = str(request.POST["bank"])
+        rekening = str(request.POST["rekening"])
+        sim = str(request.POST["sim"])
+        platnum = str(request.POST["platnum"])
+        jenis = str(request.POST["jenis"])
+        merk = str(request.POST["merk"])
+
+        isValid = nama and email and password and no_telp and nik and bank and rekening and platnum and jenis and merk
+
+        if not isValid:
             return render(request, 'form_register_kurir.html')
         else:
-            query(f"INSERT INTO COURIER (NAMA, EMAIL, PASSWORD, NO_TELP, ALAMAT) VALUES ('{nama}', '{email}', '{password}', '{no_telp}', '{alamat}')")
-            return redirect("/auth/login")
+            #a = query(f"INSERT INTO user_acc VALUES ('{email}', '{password}', '{no_telp}', '{fname}', '{lname}')")
+            #print(a)
+            b = query(f"INSERT INTO TRANSACTION_ACTOR VALUES ('{email}', '{nik}', '{bank}', '{rekening}', '{0}', NULL)")
+            print(b)
+            #c = query(f"INSERT INTO COURIER VALUES ('{email}', '{platnum}', '{sim}', '{jenis}', '{merk}')")
+            #print(c)
+            return redirect("/login")
+
+@csrf_exempt            
+def register_restoran(request):
+    if request.method != "POST":
+        return render(request, 'form_register_kurir.html')
+    else:
+        nama = str(request.POST["nama"]).rsplit(" ", 1)
+        fname = nama[0]
+        lname = nama[1]
+        email = str(request.POST["email"])
+        password = str(request.POST["password"])
+        no_telp = str(request.POST["hp"])
+        nik = str(request.POST["nik"])
+
+        bank = str(request.POST["bank"])
+        rekening = str(request.POST["rekening"])
+        sim = str(request.POST["sim"])
+        platnum = str(request.POST["platnum"])
+        jenis = str(request.POST["jenis"])
+        merk = str(request.POST["merk"])
+
+        isValid = nama and email and password and no_telp and nik and bank and rekening and platnum and jenis and merk
+
+        if not isValid:
+            return render(request, 'form_register_kurir.html')
+        else:
+            #a = query(f"INSERT INTO user_acc VALUES ('{email}', '{password}', '{no_telp}', '{fname}', '{lname}')")
+            #print(a)
+            b = query(f"INSERT INTO TRANSACTION_ACTOR VALUES ('{email}', '{nik}', '{bank}', '{rekening}', '{0}', NULL)")
+            print(b)
+            #c = query(f"INSERT INTO COURIER VALUES ('{email}', '{platnum}', '{sim}', '{jenis}', '{merk}')")
+            #print(c)
+            return redirect("/login")
+
+@csrf_exempt            
+def register_pelanggan(request):
+    if request.method != "POST":
+        return render(request, 'form_register_kurir.html')
+    else:
+        nama = str(request.POST["nama"]).rsplit(" ", 1)
+        fname = nama[0]
+        lname = nama[1]
+        email = str(request.POST["email"])
+        password = str(request.POST["password"])
+        no_telp = str(request.POST["hp"])
+        nik = str(request.POST["nik"])
+
+        bank = str(request.POST["bank"])
+        rekening = str(request.POST["rekening"])
+        sim = str(request.POST["sim"])
+        platnum = str(request.POST["platnum"])
+        jenis = str(request.POST["jenis"])
+        merk = str(request.POST["merk"])
+
+        isValid = nama and email and password and no_telp and nik and bank and rekening and platnum and jenis and merk
+
+        if not isValid:
+            return render(request, 'form_register_kurir.html')
+        else:
+            #a = query(f"INSERT INTO user_acc VALUES ('{email}', '{password}', '{no_telp}', '{fname}', '{lname}')")
+            #print(a)
+            b = query(f"INSERT INTO TRANSACTION_ACTOR VALUES ('{email}', '{nik}', '{bank}', '{rekening}', '{0}', NULL)")
+            print(b)
+            #c = query(f"INSERT INTO COURIER VALUES ('{email}', '{platnum}', '{sim}', '{jenis}', '{merk}')")
+            #print(c)
+            return redirect("/login")
