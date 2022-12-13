@@ -10,7 +10,7 @@ urlpatterns = [
     path('daftar-tarif-pengiriman/create/post/', add_tarif, name='add-tarif-pengiriman'),
     path('daftar-tarif-pengiriman/', get_all_tarif, name='daftar-tarif-pengiriman'),
     path('daftar-tarif-pengiriman/delete/', delete_tarif, name="delete_fee"),
-    path('update-tarif-pengiriman/', views.utp, name='update-tarif-pengiriman'),
+    path('daftar-tarif-pengiriman/<str:province>/', update_tarif, name="update-tarif-pengiriman"),
     path('', views.dashAdmin, name='dashboard-admin'),
     path('detail-aktorTransaksi/', views.detailAktor, name='detail-aktor'),
     path('create-promo/', views.cp, name='create-promo'),
@@ -27,8 +27,9 @@ urlpatterns = [
     path('bahan_makanan/buat/', add_bahan_makanan, name="add_bahan_makanan"),
     path('bahan_makanan/ubah/', update_bahan_makanan, name="update_bahan_makanan"),
     path('bahan_makanan/hapus/', delete_bahan_makanan, name="delete_bahan_makanan"),
-    
-
+    path('daftar-restauran/', views.dRestauran, name='daftar-restauran'),
+    path('daftar-restauran/<str:rname>/<str:rbranch>/detail/', detailRestauran, name='detail-restoran'),
+    path('daftar-restauran/<str:rname>/<str:rbranch>/menu/', views.dMenu, name='dMenu'),
     # path('kategori_makanan/', get_all_kategori_makanan, name="get_all_kategori_makanan"),
     # path('kategori_makanan/buat/', add_kategori_makanan, name="add_kategori_makanan"),
     # path('kategori_makanan/hapus/', delete_kategori_makanan, name="delete_kategori_makanan"),

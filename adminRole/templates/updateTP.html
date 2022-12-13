@@ -1,5 +1,5 @@
 
-{% include 'adminTemplates.html' %}
+{% extends 'adminTemplates.html' %}
 {% load static %}
 
 
@@ -25,40 +25,52 @@
 
         .card{
             border-radius: 10px;
-            z-index: 1;
+            z-index: none;
         }
+
+        
         
     </style>
 <body>
       <div class="container" style="width: 100%; padding: 100px;">
-        <h2 style="text-align: center;">Edit Tarif Pengiriman per  KM</h2>
-        <div class="card card-outline-secondary" style="margin: 50px;">
+        <h2 style="text-align: center;">Tambah Tarif Pengiriman per  KM</h2>
+        <div class="card card-outline-secondary" style="margin: 50px">
             <div class="card-body">
-              <form autocomplete="off" class="form" role="form" style="padding: 30px;">
+              {% if valid == 0 %}
+                <p class="text-red-500" onLoad="noValid()">Input tidak boleh kosong</p>
+              {% endif %}
+              <form method="POST" class="form-horizontal" role="form" enctype="multipart/form-data" >
                 {% csrf_token %}
-                <div class="form-group row">
-                  <label class="col-lg-3 col-form-label form-control-label">Provinsi</label>
-                  <div class="col-lg-9">
-                    <h8>Jakarta</h8>
-                  </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label text-weight-bold">Provinsi</label>
+                <div class="col-lg-8">
+                  {{ provinsi}}
                 </div>
-                <div class="form-group row">
-                  <label class="col-lg-3 col-form-label form-control-label">Tarif Motor</label>
-                  <div class="col-lg-9">
-                    <input class="form-control" type="text" >
-                  </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Tarif Motor</label>
+                <div class="col-lg-8">
+                  <input class="form-control" type="text" id="motor" name ="motor">
                 </div>
-                <div class="form-group row">
-                  <label class="col-lg-3 col-form-label form-control-label">Tarif Mobil</label>
-                  <div class="col-lg-9">
-                    <input class="form-control" type="text" >
-                  </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Tarif Mobil</label>
+                <div class="col-lg-8">
+                  <input class="form-control" type="text" id="car" name ="car" >
                 </div>
-                <a class="btn float-right btn-sm"  href="{% url 'adminRole:tarif-pengiriman' %}" style="background-color: black;color: white;"> Save</a>
-
-              </form>
+              </div>
+              <button style="border: 0;" type="submit" class="btn" style="background-color: black;" onclick="location.href ='/admin-resto/daftar-tarif-pengiriman'" >Save</button>
+            </form>
             </div>
         </div>
     </div>
    
+
+    <script>
+        function noValid(){
+          alert("Input tidak boleh kosong")
+        };
+      
+      </script>  
+      
 {% endblock %}

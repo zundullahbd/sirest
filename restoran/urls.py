@@ -7,9 +7,6 @@ app_name = 'restoran'
 
 urlpatterns = [
     path('', home, name="home"),
-    path('create-makanan/', views.cm, name='makanan'),
-    path('daftar-makanan/', views.dm, name='daftar-makanan'),
-    path('update-makanan/', views.um, name='update-makanan'),
     path('jadwal/buat/', add_schedule, name="add_schedule"),
     path('jadwal/', get_all_schedule, name="get_all_schedule"),
     path('jadwal/ubah/<str:oldDay>', update_schedule, name="update_schedule"),
@@ -18,7 +15,14 @@ urlpatterns = [
     path('pesanan/ongoing/', get_ongoing_pesanan, name="get_ongoing_pesanan"),
     path('pesanan/detail/', get_transaction_detail, name="get_transaction_detail"),
     path('pesanan/update/', update_transaction, name="update_transaction"),
+    path('menu/create/', menu_makanan, name='create-menu-makanan'),
+    path('menu/create/post/', add_makanan, name='add-makanan'),
+    path('menu/', get_all_makanan, name='daftar-menu-makanan'),
+    path('menu/delete/', delete_makanan, name="delete_makanan"),
+    path('menu/update', um, name='update-menu'),
 
+    
+    
 
     
 

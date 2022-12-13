@@ -87,15 +87,17 @@
                                         <th>Aksi</th>
                                     </tr>
                                   </thead>
-                                  <tr>
-                                    <td> 1 </td>
-                                    <td>Mcd - Margonda</td>
-                                    <td>4.5</td>
+                                  {% for data in listRestauran %}
+                                    <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ data.rname }} - {{ data.rbranch}} </td>
+                                    <td>{{ data.rating }}</td>
                                     <td> 
-                                        <a class="btn btn-sm"  href="{% url 'pelanggan:detail-restoran' %}" style="background-color: black;color: white;"> Detail</a>
-                                        <a class="btn btn-sm" href="{% url 'pelanggan:daftar-menu' %}"style="background-color: black;color: white;"> Menu </a>
+                                        <a class="btn btn-sm"  onclick="location.href ='/pelanggan/daftar-restauran/{{ data.rname }}/{{ data.rbranch }}/detail/'"  style="background-color: black;color: white;"> Detail</a>
+                                        <a class="btn btn-sm" onclick="location.href ='/pelanggan/daftar-restauran/{{ data.rname }}/{{ data.rbranch }}/menu/'" style="background-color: black;color: white;"> Menu </a>
                                     </td>
-                            </tr>
+                                    </tr>
+                                {% endfor %}
                             
                         </table>
                         
