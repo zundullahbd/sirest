@@ -88,5 +88,7 @@ def list_pesanan_berlangsung(request):
 def detail_pesanan_berlangsung(request):
     return render(request, "detail_pesanan_berlangsung.html")
 
+def riwayat_pesanan_kurir(request):
+    return render(request, 'riwayat_pesanan_kurir.html')
 
 
