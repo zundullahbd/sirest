@@ -88,4 +88,9 @@ def detailRestauran(request,rname, rbranch):
     }
     return render(request, "detailRestauran.html",context)
 
+<<<<<<< HEAD
 
+=======
+def riwayat_pesanan_kurir(request):
+    return render(request, 'riwayat_pesanan_kurir.html')
+>>>>>>> a58a6627edd1f4685196d20aab857159f140490d
