@@ -88,9 +88,24 @@ def um(request):
         'listKategori' : fc,
         'listBahan' : ig,
     }
+
     return render(request, "updateMakanan.html",context)
 
+def update_tarif(request, province):
+    context = {}
+    print(province)
+    motor = request.POST.get('motor')
+    car = request.POST.get('car')
+    print(motor)
+    quer = f"UPDATE delivery_fee_per_km SET motorfee = '{motor}', carfee = '{car}' WHERE  province = '{province}'"
+    temp = query(quer)
+    print(temp)
 
+    context = {
+        'provinsi' : province
+    }
+    
+    return render(request, "updateTP.html",context)
 def get_all_schedule(request):
     res_name = request.session['rname']
     r_branch = request.session['rbranch']
