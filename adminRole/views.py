@@ -8,9 +8,6 @@ import uuid
 
 def dashAdmin(request):
     res = query(f"select TA.email, fname, lname,adminid from transaction_actor TA join user_acc U on TA.email = U.email")
-    res = sel
-
-
     context = {
         'aktor' : res,
     } 

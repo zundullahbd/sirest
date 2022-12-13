@@ -148,14 +148,16 @@
                   <td>{{ forloop.counter }}</td>
                   <td>{{ data.email }}</td>
                   <td>{{ data.fname }}  {{ data.lname }}</td>
-                  <td> </td>
+                  <td>
+                      -
+                  </td>
                   {% if data.adminid != ''%}
                         <td>Status Terverifikasi</td>
                   {% else %}
                         <td>Status Tidak Terverifikasi</td>
                   {% endif %}
                   <td> 
-                      <a class="btn btn-sm"  href="" style="background-color: black;color: white;"> Detail</a>
+                      <a class="btn btn-sm"  href="{% url 'adminRole:detail-aktor' %}" style="background-color: black;color: white;"> Detail</a>
                       <a class="btn btn-sm" style="background-color: black;color: white;"> Verifikasi </a>
                   </td>
                 </tr>
