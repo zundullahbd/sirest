@@ -83,46 +83,48 @@
 </head>
 <body>
     <div  class="container" style="width: 100%; padding: 30px;">
-        <form method="POST">
-            <div class="form" id="PelangganSection">
-                <h4 class="mt-1 mb-5 pb-1 font-weight-bold">Register Pelanggan</h4>
+        <form method="POST" action="{% url 'authentication:register-pelanggan' %}">
+            <div class="form" id="kurirSection">
+                <h4 class="mt-1 mb-5 pb-1 font-weight-bold">Register Kurir</h4>
+                
                 <div class="form-outline mb-4">
-                    <input id="PelangganEmailInput" name="PelangganEmailInput" type="text" 
+                    <input id="email" name="email" type="text" 
                     placeholder="Email" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="PelangganPasswordInput" name="PelangganPasswordInput" type="password" 
+                    <input id="password" name="password" type="password" 
                     placeholder="Password" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="PelangganNameInput" name="PelangganNameInput" type="text" 
+                    <input id="nama" name="nama" type="text" 
                     placeholder="Nama" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="PelangganNoHpInput" name="PelangganNoHpInput" type="tel"
+                    <input id="birth" name="birth" type="date" 
+                    placeholder="tanggal lahir" /> 
+                </div>
+                <div class="form-outline mb-4">
+                    <select class="custom-select" id="sex" name="sex">
+                        <option selected>Jenis Kelamin</option>
+                        <option value="P">Perempuan</option>
+                        <option value="L">Laki-laki</option>
+                    </select>
+                </div>
+                <div class="form-outline mb-4">
+                    <input id="hp" name="hp" type="tel"
                     placeholder="No HP" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="PelangganNikInput" name="PelangganNikInput" type="tel"
+                    <input id="nik" name="nik" type="tel"
                     placeholder="NIK" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="PelangganBankInput" name="PelangganBankInput" type="tel"
+                    <input id="bank" name="bank" type="tel"
                     placeholder="Nama Bank" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="PelangganRekInput" name="PelangganRekInput" type="tel"
+                    <input id="rekening" name="rekening" type="tel"
                     placeholder="Nomor Rekening" class="form-control" /> 
-                </div>
-                <div class="form-outline mb-4">
-                    <input type="text" id="datepicker" class="form-control" placeholder="Tanggal lahir">
-                </div>
-                <div class="form-outline mb-4">
-                    <select class="custom-select" id="inputGroupSelect01">
-                        <option selected>Jenis Kelamin</option>
-                        <option value="1">Perempuan</option>
-                        <option value="2">Laki Laki</option>
-                    </select>
                 </div>
                 
                 {% if lolos %}
@@ -130,7 +132,7 @@
                 {% endif %}
                 <div class="text-center pt-1 mb-5 pb-1">
                     <button class="btn btn-dark btn-block fa-lg gradient-custom-2 mb-3"
-                    id="PelangganButton" type="submit" value="Register" >register</button>
+                    id="kurirButton" type="submit" value="Register" > register</button>
                 </div>
             </div>
         
