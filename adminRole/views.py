@@ -117,7 +117,7 @@ def update_tarif(request, province):
 
 @csrf_exempt
 def cp(request):
-    email = request.session['email']
+    username = request.session['username']
 
     res = query(f"SELECT * FROM PROMO")
 
