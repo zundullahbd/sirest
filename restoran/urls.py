@@ -21,11 +21,5 @@ urlpatterns = [
     path('menu/delete/', delete_makanan, name="delete_makanan"),
     path('menu/update', um, name='update-menu'),
 
-    
-    
-
-    
-
-    
 ]
 

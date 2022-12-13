@@ -26,5 +26,4 @@ urlpatterns = [
     path('kurir/', include('kurir.urls')),
     path('pelanggan/', include('pelanggan.urls')),
 
-
 ]
