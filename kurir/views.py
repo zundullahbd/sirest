@@ -8,6 +8,7 @@ from django.http import HttpResponse
 
 def kurirHome(request):
     return render(request, "kurir.html")
+
 #def kurirHome(request):
     res = query(f"select * from courier where email = '{request.user.email}'")
     res1 = query(f"select * from transaction_actor where email = '{request.user.email}'")
@@ -88,9 +89,3 @@ def detailRestauran(request,rname, rbranch):
     }
     return render(request, "detailRestauran.html",context)
 
-<<<<<<< HEAD
-
-=======
-def riwayat_pesanan_kurir(request):
-    return render(request, 'riwayat_pesanan_kurir.html')
->>>>>>> a58a6627edd1f4685196d20aab857159f140490d
