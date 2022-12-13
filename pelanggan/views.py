@@ -54,7 +54,7 @@ def dRestauran(request):
     res = query(f"select * from restaurant")
     context = {
         'listRestauran' : res,
-        'nama':forms['nama_navbar']
+        #'nama':forms['nama_navbar']
     }
     return render(request, "daftarRestauran.html", context)
 
@@ -502,3 +502,12 @@ def get_transaction_history_pelanggan(request):
     context = {"total" : len(res), "list_transaction_history_pelanggan": res, 'nama':forms['nama_navbar']}
 
     return render(request, "listTransactionHistoryPelanggan.html", context)
+
+def riwayat_pesanan_pelanggan(request):
+    return render(request, 'riwayat_pesanan_pelanggan.html')
+
+def riwayat_pesanan_detail(request):
+    return render(request, 'riwayat_pesanan_detail.html')
+
+def form_penilaian_pesanan(request):
+    return render(request, 'form_penilaian_pesanan.html')

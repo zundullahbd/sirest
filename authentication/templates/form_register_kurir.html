@@ -71,55 +71,55 @@
 </head>
 <body>
     <div class="container" style="width: 100%; padding: 60px;">
-        <form method="POST">
+        <form method="POST" action="{% url 'authentication:register-kurir'%}">
             <div class="form" id="kurirSection">
                 <h4 class="mt-1 mb-5 pb-1 font-weight-bold">Register Kurir</h4>
                 
                 <div class="form-outline mb-4">
-                    <input id="kurirEmailInput" name="kurirEmailInput" type="text" 
+                    <input id="email" name="email" type="text" 
                     placeholder="Email" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="kurirPasswordInput" name="kurirPasswordInput" type="password" 
+                    <input id="password" name="password" type="password" 
                     placeholder="Password" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="kurirNameInput" name="kurirNameInput" type="text" 
+                    <input id="nama" name="nama" type="text" 
                     placeholder="Nama" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="kurirNoHpInput" name="kurirNoHpInput" type="tel"
+                    <input id="hp" name="hp" type="tel"
                     placeholder="No HP" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="kurirNikInput" name="kurirNikInput" type="tel"
+                    <input id="nik" name="nik" type="tel"
                     placeholder="NIK" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="kurirBankInput" name="kurirBankInput" type="tel"
+                    <input id="bank" name="bank" type="tel"
                     placeholder="Nama Bank" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="kurirRekInput" name="kurirRekInput" type="tel"
+                    <input id="rekening" name="rekening" type="tel"
                     placeholder="Nomor Rekening" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="kurirPlatInput" name="kurirPlatInput" type="tel"
+                    <input id="platnum" name="platnum" type="tel"
                     placeholder="Plat nomor kendaraan" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="kurirSimInput" name="kurirSimInput" type="tel"
+                    <input id="sim" name="sim" type="tel"
                     placeholder="Nomor SIM" class="form-control" /> 
                 </div>
                 <div class="form-outline mb-4">
-                    <select class="custom-select" id="inputGroupSelect01">
+                    <select class="custom-select" id="jenis" name="jenis">
                         <option selected>Jenis Kendaraan</option>
-                        <option value="1">Motor</option>
-                        <option value="2">Mobil</option>
+                        <option value="Motor">Motor</option>
+                        <option value="Mobil">Mobil</option>
                     </select>
                 </div>
                 <div class="form-outline mb-4">
-                    <input id="kurirMerkInput" name="kurirMerkInput" type="tel"
+                    <input id="merk" name="merk" type="tel"
                     placeholder="Merk kendaraan" class="form-control" /> 
                 </div>
                 

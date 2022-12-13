@@ -62,7 +62,7 @@
               <div class="justify-content-center">
                 <ul class="menu menu-horizontal p-0" style="size: 10px;">
                   <li><a href="/kurir">Dashboard</a></li>
-                  <li><a href="/kurir/daftar-restauran">Daftar Restoran dan Makanan</a></li>
+                  <li><a href="/kurir/daftar-restauran/">Daftar Restoran dan Makanan</a></li>
                   <li tabindex="0">
                       <a>
                         Pesanan
@@ -76,7 +76,7 @@
                   <li><a href="/restopay"></a>RestoPay</a></li>
                 </ul>
               </div>
-              <a class="btn btn-sm font-weight-bold" style="background-color: #01870E; color: white;" >Logout</a>
+              <a class="btn btn-sm font-weight-bold" href="{% url 'authentication:logout' %}" style="background-color: #01870E; color: white;" >Logout</a>
             </nav>
     
         {% block content %}
